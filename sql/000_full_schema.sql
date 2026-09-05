@@ -66,7 +66,7 @@ create table if not exists public.profiles (
 
 -- User Preferences
 create table if not exists public.user_preferences (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   user_id             uuid not null unique references public.profiles(id) on delete cascade,
   theme               text not null default 'dark' check (theme in ('dark', 'light', 'system')),
   default_view        text not null default 'board' check (default_view in ('board', 'list', 'calendar')),
@@ -79,7 +79,7 @@ create table if not exists public.user_preferences (
 
 -- Workspaces
 create table if not exists public.workspaces (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   name                text not null,
   slug                text not null unique,
   icon                text default '📁',
@@ -93,7 +93,7 @@ create table if not exists public.workspaces (
 
 -- Workspace Members
 create table if not exists public.workspace_members (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   workspace_id        uuid not null references public.workspaces(id) on delete cascade,
   user_id             uuid not null references public.profiles(id) on delete cascade,
   role                public.workspace_role not null default 'member',
@@ -104,7 +104,7 @@ create table if not exists public.workspace_members (
 
 -- Projects
 create table if not exists public.projects (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   workspace_id        uuid not null references public.workspaces(id) on delete cascade,
   name                text not null,
   description         text,
@@ -118,7 +118,7 @@ create table if not exists public.projects (
 
 -- Project Members
 create table if not exists public.project_members (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   project_id          uuid not null references public.projects(id) on delete cascade,
   user_id             uuid not null references public.profiles(id) on delete cascade,
   role                public.project_role not null default 'member',
@@ -128,7 +128,7 @@ create table if not exists public.project_members (
 
 -- Tasks
 create table if not exists public.tasks (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   project_id          uuid not null references public.projects(id) on delete cascade,
   title               text not null,
   description         text,
@@ -146,7 +146,7 @@ create table if not exists public.tasks (
 
 -- Subtasks
 create table if not exists public.subtasks (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   task_id             uuid not null references public.tasks(id) on delete cascade,
   title               text not null,
   is_completed        boolean not null default false,
@@ -160,7 +160,7 @@ create table if not exists public.subtasks (
 
 -- Labels
 create table if not exists public.labels (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   workspace_id        uuid not null references public.workspaces(id) on delete cascade,
   name                text not null,
   color               text not null default '#c0c1ff',
@@ -178,7 +178,7 @@ create table if not exists public.task_labels (
 
 -- Comments
 create table if not exists public.comments (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   task_id             uuid not null references public.tasks(id) on delete cascade,
   user_id             uuid not null references public.profiles(id) on delete cascade,
   content             text not null,
@@ -190,7 +190,7 @@ create table if not exists public.comments (
 
 -- Attachments
 create table if not exists public.attachments (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   task_id             uuid not null references public.tasks(id) on delete cascade,
   uploaded_by         uuid references public.profiles(id) on delete set null,
   file_name           text not null,
@@ -203,7 +203,7 @@ create table if not exists public.attachments (
 
 -- Activity Logs
 create table if not exists public.activity_logs (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   workspace_id        uuid references public.workspaces(id) on delete cascade,
   project_id          uuid references public.projects(id) on delete cascade,
   task_id             uuid references public.tasks(id) on delete cascade,
@@ -215,7 +215,7 @@ create table if not exists public.activity_logs (
 
 -- Notifications
 create table if not exists public.notifications (
-  id                  uuid primary key default uuid_generate_v4(),
+  id                  uuid primary key default gen_random_uuid(),
   recipient_id        uuid not null references public.profiles(id) on delete cascade,
   actor_id            uuid references public.profiles(id) on delete set null,
   type                public.notification_type not null,
@@ -364,46 +364,73 @@ create trigger comments_updated_at before update on public.comments
 
 -- Auto-create profile & default personal workspace on new auth.users signup
 create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer set search_path = public as $$
+returns trigger language plpgsql security definer set search_path = public, extensions, pg_temp as $$
 declare
   v_name text;
   v_workspace_id uuid;
   v_slug text;
 begin
-  v_name := coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1));
+  v_name := coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1), 'User');
+  if v_name = '' or v_name is null then
+    v_name := 'User';
+  end if;
 
   -- 1. Create Profile
-  insert into public.profiles (id, full_name, email, avatar_url)
-  values (
-    new.id,
-    v_name,
-    new.email,
-    new.raw_user_meta_data->>'avatar_url'
-  )
-  on conflict (id) do update set
-    full_name = excluded.full_name,
-    avatar_url = coalesce(excluded.avatar_url, public.profiles.avatar_url);
+  begin
+    insert into public.profiles (id, full_name, email, avatar_url)
+    values (
+      new.id,
+      v_name,
+      new.email,
+      new.raw_user_meta_data->>'avatar_url'
+    )
+    on conflict (id) do update set
+      full_name = excluded.full_name,
+      avatar_url = coalesce(excluded.avatar_url, public.profiles.avatar_url);
+  exception when others then
+    raise warning 'Profile creation notice: %', sqlerrm;
+  end;
 
   -- 2. Create Default Preferences
-  insert into public.user_preferences (user_id)
-  values (new.id)
-  on conflict (user_id) do nothing;
+  begin
+    insert into public.user_preferences (user_id)
+    values (new.id)
+    on conflict (user_id) do nothing;
+  exception when others then
+    null;
+  end;
 
   -- 3. Auto-provision default Personal Workspace
-  v_slug := lower(regexp_replace(v_name, '[^a-zA-Z0-9]+', '-', 'g')) || '-' || substring(new.id::text from 1 for 4);
-  v_workspace_id := uuid_generate_v4();
+  begin
+    v_slug := lower(regexp_replace(v_name, '[^a-zA-Z0-9]+', '-', 'g'));
+    v_slug := trim(both '-' from v_slug);
+    if v_slug = '' or v_slug is null then
+      v_slug := 'workspace';
+    end if;
+    v_slug := v_slug || '-' || substring(replace(new.id::text, '-', '') from 1 for 6);
+    v_workspace_id := gen_random_uuid();
 
-  insert into public.workspaces (id, name, slug, icon, color, owner_id)
-  values (
-    v_workspace_id,
-    v_name || '''s Workspace',
-    v_slug,
-    '⚡',
-    '#c0c1ff',
-    new.id
-  )
-  on conflict do nothing;
+    insert into public.workspaces (id, name, slug, icon, color, owner_id)
+    values (
+      v_workspace_id,
+      v_name || '''s Workspace',
+      v_slug,
+      '⚡',
+      '#c0c1ff',
+      new.id
+    )
+    on conflict do nothing;
 
+    insert into public.workspace_members (workspace_id, user_id, role)
+    values (v_workspace_id, new.id, 'owner')
+    on conflict do nothing;
+  exception when others then
+    raise warning 'Workspace creation notice: %', sqlerrm;
+  end;
+
+  return new;
+exception when others then
+  raise warning 'Outer signup error caught: %', sqlerrm;
   return new;
 end;
 $$;
@@ -415,11 +442,13 @@ create trigger on_auth_user_created
 
 -- Auto-add workspace creator as owner in workspace_members
 create or replace function public.handle_workspace_created()
-returns trigger language plpgsql security definer as $$
+returns trigger language plpgsql security definer set search_path = public, extensions, pg_temp as $$
 begin
   insert into public.workspace_members (workspace_id, user_id, role)
   values (new.id, new.owner_id, 'owner')
   on conflict (workspace_id, user_id) do nothing;
+  return new;
+exception when others then
   return new;
 end;
 $$;
