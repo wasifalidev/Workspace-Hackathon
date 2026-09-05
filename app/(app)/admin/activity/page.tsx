@@ -24,37 +24,7 @@ export default function AdminActivityPage() {
         .order('created_at', { ascending: false })
         .limit(20)
 
-      if (data && data.length > 0) {
-        setLogs(data)
-      } else {
-        // Fallback demo audit stream
-        setLogs([
-          {
-            id: '1',
-            action: 'auth.session.refresh',
-            entity_type: 'user',
-            created_at: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
-          },
-          {
-            id: '2',
-            action: 'task.status.updated',
-            entity_type: 'task',
-            created_at: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
-          },
-          {
-            id: '3',
-            action: 'project.created',
-            entity_type: 'project',
-            created_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
-          },
-          {
-            id: '4',
-            action: 'workspace.member.joined',
-            entity_type: 'workspace_member',
-            created_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
-          },
-        ])
-      }
+      setLogs(data || [])
     }
 
     loadLogs()
@@ -87,26 +57,32 @@ export default function AdminActivityPage() {
         </div>
 
         <div className="divide-y divide-outline-variant/30">
-          {logs.map(log => (
-            <div key={log.id} className="p-4 flex items-center justify-between hover:bg-surface-container/50 transition-colors">
-              <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-primary text-lg">
-                  shield_with_heart
-                </span>
-                <div>
-                  <div className="font-code-metric text-xs font-semibold text-on-surface">
-                    {log.action}
-                  </div>
-                  <div className="text-[11px] text-outline">
-                    Entity: <span className="text-on-surface-variant">{log.entity_type}</span>
+          {logs.length === 0 ? (
+            <div className="p-8 text-center text-xs text-on-surface-variant">
+              No audit events recorded yet. Platform mutations and auth handshakes will stream here live.
+            </div>
+          ) : (
+            logs.map(log => (
+              <div key={log.id} className="p-4 flex items-center justify-between hover:bg-surface-container/50 transition-colors">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-primary text-lg">
+                    shield_with_heart
+                  </span>
+                  <div>
+                    <div className="font-code-metric text-xs font-semibold text-on-surface">
+                      {log.action}
+                    </div>
+                    <div className="text-[11px] text-outline">
+                      Entity: <span className="text-on-surface-variant">{log.entity_type}</span>
+                    </div>
                   </div>
                 </div>
+                <div className="text-xs text-outline font-code-metric">
+                  {new Date(log.created_at).toLocaleTimeString()}
+                </div>
               </div>
-              <div className="text-xs text-outline font-code-metric">
-                {new Date(log.created_at).toLocaleTimeString()}
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

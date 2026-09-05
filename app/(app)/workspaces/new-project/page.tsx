@@ -71,19 +71,8 @@ export default function NewProjectPage() {
         .single()
 
       if (error) {
-        // Fallback optimistic update if table is empty or offline
-        const mockProject = {
-          id: newProjId,
-          workspace_id: targetWorkspace.id,
-          name: name.trim(),
-          description: description.trim() || null,
-          icon,
-          color,
-          created_at: new Date().toISOString(),
-        }
-        dispatch(addProject(mockProject as any))
-        toast.success(`Project "${name}" created!`)
-        router.push(`/${targetWorkspace.slug}/${newProjId}/board`)
+        toast.error(error.message || 'Failed to create project in Supabase')
+        setLoading(false)
         return
       }
 

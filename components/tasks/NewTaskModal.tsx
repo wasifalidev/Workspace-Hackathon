@@ -90,7 +90,9 @@ export function NewTaskModal({
       })
 
       if (error) {
-        console.warn('Supabase task insert fallback:', error.message)
+        toast.error(error.message || 'Failed to save task in Supabase')
+        setLoading(false)
+        return
       }
 
       dispatch(addTask(newTaskObj))

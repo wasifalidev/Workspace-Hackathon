@@ -85,7 +85,7 @@ export default function SettingsPage() {
               label="Full Name"
               value={fullName}
               onChange={e => setFullName(e.target.value)}
-              placeholder="e.g. Alex Morgan"
+              placeholder="e.g. Your Full Name"
             />
             <Input
               label="Email Address"

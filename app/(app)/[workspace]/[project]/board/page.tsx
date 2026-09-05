@@ -38,9 +38,10 @@ export default function KanbanBoardPage({
   const [isNewTaskOpen, setIsNewTaskOpen] = useState(false)
   const [targetColumnStatus, setTargetColumnStatus] = useState<TaskStatus>('todo')
   const [projectData, setProjectData] = useState<any>(null)
+  const [teamMembers, setTeamMembers] = useState<{ id: string; full_name: string | null; avatar_url: string | null }[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  // Fetch project details and tasks
+  // Fetch project details, tasks, and real members
   useEffect(() => {
     async function loadData() {
       setIsLoading(true)
@@ -59,7 +60,7 @@ export default function KanbanBoardPage({
       }
 
       // Fetch tasks for this project
-      const { data: taskData, error } = await supabase
+      const { data: taskData } = await supabase
         .from('tasks')
         .select(`
           id, project_id, title, description, status, priority,
@@ -95,102 +96,20 @@ export default function KanbanBoardPage({
             : undefined,
         }))
         dispatch(setTasks(formattedTasks))
-      } else if (!tasks.some(t => t.projectId === projectId)) {
-        // Fallback demo tasks matching Stitch design if Supabase table is brand new
-        const demoTasks: Task[] = [
-          {
-            id: 'wm-151-demo',
-            projectId,
-            title: 'Draft offline caching schema for SQLite/Supabase sync',
-            description: 'Implement sync protocol and mutation queue',
-            status: 'backlog',
-            priority: 'medium',
-            assigneeId: null,
-            dueDate: '2026-11-04',
-            startDate: null,
-            estimatePoints: 4,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [
-              { id: '1', name: 'Architecture', color: '#8083ff' },
-              { id: '2', name: 'Supabase', color: '#4edea3' },
-            ],
-          },
-          {
-            id: 'wm-154-demo',
-            projectId,
-            title: 'Research Biometric Auth API fallback vectors on iOS 17',
-            description: 'Evaluate FaceID fallback mechanisms',
-            status: 'backlog',
-            priority: 'high',
-            assigneeId: null,
-            dueDate: '2026-11-08',
-            startDate: null,
-            estimatePoints: 2,
-            sortOrder: 2,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [
-              { id: '3', name: 'Security', color: '#ffb95f' },
-              { id: '4', name: 'iOS', color: '#c0c1ff' },
-            ],
-          },
-          {
-            id: 'wm-142-demo',
-            projectId,
-            title: 'Real-time Supabase presence & live cursor collaboration',
-            description: 'Cross-tab state replication with Supabase Realtime channels',
-            status: 'in_progress',
-            priority: 'urgent',
-            assigneeId: null,
-            dueDate: '2026-10-30',
-            startDate: null,
-            estimatePoints: 5,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [{ id: '2', name: 'Supabase', color: '#4edea3' }],
-          },
-          {
-            id: 'wm-130-demo',
-            projectId,
-            title: 'Design token parity audit with Google Stitch export',
-            description: 'Inspect colors, font metrics, spacing tokens against stitch files',
-            status: 'in_review',
-            priority: 'high',
-            assigneeId: null,
-            dueDate: '2026-10-28',
-            startDate: null,
-            estimatePoints: 3,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [{ id: '5', name: 'Design System', color: '#c0c1ff' }],
-          },
-          {
-            id: 'wm-112-demo',
-            projectId,
-            title: 'Setup GitHub Actions CI with Next.js 16 build check',
-            description: 'Automated type checking and linting on pull requests',
-            status: 'done',
-            priority: 'low',
-            assigneeId: null,
-            dueDate: '2026-10-20',
-            startDate: null,
-            estimatePoints: 2,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [{ id: '6', name: 'DevOps', color: '#4edea3' }],
-          },
-        ]
-        dispatch(setTasks(demoTasks))
+      } else {
+        dispatch(setTasks([]))
+      }
+
+      // Fetch workspace members for real team avatar stack
+      const { data: members } = await supabase
+        .from('workspace_members')
+        .select('id, profiles(id, full_name, avatar_url)')
+        .limit(6)
+      if (members) {
+        const validProfiles = members
+          .map((m: any) => m.profiles)
+          .filter(Boolean)
+        setTeamMembers(validProfiles)
       }
 
       setIsLoading(false)
@@ -241,27 +160,32 @@ export default function KanbanBoardPage({
               </h1>
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-xs font-label-sm font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-                <span>Sprint 24 (Active)</span>
+                <span>Active</span>
               </div>
               <span className="font-code-metric text-[11px] text-outline px-2 py-0.5 rounded bg-surface-container-high">
-                v2.4.0
+                {filteredTasks.length} {filteredTasks.length === 1 ? 'task' : 'tasks'}
               </span>
             </div>
             <p className="text-xs text-on-surface-variant mt-1.5 max-w-2xl truncate font-body-sm">
-              {projectData?.description ||
-                'Cross-platform overhaul with Supabase real-time sync, offline-first mutations, and unified UI kit tokens.'}
+              {projectData?.description || 'Manage tasks, track progress, and collaborate in real-time.'}
             </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             {/* Team stack */}
             <div className="flex items-center -space-x-2">
-              <Avatar name="David Kim" size="sm" />
-              <Avatar name="Alex Morgan" size="sm" />
-              <Avatar name="Sarah Lin" size="sm" />
-              <div className="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-semibold flex items-center justify-center ring-1 ring-surface">
-                +4
-              </div>
+              {teamMembers.length > 0 ? (
+                teamMembers.slice(0, 4).map((m, idx) => (
+                  <Avatar key={m.id || idx} src={m.avatar_url} name={m.full_name || 'Member'} size="sm" />
+                ))
+              ) : (
+                <Avatar name="You" size="sm" />
+              )}
+              {teamMembers.length > 4 && (
+                <div className="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-semibold flex items-center justify-center ring-1 ring-surface">
+                  +{teamMembers.length - 4}
+                </div>
+              )}
             </div>
 
             <button

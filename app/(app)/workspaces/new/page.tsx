@@ -98,7 +98,7 @@ export default function NewWorkspacePage() {
 
         <div>
           <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-on-surface-variant)' }}>Name *</label>
-          <input type="text" value={name} onChange={e => { setName(e.target.value); setSlug(toSlug(e.target.value)) }} required maxLength={80} placeholder="e.g. Acme Corp" className="input-base w-full" />
+          <input type="text" value={name} onChange={e => { setName(e.target.value); setSlug(toSlug(e.target.value)) }} required maxLength={80} placeholder="e.g. Engineering Team" className="input-base w-full" />
         </div>
 
         <div>
@@ -106,7 +106,7 @@ export default function NewWorkspacePage() {
           <div className="flex items-center">
             <span className="px-3 h-9 flex items-center text-sm rounded-l-lg border border-r-0"
               style={{ background: 'var(--color-surface-container)', color: 'var(--color-outline)', borderColor: 'var(--color-outline-variant)' }}>/</span>
-            <input type="text" value={slug} onChange={e => setSlug(toSlug(e.target.value))} required placeholder="acme-corp"
+            <input type="text" value={slug} onChange={e => setSlug(toSlug(e.target.value))} required placeholder="engineering-team"
               className="flex-1 h-9 px-3 text-sm font-mono rounded-r-lg border"
               style={{ background: 'var(--color-surface-container-lowest)', borderColor: 'var(--color-outline-variant)', color: 'var(--color-on-surface)', outline: 'none' }} />
           </div>

@@ -72,7 +72,7 @@ export default async function Home() {
             </div>
             <div className="flex-1 mx-4 h-6 rounded flex items-center px-3 text-xs"
               style={{ background: "var(--color-surface-container)", color: "var(--color-outline)" }}>
-              app.workspacemanager.io/dashboard
+              wasifworkspace.vercel.app/dashboard
             </div>
           </div>
           {/* Mini Dashboard Preview */}
