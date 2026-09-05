@@ -424,6 +424,7 @@ export default function KanbanBoardPage({
                       <TaskCard
                         task={task}
                         onClick={() => setSelectedTask(task)}
+                        onStatusChange={newStatus => handleMoveToColumn(task.id, newStatus)}
                       />
 
                       {/* Move to next/prev column buttons on hover */}

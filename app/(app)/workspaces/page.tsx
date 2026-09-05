@@ -46,11 +46,11 @@ export default async function WorkspacesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {workspaces.map((ws: Record<string, unknown>) => (
-            <Link key={ws.id as string} href={`/dashboard`}
-              className="rounded-xl p-5 group hover:scale-[1.01] transition-transform block"
+            <Link key={ws.id as string} href={`/${ws.slug as string}/projects`}
+              className="rounded-xl p-5 group hover:scale-[1.01] hover:border-primary/60 transition-all block shadow-sm"
               style={{ background: 'var(--color-surface-container-low)', border: '1px solid var(--color-outline-variant)' }}>
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 font-semibold"
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0 font-semibold shadow-sm"
                   style={{ background: (ws.color as string) ?? 'var(--color-primary)', color: 'var(--color-on-primary)' }}>
                   {ws.icon ? String(ws.icon) : (ws.name as string)[0].toUpperCase()}
                 </div>
@@ -58,17 +58,20 @@ export default async function WorkspacesPage() {
                   <h3 className="font-semibold text-sm mb-0.5 truncate group-hover:text-white transition-colors"
                     style={{ color: 'var(--color-on-surface)' }}>{ws.name as string}</h3>
                   <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                    style={{ background: 'rgba(192,193,255,0.1)', color: 'var(--color-primary)' }}>
-                    {ws.role as string}
+                    style={{ background: 'rgba(78,222,163,0.12)', color: 'var(--color-secondary)' }}>
+                    Active Workspace
                   </span>
                 </div>
               </div>
               {Boolean(ws.description) && (
                 <p className="text-xs line-clamp-2 mb-4" style={{ color: 'var(--color-on-surface-variant)' }}>{ws.description as string}</p>
               )}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pt-2 border-t border-outline-variant/40">
                 <span className="text-xs font-mono" style={{ color: 'var(--color-outline)' }}>/{ws.slug as string}</span>
-                <span className="material-symbols-outlined text-base transition-colors" style={{ color: 'var(--color-outline-variant)' }}>arrow_forward</span>
+                <span className="text-xs font-medium text-primary flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span>Open Workspace</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </span>
               </div>
             </Link>
           ))}

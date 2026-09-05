@@ -21,20 +21,45 @@ export function TaskCard({ task, onClick, onStatusChange }: TaskCardProps) {
   }
 
   const priority = priorityConfig[task.priority] || priorityConfig.no_priority
+  const isDone = task.status === 'done'
 
   // Friendly task code (e.g. WM-142 from uuid or id)
   const taskCode = `WM-${task.id.slice(0, 4).toUpperCase()}`
 
+  function handleCheckboxClick(e: React.MouseEvent) {
+    e.stopPropagation()
+    const nextStatus: Task['status'] = isDone ? 'todo' : 'done'
+    onStatusChange?.(nextStatus)
+  }
+
   return (
     <div
       onClick={onClick}
-      className="group relative p-3.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-all shadow-sm border border-outline-variant/30 hover:border-outline-variant cursor-pointer select-none"
+      className={`group relative p-3.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-all shadow-sm border cursor-pointer select-none ${
+        isDone
+          ? 'border-emerald-500/30 bg-surface-container-lowest/40 opacity-75'
+          : 'border-outline-variant/30 hover:border-outline-variant'
+      }`}
     >
-      {/* Top line: ID and drag indicator */}
-      <div className="flex items-center justify-between text-on-surface-variant mb-1.5">
-        <span className="font-code-metric text-[11px] text-primary font-medium tracking-tight">
-          {taskCode}
-        </span>
+      {/* Top line: ID, completion toggle, and drag indicator */}
+      <div className="flex items-center justify-between text-on-surface-variant mb-2">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleCheckboxClick}
+            className={`w-4 h-4 rounded flex items-center justify-center transition-all border ${
+              isDone
+                ? 'bg-secondary border-secondary text-surface-container-lowest'
+                : 'border-outline/60 hover:border-primary bg-surface-container-highest/40'
+            }`}
+            title={isDone ? 'Mark as incomplete' : 'Mark as completed'}
+          >
+            {isDone && <span className="material-symbols-outlined text-[13px] font-bold">check</span>}
+          </button>
+          <span className="font-code-metric text-[11px] text-primary font-semibold tracking-tight">
+            {taskCode}
+          </span>
+        </div>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <span className="material-symbols-outlined text-outline text-[14px]">
             drag_indicator
@@ -43,7 +68,9 @@ export function TaskCard({ task, onClick, onStatusChange }: TaskCardProps) {
       </div>
 
       {/* Task title */}
-      <p className="text-sm font-medium text-on-surface mb-2.5 leading-snug line-clamp-2">
+      <p className={`text-sm font-medium mb-2.5 leading-snug line-clamp-2 transition-all ${
+        isDone ? 'line-through text-outline' : 'text-on-surface'
+      }`}>
         {task.title}
       </p>
 

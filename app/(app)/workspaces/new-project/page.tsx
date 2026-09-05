@@ -25,14 +25,19 @@ const COLORS = [
 export default function NewProjectPage() {
   const router = useRouter()
   const dispatch = useAppDispatch()
+  const workspaces = useAppSelector(s => s.workspace.workspaces)
   const currentWorkspace = useAppSelector(s => s.workspace.currentWorkspace)
   const user = useAppSelector(s => s.auth.user)
 
+  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(currentWorkspace?.id || workspaces[0]?.id || '')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [icon, setIcon] = useState('⚡')
   const [color, setColor] = useState('#c0c1ff')
   const [loading, setLoading] = useState(false)
+
+  // Target workspace
+  const targetWorkspace = workspaces.find(w => w.id === selectedWorkspaceId) || currentWorkspace || workspaces[0]
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -41,8 +46,8 @@ export default function NewProjectPage() {
       return
     }
 
-    if (!currentWorkspace) {
-      toast.error('Please select a workspace first')
+    if (!targetWorkspace) {
+      toast.error('Please select or create a workspace first')
       return
     }
 
@@ -55,7 +60,7 @@ export default function NewProjectPage() {
         .from('projects')
         .insert({
           id: newProjId,
-          workspace_id: currentWorkspace.id,
+          workspace_id: targetWorkspace.id,
           name: name.trim(),
           description: description.trim() || null,
           icon,
@@ -69,7 +74,7 @@ export default function NewProjectPage() {
         // Fallback optimistic update if table is empty or offline
         const mockProject = {
           id: newProjId,
-          workspace_id: currentWorkspace.id,
+          workspace_id: targetWorkspace.id,
           name: name.trim(),
           description: description.trim() || null,
           icon,
@@ -78,13 +83,13 @@ export default function NewProjectPage() {
         }
         dispatch(addProject(mockProject as any))
         toast.success(`Project "${name}" created!`)
-        router.push(`/${currentWorkspace.slug}/${newProjId}/board`)
+        router.push(`/${targetWorkspace.slug}/${newProjId}/board`)
         return
       }
 
       dispatch(addProject(data))
       toast.success(`Project "${name}" created!`)
-      router.push(`/${currentWorkspace.slug}/${data.id}/board`)
+      router.push(`/${targetWorkspace.slug}/${data.id}/board`)
     } catch (err: any) {
       toast.error(err.message || 'Failed to create project')
     } finally {
@@ -114,12 +119,32 @@ export default function NewProjectPage() {
           <div>
             <h1 className="text-xl font-bold text-on-surface font-headline-md">Create New Project</h1>
             <p className="text-xs text-on-surface-variant mt-0.5 font-body-sm">
-              In workspace <span className="text-primary font-medium">{currentWorkspace?.name ?? 'Personal'}</span>
+              In workspace <span className="text-primary font-medium">{targetWorkspace?.name ?? 'Personal'}</span>
             </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Workspace Selection */}
+          {workspaces.length > 1 && (
+            <div className="space-y-1.5">
+              <label className="block text-xs font-medium text-on-surface-variant">
+                Target Workspace
+              </label>
+              <select
+                value={selectedWorkspaceId}
+                onChange={e => setSelectedWorkspaceId(e.target.value)}
+                className="w-full h-9 px-3 rounded-lg text-sm bg-surface-container border border-outline-variant text-on-surface focus:outline-none focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+              >
+                {workspaces.map(w => (
+                  <option key={w.id} value={w.id}>
+                    {w.icon || '🏢'} {w.name} (/{w.slug})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <Input
             label="Project Name"
             placeholder="e.g. Mobile App Redesign"

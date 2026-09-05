@@ -13,6 +13,7 @@ export default function Header() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const user = useAppSelector(s => s.auth.user)
+  const currentWorkspace = useAppSelector(s => s.workspace.currentWorkspace)
   const unreadCount = useAppSelector(s => s.notification.unreadCount)
   const sidebarCollapsed = useAppSelector(s => s.ui.sidebarCollapsed)
   const [searchValue, setSearchValue] = useState('')
@@ -58,7 +59,7 @@ export default function Header() {
         transition: 'left 0.3s ease',
       }}
     >
-      {/* Left: toggle + breadcrumb */}
+      {/* Left: toggle + brand + active workspace */}
       <div className="flex items-center gap-3 min-w-0">
         <button onClick={() => dispatch(toggleSidebar())} type="button"
           className="btn-ghost p-1.5 rounded-lg flex-shrink-0"
@@ -66,6 +67,22 @@ export default function Header() {
           <span className="material-symbols-outlined text-xl">menu_open</span>
         </button>
         <Logo size="xs" href="/dashboard" textClassName="hidden sm:inline" />
+
+        {currentWorkspace && (
+          <Link
+            href={`/${currentWorkspace.slug}/projects`}
+            className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium hover:bg-surface-container-high transition-colors"
+            style={{
+              background: 'var(--color-surface-container)',
+              border: '1px solid var(--color-outline-variant)',
+              color: 'var(--color-on-surface)',
+            }}
+            title={`Active Workspace: ${currentWorkspace.name}`}
+          >
+            <span>{currentWorkspace.icon || '🏢'}</span>
+            <span className="truncate max-w-[130px] font-semibold">{currentWorkspace.name}</span>
+          </Link>
+        )}
       </div>
 
       {/* Center: Search bar */}

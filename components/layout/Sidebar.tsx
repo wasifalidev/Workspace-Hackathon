@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAppDispatch, useAppSelector } from '@/store'
 import { toggleSidebar } from '@/store/slices/uiSlice'
+import { setCurrentWorkspace } from '@/store/slices/workspaceSlice'
 import { createClient } from '@/lib/supabase/client'
 import { clearAuth } from '@/store/slices/authSlice'
 import { toast } from 'sonner'
@@ -22,6 +24,21 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
   const dispatch = useAppDispatch()
   const sidebarCollapsed = useAppSelector(s => s.ui.sidebarCollapsed)
   const user = useAppSelector(s => s.auth.user)
+  const [wsMenuOpen, setWsMenuOpen] = useState(false)
+  const wsMenuRef = useRef<HTMLDivElement>(null)
+
+  // Close workspace switcher menu on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (wsMenuRef.current && !wsMenuRef.current.contains(e.target as Node)) {
+        setWsMenuOpen(false)
+      }
+    }
+    if (wsMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [wsMenuOpen])
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
 
@@ -33,11 +50,18 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
     router.push('/')
   }
 
+  function handleSwitchWorkspace(targetWs: Workspace) {
+    dispatch(setCurrentWorkspace(targetWs))
+    setWsMenuOpen(false)
+    toast.success(`Switched to ${targetWs.name}`)
+    router.push(`/${targetWs.slug}/projects`)
+  }
+
   const w = currentWorkspace?.slug ?? '_'
 
   return (
     <aside
-      className="fixed left-0 top-0 h-screen z-40 flex flex-col overflow-hidden transition-all duration-300"
+      className="fixed left-0 top-0 h-screen z-40 flex flex-col transition-all duration-300"
       style={{
         width: sidebarCollapsed ? '4rem' : '16rem',
         background: 'var(--color-surface-container-low)',
@@ -45,14 +69,18 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
       }}
     >
       {/* ── Header: Workspace switcher ── */}
-      <div className="flex items-center justify-between px-3 flex-shrink-0"
+      <div className="relative flex items-center justify-between px-3 flex-shrink-0" ref={wsMenuRef}
         style={{ height: '3.25rem', background: 'rgba(10,14,22,0.5)', borderBottom: '1px solid var(--color-outline-variant)' }}>
-        {!sidebarCollapsed && (
-          <button className="flex items-center gap-2 min-w-0 text-left flex-1 rounded-lg px-2 py-1.5 transition-colors hover:bg-surface-container-high/60"
-            style={{ color: 'var(--color-on-surface)' }} type="button">
+        {!sidebarCollapsed ? (
+          <button
+            onClick={() => setWsMenuOpen(!wsMenuOpen)}
+            className="flex items-center gap-2 min-w-0 text-left flex-1 rounded-lg px-2 py-1.5 transition-colors hover:bg-surface-container-high/60"
+            style={{ color: 'var(--color-on-surface)' }}
+            type="button"
+          >
             <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 font-bold text-xs"
               style={{ background: currentWorkspace?.color ?? 'var(--color-primary)', color: 'var(--color-on-primary)', opacity: 0.9 }}>
-              {currentWorkspace ? currentWorkspace.name[0].toUpperCase() : 'W'}
+              {currentWorkspace ? (currentWorkspace.icon || currentWorkspace.name[0].toUpperCase()) : 'W'}
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs font-semibold truncate">{currentWorkspace?.name ?? 'Select Workspace'}</div>
@@ -60,13 +88,89 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
                 {user?.email?.split('@')[0]}
               </div>
             </div>
-            <span className="material-symbols-outlined text-lg flex-shrink-0" style={{ color: 'var(--color-on-surface-variant)' }}>unfold_more</span>
+            <span className={`material-symbols-outlined text-lg flex-shrink-0 transition-transform duration-200 ${wsMenuOpen ? 'rotate-180' : ''}`} style={{ color: 'var(--color-on-surface-variant)' }}>
+              unfold_more
+            </span>
+          </button>
+        ) : (
+          <button
+            onClick={() => setWsMenuOpen(!wsMenuOpen)}
+            type="button"
+            className="w-8 h-8 rounded-lg flex items-center justify-center mx-auto font-bold text-xs cursor-pointer hover:opacity-80 transition-opacity"
+            style={{ background: currentWorkspace?.color ?? 'var(--color-primary)', color: 'var(--color-on-primary)' }}
+            title={currentWorkspace?.name ?? 'Switch Workspace'}
+          >
+            {currentWorkspace ? (currentWorkspace.icon || currentWorkspace.name[0].toUpperCase()) : 'W'}
           </button>
         )}
-        {sidebarCollapsed && (
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center mx-auto font-bold text-xs"
-            style={{ background: currentWorkspace?.color ?? 'var(--color-primary)', color: 'var(--color-on-primary)' }}>
-            {currentWorkspace ? currentWorkspace.name[0].toUpperCase() : 'W'}
+
+        {/* ── Workspace Dropdown Popover ── */}
+        {wsMenuOpen && (
+          <div
+            className="absolute top-full left-2 right-2 mt-1 z-50 rounded-xl shadow-2xl overflow-hidden py-1 border backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150"
+            style={{
+              background: 'rgba(24, 28, 36, 0.98)',
+              borderColor: 'var(--color-outline-variant)',
+              width: sidebarCollapsed ? '240px' : 'auto',
+              minWidth: '220px',
+            }}
+          >
+            <div className="px-3 py-2 text-[11px] font-semibold uppercase tracking-wider border-b border-outline-variant/40" style={{ color: 'var(--color-on-surface-variant)' }}>
+              Your Workspaces ({workspaces.length})
+            </div>
+
+            <div className="max-h-60 overflow-y-auto py-1">
+              {workspaces.map(ws => {
+                const isCurrent = currentWorkspace?.id === ws.id
+                return (
+                  <button
+                    key={ws.id}
+                    onClick={() => handleSwitchWorkspace(ws)}
+                    type="button"
+                    className={`w-full flex items-center justify-between px-3 py-2 text-left text-xs transition-colors ${
+                      isCurrent
+                        ? 'bg-surface-container-high text-primary font-semibold'
+                        : 'text-on-surface hover:bg-surface-container'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div
+                        className="w-6 h-6 rounded-md flex items-center justify-center text-xs flex-shrink-0 font-bold"
+                        style={{ background: ws.color || 'var(--color-primary)', color: 'var(--color-on-primary)' }}
+                      >
+                        {ws.icon || ws.name[0].toUpperCase()}
+                      </div>
+                      <div className="truncate">
+                        <div className="truncate">{ws.name}</div>
+                        <div className="text-[10px] text-outline font-mono truncate">/{ws.slug}</div>
+                      </div>
+                    </div>
+                    {isCurrent && (
+                      <span className="material-symbols-outlined text-sm text-primary">check</span>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="border-t border-outline-variant/40 pt-1 mt-1">
+              <Link
+                href="/workspaces/new"
+                onClick={() => setWsMenuOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-primary hover:bg-surface-container transition-colors"
+              >
+                <span className="material-symbols-outlined text-base">add_circle</span>
+                <span>Create New Workspace</span>
+              </Link>
+              <Link
+                href="/workspaces"
+                onClick={() => setWsMenuOpen(false)}
+                className="flex items-center gap-2 px-3 py-1.5 text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+              >
+                <span className="material-symbols-outlined text-base">domain</span>
+                <span>Manage All Workspaces</span>
+              </Link>
+            </div>
           </div>
         )}
       </div>
