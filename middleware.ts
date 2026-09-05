@@ -24,8 +24,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl)
   }
 
-  // Redirect authenticated users away from auth routes
-  if (isAuthRoute && user) {
+  // Redirect authenticated users away from auth routes or landing page to dashboard
+  if ((isAuthRoute || pathname === '/') && user) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
