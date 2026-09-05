@@ -12,6 +12,148 @@
 
   /* ─── Color Palette (Kinetic Workspace) ─── */
   /* Surface architecture */
+  --color-surface: var(--color-surface);
+  --color-surface-dim: var(--color-surface-dim);
+  --color-surface-bright: var(--color-surface-bright);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-high: var(--color-surface-container-high);
+  --color-surface-container-highest: var(--color-surface-container-highest);
+  --color-surface-variant: var(--color-surface-variant);
+  --color-background: var(--color-background);
+  --color-header-bg: var(--color-header-bg);
+  --color-sub-surface: var(--color-sub-surface);
+
+  /* On-surface (text) */
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-on-background: var(--color-on-background);
+  --color-inverse-surface: var(--color-inverse-surface);
+  --color-inverse-on-surface: var(--color-inverse-on-surface);
+
+  /* Primary — Indigo */
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-primary-container: var(--color-primary-container);
+  --color-on-primary-container: var(--color-on-primary-container);
+  --color-primary-fixed: var(--color-primary-fixed);
+  --color-primary-fixed-dim: var(--color-primary-fixed-dim);
+  --color-on-primary-fixed: var(--color-on-primary-fixed);
+  --color-on-primary-fixed-variant: var(--color-on-primary-fixed-variant);
+  --color-inverse-primary: var(--color-inverse-primary);
+
+  /* Secondary — Emerald */
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+  --color-secondary-container: var(--color-secondary-container);
+  --color-on-secondary-container: var(--color-on-secondary-container);
+  --color-secondary-fixed: var(--color-secondary-fixed);
+  --color-secondary-fixed-dim: var(--color-secondary-fixed-dim);
+  --color-on-secondary-fixed: var(--color-on-secondary-fixed);
+  --color-on-secondary-fixed-variant: var(--color-on-secondary-fixed-variant);
+
+  /* Tertiary — Amber */
+  --color-tertiary: var(--color-tertiary);
+  --color-on-tertiary: var(--color-on-tertiary);
+  --color-tertiary-container: var(--color-tertiary-container);
+  --color-on-tertiary-container: var(--color-on-tertiary-container);
+  --color-tertiary-fixed: var(--color-tertiary-fixed);
+  --color-tertiary-fixed-dim: var(--color-tertiary-fixed-dim);
+  --color-on-tertiary-fixed: var(--color-on-tertiary-fixed);
+  --color-on-tertiary-fixed-variant: var(--color-on-tertiary-fixed-variant);
+
+  /* Error — Red */
+  --color-error: var(--color-error);
+  --color-on-error: var(--color-on-error);
+  --color-error-container: var(--color-error-container);
+  --color-on-error-container: var(--color-on-error-container);
+
+  /* Outline */
+  --color-outline: var(--color-outline);
+  --color-outline-variant: var(--color-outline-variant);
+
+  /* Surface tint & overlays */
+  --color-surface-tint: var(--color-surface-tint);
+  --color-modal-backdrop: var(--color-modal-backdrop);
+
+  /* ─── Shadcn Semantic Tokens ─── */
+  --color-foreground: var(--color-foreground);
+  --color-card: var(--color-card);
+  --color-card-foreground: var(--color-card-foreground);
+  --color-popover: var(--color-popover);
+  --color-popover-foreground: var(--color-popover-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-border: var(--color-border);
+  --color-input: var(--color-input);
+  --color-ring: var(--color-ring);
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+
+  /* ─── Spacing Tokens (from DESIGN.md) ─── */
+  --spacing-space-2xs: 0.125rem;  /* 2px */
+  --spacing-space-xs:  0.25rem;   /* 4px */
+  --spacing-space-sm:  0.5rem;    /* 8px */
+  --spacing-space-md:  0.75rem;   /* 12px */
+  --spacing-space-base: 1rem;     /* 16px */
+  --spacing-space-lg:  1.25rem;   /* 20px */
+  --spacing-space-xl:  1.5rem;    /* 24px */
+  --spacing-space-2xl: 2rem;      /* 32px */
+  --spacing-space-3xl: 3rem;      /* 48px */
+  --spacing-layout-sidebar-collapsed: 4rem;    /* 64px */
+  --spacing-layout-sidebar-expanded:  16rem;   /* 256px */
+  --spacing-layout-header-height:     3.25rem; /* 52px */
+  --spacing-gutter-compact:  0.75rem;
+  --spacing-gutter-default:  1rem;
+
+  /* ─── Border Radius ─── */
+  --radius-sm:      0.125rem; /* 2px — micro controls */
+  --radius-DEFAULT: 0.25rem;  /* 4px */
+  --radius-md:      0.375rem; /* 6px — inputs, buttons */
+  --radius-lg:      0.5rem;   /* 8px — cards, containers */
+  --radius-xl:      0.75rem;  /* 12px — modals */
+  --radius-full:    9999px;   /* avatars, pills */
+
+  /* ─── Font Sizes (Kinetic typography scale) ─── */
+  --text-headline-xl:         32px;
+  --text-headline-xl--line-height: 40px;
+  --text-headline-xl--letter-spacing: -0.025em;
+  --text-headline-xl-mobile:  26px;
+  --text-headline-lg:         24px;
+  --text-headline-lg--line-height: 32px;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-md:         20px;
+  --text-headline-md--line-height: 28px;
+  --text-headline-sm:         16px;
+  --text-headline-sm--line-height: 24px;
+  --text-body-lg:             15px;
+  --text-body-lg--line-height: 24px;
+  --text-body-md:             14px;
+  --text-body-md--line-height: 20px;
+  --text-body-sm:             13px;
+  --text-body-sm--line-height: 18px;
+  --text-label-md:            12px;
+  --text-label-md--line-height: 16px;
+  --text-label-sm:            11px;
+  --text-label-sm--line-height: 14px;
+  --text-code-metric:         12px;
+  --text-code-metric--line-height: 16px;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  font-feature-settings: "tnum" 1, "cv05" 1, "cv11" 1;
+
+  /* ── Dark mode defaults (all custom properties) ── */
+  /* Surface */
   --color-surface: #0f131c;
   --color-surface-dim: #0f131c;
   --color-surface-bright: #353942;
@@ -77,7 +219,7 @@
   --color-surface-tint: #c0c1ff;
   --color-modal-backdrop: rgba(3, 7, 18, 0.7);
 
-  /* ─── Shadcn Semantic Tokens ─── */
+  /* Shadcn tokens */
   --color-foreground: #dfe2ee;
   --color-card: #181c24;
   --color-card-foreground: #dfe2ee;
@@ -90,67 +232,6 @@
   --color-ring: #c0c1ff;
   --color-accent: #1c2028;
   --color-accent-foreground: #dfe2ee;
-
-  /* ─── Spacing Tokens (from DESIGN.md) ─── */
-  --spacing-space-2xs: 0.125rem;  /* 2px */
-  --spacing-space-xs:  0.25rem;   /* 4px */
-  --spacing-space-sm:  0.5rem;    /* 8px */
-  --spacing-space-md:  0.75rem;   /* 12px */
-  --spacing-space-base: 1rem;     /* 16px */
-  --spacing-space-lg:  1.25rem;   /* 20px */
-  --spacing-space-xl:  1.5rem;    /* 24px */
-  --spacing-space-2xl: 2rem;      /* 32px */
-  --spacing-space-3xl: 3rem;      /* 48px */
-  --spacing-layout-sidebar-collapsed: 4rem;    /* 64px */
-  --spacing-layout-sidebar-expanded:  16rem;   /* 256px */
-  --spacing-layout-header-height:     3.25rem; /* 52px */
-  --spacing-gutter-compact:  0.75rem;
-  --spacing-gutter-default:  1rem;
-
-  /* ─── Border Radius ─── */
-  --radius-sm:      0.125rem; /* 2px — micro controls */
-  --radius-DEFAULT: 0.25rem;  /* 4px */
-  --radius-md:      0.375rem; /* 6px — inputs, buttons */
-  --radius-lg:      0.5rem;   /* 8px — cards, containers */
-  --radius-xl:      0.75rem;  /* 12px — modals */
-  --radius-full:    9999px;   /* avatars, pills */
-
-  /* ─── Font Sizes (Kinetic typography scale) ─── */
-  --text-headline-xl:         32px;
-  --text-headline-xl--line-height: 40px;
-  --text-headline-xl--letter-spacing: -0.025em;
-  --text-headline-xl-mobile:  26px;
-  --text-headline-lg:         24px;
-  --text-headline-lg--line-height: 32px;
-  --text-headline-lg--letter-spacing: -0.02em;
-  --text-headline-md:         20px;
-  --text-headline-md--line-height: 28px;
-  --text-headline-sm:         16px;
-  --text-headline-sm--line-height: 24px;
-  --text-body-lg:             15px;
-  --text-body-lg--line-height: 24px;
-  --text-body-md:             14px;
-  --text-body-md--line-height: 20px;
-  --text-body-sm:             13px;
-  --text-body-sm--line-height: 18px;
-  --text-label-md:            12px;
-  --text-label-md--line-height: 16px;
-  --text-label-sm:            11px;
-  --text-label-sm--line-height: 14px;
-  --text-code-metric:         12px;
-  --text-code-metric--line-height: 16px;
-}
-
-/* ============================================================
-   BASE STYLES
-   ============================================================ */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  color-scheme: dark;
-  font-feature-settings: "tnum" 1, "cv05" 1, "cv11" 1;
 }
 
 html.light,
