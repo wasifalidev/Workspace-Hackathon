@@ -29,37 +29,7 @@ export default function AdminUsersPage() {
         .select('*')
         .order('created_at', { ascending: false })
 
-      if (data && data.length > 0) {
-        setUsers(data)
-      } else {
-        // Fallback demo users
-        setUsers([
-          {
-            id: 'u-1',
-            full_name: 'Alex Morgan',
-            email: 'alex@acme.corp',
-            avatar_url: null,
-            is_platform_admin: true,
-            created_at: '2026-08-01T00:00:00Z',
-          },
-          {
-            id: 'u-2',
-            full_name: 'David Kim',
-            email: 'david@acme.corp',
-            avatar_url: null,
-            is_platform_admin: false,
-            created_at: '2026-08-15T00:00:00Z',
-          },
-          {
-            id: 'u-3',
-            full_name: 'Sarah Lin',
-            email: 'sarah@acme.corp',
-            avatar_url: null,
-            is_platform_admin: false,
-            created_at: '2026-08-20T00:00:00Z',
-          },
-        ])
-      }
+      setUsers(data || [])
       setLoading(false)
     }
 
@@ -125,37 +95,51 @@ export default function AdminUsersPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant/30 text-xs">
-            {filtered.map(user => (
-              <tr key={user.id} className="hover:bg-surface-container/60 transition-colors">
-                <td className="py-3 px-4">
-                  <div className="flex items-center gap-3">
-                    <Avatar src={user.avatar_url} name={user.full_name || 'User'} size="sm" />
-                    <div>
-                      <div className="font-semibold text-on-surface">{user.full_name || 'Anonymous User'}</div>
-                      <div className="text-[11px] text-outline font-code-metric">{user.email || user.id}</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-4">
-                  {user.is_platform_admin ? (
-                    <Badge variant="primary" dot>Platform Admin</Badge>
-                  ) : (
-                    <Badge variant="surface">Standard User</Badge>
-                  )}
-                </td>
-                <td className="py-3 px-4 text-outline font-code-metric">
-                  {new Date(user.created_at).toLocaleDateString()}
-                </td>
-                <td className="py-3 px-4 text-right">
-                  <button
-                    onClick={() => toggleAdminRole(user.id, !!user.is_platform_admin)}
-                    className="text-xs px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"
-                  >
-                    {user.is_platform_admin ? 'Revoke Admin' : 'Make Admin'}
-                  </button>
+            {loading ? (
+              <tr>
+                <td colSpan={4} className="py-8 text-center text-outline">
+                  Loading users from Supabase...
                 </td>
               </tr>
-            ))}
+            ) : filtered.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="py-8 text-center text-on-surface-variant">
+                  No users found in database.
+                </td>
+              </tr>
+            ) : (
+              filtered.map(user => (
+                <tr key={user.id} className="hover:bg-surface-container/60 transition-colors">
+                  <td className="py-3 px-4">
+                    <div className="flex items-center gap-3">
+                      <Avatar src={user.avatar_url} name={user.full_name || 'User'} size="sm" />
+                      <div>
+                        <div className="font-semibold text-on-surface">{user.full_name || 'Anonymous User'}</div>
+                        <div className="text-[11px] text-outline font-code-metric">{user.email || user.id}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4">
+                    {user.is_platform_admin ? (
+                      <Badge variant="primary" dot>Platform Admin</Badge>
+                    ) : (
+                      <Badge variant="surface">Standard User</Badge>
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-outline font-code-metric">
+                    {new Date(user.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <button
+                      onClick={() => toggleAdminRole(user.id, !!user.is_platform_admin)}
+                      className="text-xs px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"
+                    >
+                      {user.is_platform_admin ? 'Revoke Admin' : 'Make Admin'}
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

@@ -56,7 +56,7 @@ export default function CommandPalette() {
     <div className="modal-backdrop animate-fade-in" onClick={() => dispatch(closeCommandPalette())}>
       <div
         className="fixed top-[20%] left-1/2 -translate-x-1/2 w-full max-w-xl rounded-2xl overflow-hidden animate-scale-in"
-        style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 24px 48px -12px rgba(0,0,0,0.65)', zIndex: 60 }}
+        style={{ background: 'var(--color-popover, var(--color-surface))', border: '1px solid var(--color-outline-variant)', boxShadow: '0 24px 48px -12px rgba(0,0,0,0.3)', zIndex: 60 }}
         onClick={e => e.stopPropagation()}
       >
         {/* Search input */}

@@ -1,11 +1,41 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 import { useAppSelector } from '@/store'
 
 export default function AdminOverviewPage() {
   const user = useAppSelector(s => s.auth.user)
+  const [stats, setStats] = useState({
+    users: 0,
+    workspaces: 0,
+    projects: 0,
+    tasks: 0,
+    loading: true,
+  })
+
+  useEffect(() => {
+    async function loadStats() {
+      const supabase = createClient()
+      const [uRes, wRes, pRes, tRes] = await Promise.all([
+        supabase.from('profiles').select('*', { count: 'exact', head: true }),
+        supabase.from('workspaces').select('*', { count: 'exact', head: true }),
+        supabase.from('projects').select('*', { count: 'exact', head: true }),
+        supabase.from('tasks').select('*', { count: 'exact', head: true }),
+      ])
+
+      setStats({
+        users: uRes.count ?? 0,
+        workspaces: wRes.count ?? 0,
+        projects: pRes.count ?? 0,
+        tasks: tRes.count ?? 0,
+        loading: false,
+      })
+    }
+
+    loadStats()
+  }, [])
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 space-y-8">
@@ -31,10 +61,34 @@ export default function AdminOverviewPage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Registered Users', val: '1,420', change: '+12% this month', icon: 'group', color: 'text-primary' },
-          { label: 'Active Workspaces', val: '318', change: '+8 new this week', icon: 'domain', color: 'text-secondary' },
-          { label: 'Tasks Processed', val: '48,920', change: '99.98% sync uptime', icon: 'task_alt', color: 'text-tertiary' },
-          { label: 'Storage Used', val: '14.2 GB', change: 'Supabase S3 Bucket', icon: 'cloud', color: 'text-primary' },
+          {
+            label: 'Total Registered Users',
+            val: stats.loading ? '...' : stats.users.toLocaleString(),
+            change: 'Live Supabase accounts',
+            icon: 'group',
+            color: 'text-primary',
+          },
+          {
+            label: 'Active Workspaces',
+            val: stats.loading ? '...' : stats.workspaces.toLocaleString(),
+            change: 'Tenant organizations',
+            icon: 'domain',
+            color: 'text-secondary',
+          },
+          {
+            label: 'Total Projects',
+            val: stats.loading ? '...' : stats.projects.toLocaleString(),
+            change: 'Workspace initiatives',
+            icon: 'folder',
+            color: 'text-tertiary',
+          },
+          {
+            label: 'Tasks Created',
+            val: stats.loading ? '...' : stats.tasks.toLocaleString(),
+            change: 'Realtime database tasks',
+            icon: 'task_alt',
+            color: 'text-primary',
+          },
         ].map((kpi, idx) => (
           <div key={idx} className="bg-surface-container-low border border-outline-variant rounded-xl p-5 shadow-sm space-y-2">
             <div className="flex items-center justify-between">

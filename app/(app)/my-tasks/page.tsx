@@ -79,7 +79,7 @@ export default async function MyTasksPage() {
                     const [statusIco, statusColor] = statusIcon(task.status as string)
                     return (
                       <div key={task.id as string}
-                        className={`flex items-center gap-4 px-5 py-3.5 hover:bg-white/[0.02] transition-colors ${i > 0 ? 'border-t' : ''}`}
+                        className={`flex items-center gap-4 px-5 py-3.5 hover:bg-surface-container transition-colors ${i > 0 ? 'border-t' : ''}`}
                         style={{ borderColor: 'var(--color-outline-variant)' }}>
                         <span className="material-symbols-outlined text-lg flex-shrink-0" style={{ color: statusColor }}>{statusIco}</span>
                         <div className="flex-1 min-w-0">

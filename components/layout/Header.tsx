@@ -8,22 +8,29 @@ import { toggleSidebar, openCommandPalette } from '@/store/slices/uiSlice'
 import { createClient } from '@/lib/supabase/client'
 
 import Logo from '@/components/ui/Logo'
+import { AppIcon } from '@/components/ui/AppIcon'
+import { useTheme } from '@/components/providers/ThemeProvider'
+import { toast } from 'sonner'
 
 export default function Header() {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const { theme, resolvedTheme, setTheme } = useTheme()
   const user = useAppSelector(s => s.auth.user)
   const currentWorkspace = useAppSelector(s => s.workspace.currentWorkspace)
   const unreadCount = useAppSelector(s => s.notification.unreadCount)
   const sidebarCollapsed = useAppSelector(s => s.ui.sidebarCollapsed)
   const [searchValue, setSearchValue] = useState('')
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const themeMenuRef = useRef<HTMLDivElement>(null)
 
-  // Close menu on outside click
+  // Close menus on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setUserMenuOpen(false)
+      if (themeMenuRef.current && !themeMenuRef.current.contains(e.target as Node)) setThemeMenuOpen(false)
     }
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
@@ -54,7 +61,7 @@ export default function Header() {
       }`}
       style={{
         height: '3.25rem',
-        background: 'rgba(10,14,22,0.85)',
+        background: 'var(--color-header-bg)',
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid var(--color-outline-variant)',
       }}
@@ -79,7 +86,7 @@ export default function Header() {
             }}
             title={`Active Workspace: ${currentWorkspace.name}`}
           >
-            <span>{currentWorkspace.icon || '🏢'}</span>
+            <AppIcon name={currentWorkspace.icon || 'domain'} size={15} color="var(--color-primary)" />
             <span className="truncate max-w-[130px] font-semibold">{currentWorkspace.name}</span>
           </Link>
         )}
@@ -117,6 +124,106 @@ export default function Header() {
           <span>Online</span>
         </div>
 
+        {/* Quick Theme Switcher */}
+        <div className="relative" ref={themeMenuRef}>
+          <button
+            onClick={() => setThemeMenuOpen(!themeMenuOpen)}
+            type="button"
+            className="btn-ghost p-1.5 rounded-lg flex items-center justify-center transition-colors hover:bg-surface-container"
+            style={{ color: 'var(--color-on-surface-variant)' }}
+            title={`Theme: ${theme === 'system' ? `System (${resolvedTheme})` : theme}`}
+            aria-label="Toggle theme"
+          >
+            {theme === 'system' ? (
+              <span className="material-symbols-outlined text-xl text-primary">desktop_windows</span>
+            ) : resolvedTheme === 'dark' ? (
+              <span className="material-symbols-outlined text-xl text-indigo-400">dark_mode</span>
+            ) : (
+              <span className="material-symbols-outlined text-xl text-amber-500">light_mode</span>
+            )}
+          </button>
+
+          {themeMenuOpen && (
+            <div
+              className="absolute right-0 top-full mt-2 w-52 rounded-xl overflow-hidden animate-scale-in z-50 p-1.5 shadow-xl"
+              style={{
+                background: 'var(--color-popover, var(--color-surface))',
+                border: '1px solid var(--color-outline-variant)',
+              }}
+            >
+              <div className="px-3 py-1.5 text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">
+                Theme Appearance
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setTheme('light')
+                  setThemeMenuOpen(false)
+                  toast.success('Switched to Light theme')
+                }}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                  theme === 'light'
+                    ? 'bg-primary/15 text-primary font-semibold'
+                    : 'text-on-surface hover:bg-surface-container'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="material-symbols-outlined text-base text-amber-500">light_mode</span>
+                  <span>Light (Solar)</span>
+                </div>
+                {theme === 'light' && (
+                  <span className="material-symbols-outlined text-sm text-primary font-bold">check</span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setTheme('dark')
+                  setThemeMenuOpen(false)
+                  toast.success('Switched to Dark theme')
+                }}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                  theme === 'dark'
+                    ? 'bg-primary/15 text-primary font-semibold'
+                    : 'text-on-surface hover:bg-surface-container'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="material-symbols-outlined text-base text-indigo-400">dark_mode</span>
+                  <span>Dark (Obsidian)</span>
+                </div>
+                {theme === 'dark' && (
+                  <span className="material-symbols-outlined text-sm text-primary font-bold">check</span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setTheme('system')
+                  setThemeMenuOpen(false)
+                  toast.success(`Switched to System theme (${resolvedTheme})`)
+                }}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                  theme === 'system'
+                    ? 'bg-primary/15 text-primary font-semibold'
+                    : 'text-on-surface hover:bg-surface-container'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="material-symbols-outlined text-base text-primary">desktop_windows</span>
+                  <span>System Default</span>
+                </div>
+                {theme === 'system' && (
+                  <span className="material-symbols-outlined text-sm text-primary font-bold">check</span>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Notifications */}
         <Link href="/notifications" className="relative btn-ghost p-1.5 rounded-lg">
           <span className="material-symbols-outlined text-xl" style={{ color: 'var(--color-on-surface-variant)' }}>notifications</span>
@@ -140,8 +247,8 @@ export default function Header() {
             <span className="material-symbols-outlined text-lg hidden sm:block">expand_more</span>
           </button>
           {userMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 w-56 rounded-xl overflow-hidden animate-scale-in z-50"
-              style={{ background: 'var(--color-surface-container-highest)', border: '1px solid var(--color-outline-variant)', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+            <div className="absolute right-0 top-full mt-2 w-56 rounded-xl overflow-hidden animate-scale-in z-50 shadow-xl"
+              style={{ background: 'var(--color-popover, var(--color-surface))', border: '1px solid var(--color-outline-variant)' }}>
               <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--color-outline-variant)' }}>
                 <div className="text-sm font-semibold truncate" style={{ color: 'var(--color-on-surface)' }}>
                   {user?.fullName ?? 'User'}

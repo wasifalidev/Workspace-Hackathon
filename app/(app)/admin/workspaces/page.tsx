@@ -25,34 +25,7 @@ export default function AdminWorkspacesPage() {
         .select('*')
         .order('created_at', { ascending: false })
 
-      if (data && data.length > 0) {
-        setWorkspaces(data)
-      } else {
-        // Fallback demo workspaces
-        setWorkspaces([
-          {
-            id: 'ws-1',
-            name: 'Acme Corp',
-            slug: 'acme-corp',
-            color: '#c0c1ff',
-            created_at: '2026-08-01T00:00:00Z',
-          },
-          {
-            id: 'ws-2',
-            name: 'Stitch Labs',
-            slug: 'stitch-labs',
-            color: '#4edea3',
-            created_at: '2026-08-10T00:00:00Z',
-          },
-          {
-            id: 'ws-3',
-            name: 'Kinetic Cloud',
-            slug: 'kinetic-cloud',
-            color: '#ffb95f',
-            created_at: '2026-08-18T00:00:00Z',
-          },
-        ])
-      }
+      setWorkspaces(data || [])
       setLoading(false)
     }
 
@@ -89,30 +62,44 @@ export default function AdminWorkspacesPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant/30 text-xs">
-            {workspaces.map(ws => (
-              <tr key={ws.id} className="hover:bg-surface-container/60 transition-colors">
-                <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs"
-                      style={{ background: ws.color || 'var(--color-primary)', color: '#0f131c' }}
-                    >
-                      {ws.name[0].toUpperCase()}
-                    </div>
-                    <span className="font-semibold text-on-surface">{ws.name}</span>
-                  </div>
-                </td>
-                <td className="py-3.5 px-4 font-code-metric text-outline">
-                  /{ws.slug}
-                </td>
-                <td className="py-3.5 px-4">
-                  <Badge variant="secondary" dot>Active</Badge>
-                </td>
-                <td className="py-3.5 px-4 text-outline font-code-metric">
-                  {new Date(ws.created_at).toLocaleDateString()}
+            {loading ? (
+              <tr>
+                <td colSpan={4} className="py-8 text-center text-outline">
+                  Loading workspaces from Supabase...
                 </td>
               </tr>
-            ))}
+            ) : workspaces.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="py-8 text-center text-on-surface-variant">
+                  No tenant workspaces found in database.
+                </td>
+              </tr>
+            ) : (
+              workspaces.map(ws => (
+                <tr key={ws.id} className="hover:bg-surface-container/60 transition-colors">
+                  <td className="py-3.5 px-4">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs"
+                        style={{ background: ws.color || 'var(--color-primary)', color: '#0f131c' }}
+                      >
+                        {ws.name[0].toUpperCase()}
+                      </div>
+                      <span className="font-semibold text-on-surface">{ws.name}</span>
+                    </div>
+                  </td>
+                  <td className="py-3.5 px-4 font-code-metric text-outline">
+                    /{ws.slug}
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <Badge variant="secondary" dot>Active</Badge>
+                  </td>
+                  <td className="py-3.5 px-4 text-outline font-code-metric">
+                    {new Date(ws.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

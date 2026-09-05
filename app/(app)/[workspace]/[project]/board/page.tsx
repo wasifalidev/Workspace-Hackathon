@@ -2,14 +2,17 @@
 
 import React, { useState, useEffect, use } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { setTasks, moveTask, Task, TaskStatus } from '@/store/slices/taskSlice'
+import { setTasks, moveTask, removeTask, Task, TaskStatus } from '@/store/slices/taskSlice'
 import { setCurrentProject } from '@/store/slices/projectSlice'
 import { TaskCard } from '@/components/tasks/TaskCard'
 import { TaskDetailModal } from '@/components/tasks/TaskDetailModal'
 import { NewTaskModal } from '@/components/tasks/NewTaskModal'
+import { EditProjectModal } from '@/components/projects/EditProjectModal'
 import { Avatar } from '@/components/ui/Avatar'
+import { AppIcon } from '@/components/ui/AppIcon'
 import { toast } from 'sonner'
 
 const COLUMNS: { id: TaskStatus; label: string; color: string }[] = [
@@ -27,6 +30,7 @@ export default function KanbanBoardPage({
 }) {
   const resolvedParams = use(params)
   const { workspace: workspaceSlug, project: projectId } = resolvedParams
+  const router = useRouter()
 
   const dispatch = useAppDispatch()
   const tasks = useAppSelector(s => s.task.tasks)
@@ -36,11 +40,13 @@ export default function KanbanBoardPage({
   const [priorityFilter, setPriorityFilter] = useState<string>('all')
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [isNewTaskOpen, setIsNewTaskOpen] = useState(false)
+  const [isEditProjectOpen, setIsEditProjectOpen] = useState(false)
   const [targetColumnStatus, setTargetColumnStatus] = useState<TaskStatus>('todo')
   const [projectData, setProjectData] = useState<any>(null)
+  const [teamMembers, setTeamMembers] = useState<{ id: string; full_name: string | null; avatar_url: string | null }[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  // Fetch project details and tasks
+  // Fetch project details, tasks, and real members
   useEffect(() => {
     async function loadData() {
       setIsLoading(true)
@@ -59,7 +65,7 @@ export default function KanbanBoardPage({
       }
 
       // Fetch tasks for this project
-      const { data: taskData, error } = await supabase
+      const { data: taskData } = await supabase
         .from('tasks')
         .select(`
           id, project_id, title, description, status, priority,
@@ -95,102 +101,20 @@ export default function KanbanBoardPage({
             : undefined,
         }))
         dispatch(setTasks(formattedTasks))
-      } else if (!tasks.some(t => t.projectId === projectId)) {
-        // Fallback demo tasks matching Stitch design if Supabase table is brand new
-        const demoTasks: Task[] = [
-          {
-            id: 'wm-151-demo',
-            projectId,
-            title: 'Draft offline caching schema for SQLite/Supabase sync',
-            description: 'Implement sync protocol and mutation queue',
-            status: 'backlog',
-            priority: 'medium',
-            assigneeId: null,
-            dueDate: '2026-11-04',
-            startDate: null,
-            estimatePoints: 4,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [
-              { id: '1', name: 'Architecture', color: '#8083ff' },
-              { id: '2', name: 'Supabase', color: '#4edea3' },
-            ],
-          },
-          {
-            id: 'wm-154-demo',
-            projectId,
-            title: 'Research Biometric Auth API fallback vectors on iOS 17',
-            description: 'Evaluate FaceID fallback mechanisms',
-            status: 'backlog',
-            priority: 'high',
-            assigneeId: null,
-            dueDate: '2026-11-08',
-            startDate: null,
-            estimatePoints: 2,
-            sortOrder: 2,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [
-              { id: '3', name: 'Security', color: '#ffb95f' },
-              { id: '4', name: 'iOS', color: '#c0c1ff' },
-            ],
-          },
-          {
-            id: 'wm-142-demo',
-            projectId,
-            title: 'Real-time Supabase presence & live cursor collaboration',
-            description: 'Cross-tab state replication with Supabase Realtime channels',
-            status: 'in_progress',
-            priority: 'urgent',
-            assigneeId: null,
-            dueDate: '2026-10-30',
-            startDate: null,
-            estimatePoints: 5,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [{ id: '2', name: 'Supabase', color: '#4edea3' }],
-          },
-          {
-            id: 'wm-130-demo',
-            projectId,
-            title: 'Design token parity audit with Google Stitch export',
-            description: 'Inspect colors, font metrics, spacing tokens against stitch files',
-            status: 'in_review',
-            priority: 'high',
-            assigneeId: null,
-            dueDate: '2026-10-28',
-            startDate: null,
-            estimatePoints: 3,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [{ id: '5', name: 'Design System', color: '#c0c1ff' }],
-          },
-          {
-            id: 'wm-112-demo',
-            projectId,
-            title: 'Setup GitHub Actions CI with Next.js 16 build check',
-            description: 'Automated type checking and linting on pull requests',
-            status: 'done',
-            priority: 'low',
-            assigneeId: null,
-            dueDate: '2026-10-20',
-            startDate: null,
-            estimatePoints: 2,
-            sortOrder: 1,
-            createdBy: null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            labels: [{ id: '6', name: 'DevOps', color: '#4edea3' }],
-          },
-        ]
-        dispatch(setTasks(demoTasks))
+      } else {
+        dispatch(setTasks([]))
+      }
+
+      // Fetch workspace members for real team avatar stack
+      const { data: members } = await supabase
+        .from('workspace_members')
+        .select('id, profiles(id, full_name, avatar_url)')
+        .limit(6)
+      if (members) {
+        const validProfiles = members
+          .map((m: any) => m.profiles)
+          .filter(Boolean)
+        setTeamMembers(validProfiles)
       }
 
       setIsLoading(false)
@@ -218,6 +142,18 @@ export default function KanbanBoardPage({
     toast.success(`Task moved to ${newStatus.replace('_', ' ')}`)
   }
 
+  // Quick task delete handler
+  async function handleDeleteTask(taskId: string) {
+    dispatch(removeTask(taskId))
+    const supabase = createClient()
+    const { error } = await supabase.from('tasks').delete().eq('id', taskId)
+    if (error) {
+      toast.error(error.message || 'Failed to delete task')
+    } else {
+      toast.success('Task deleted')
+    }
+  }
+
   // Filter tasks
   const filteredTasks = tasks.filter(t => {
     if (t.projectId && t.projectId !== projectId) return false
@@ -236,33 +172,48 @@ export default function KanbanBoardPage({
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-3 flex-wrap">
               <h1 className="text-xl sm:text-2xl font-bold text-on-surface flex items-center gap-2 font-headline-lg tracking-tight">
-                <span className="text-tertiary">{projectData?.icon || '⚡'}</span>
+                <AppIcon name={projectData?.icon || 'bolt'} size={24} color={projectData?.color || 'var(--color-tertiary)'} />
                 <span>{projectName}</span>
               </h1>
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-xs font-label-sm font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-                <span>Sprint 24 (Active)</span>
+                <span>Active</span>
               </div>
               <span className="font-code-metric text-[11px] text-outline px-2 py-0.5 rounded bg-surface-container-high">
-                v2.4.0
+                {filteredTasks.length} {filteredTasks.length === 1 ? 'task' : 'tasks'}
               </span>
             </div>
             <p className="text-xs text-on-surface-variant mt-1.5 max-w-2xl truncate font-body-sm">
-              {projectData?.description ||
-                'Cross-platform overhaul with Supabase real-time sync, offline-first mutations, and unified UI kit tokens.'}
+              {projectData?.description || 'Manage tasks, track progress, and collaborate in real-time.'}
             </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             {/* Team stack */}
             <div className="flex items-center -space-x-2">
-              <Avatar name="David Kim" size="sm" />
-              <Avatar name="Alex Morgan" size="sm" />
-              <Avatar name="Sarah Lin" size="sm" />
-              <div className="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-semibold flex items-center justify-center ring-1 ring-surface">
-                +4
-              </div>
+              {teamMembers.length > 0 ? (
+                teamMembers.slice(0, 4).map((m, idx) => (
+                  <Avatar key={m.id || idx} src={m.avatar_url} name={m.full_name || 'Member'} size="sm" />
+                ))
+              ) : (
+                <Avatar name="You" size="sm" />
+              )}
+              {teamMembers.length > 4 && (
+                <div className="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-semibold flex items-center justify-center ring-1 ring-surface">
+                  +{teamMembers.length - 4}
+                </div>
+              )}
             </div>
+
+            <button
+              onClick={() => setIsEditProjectOpen(true)}
+              type="button"
+              className="h-8 px-3 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-bright transition-colors text-xs font-medium flex items-center gap-1.5"
+              title="Edit or delete project"
+            >
+              <span className="material-symbols-outlined text-[16px]">settings</span>
+              <span className="hidden sm:inline">Settings</span>
+            </button>
 
             <button
               onClick={() => {
@@ -350,10 +301,10 @@ export default function KanbanBoardPage({
             className="h-7 px-2.5 rounded-lg bg-surface text-on-surface-variant hover:text-on-surface text-xs font-label-sm border border-outline-variant/40 focus:outline-none cursor-pointer"
           >
             <option value="all">Priority: All</option>
-            <option value="urgent">🔴 Urgent</option>
-            <option value="high">🟠 High</option>
-            <option value="medium">🟡 Medium</option>
-            <option value="low">🟢 Low</option>
+            <option value="urgent">Urgent (P1)</option>
+            <option value="high">High (P2)</option>
+            <option value="medium">Medium (P3)</option>
+            <option value="low">Low (P4)</option>
           </select>
 
           {(searchQuery || priorityFilter !== 'all') && (
@@ -425,6 +376,7 @@ export default function KanbanBoardPage({
                         task={task}
                         onClick={() => setSelectedTask(task)}
                         onStatusChange={newStatus => handleMoveToColumn(task.id, newStatus)}
+                        onDelete={() => handleDeleteTask(task.id)}
                       />
 
                       {/* Move to next/prev column buttons on hover */}
@@ -499,6 +451,15 @@ export default function KanbanBoardPage({
         onClose={() => setIsNewTaskOpen(false)}
         defaultStatus={targetColumnStatus}
         projectId={projectId}
+      />
+
+      {/* Edit Project Modal */}
+      <EditProjectModal
+        project={projectData}
+        isOpen={isEditProjectOpen}
+        onClose={() => setIsEditProjectOpen(false)}
+        workspaceSlug={workspaceSlug}
+        onDeleted={() => router.push(`/${workspaceSlug}/projects`)}
       />
     </div>
   )

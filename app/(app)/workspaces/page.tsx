@@ -62,6 +62,17 @@ export default async function WorkspacesPage() {
                     Active Workspace
                   </span>
                 </div>
+                <span
+                  onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    window.location.href = `/workspaces/${ws.slug as string}/settings`
+                  }}
+                  className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer"
+                  title="Workspace Settings & Delete"
+                >
+                  <span className="material-symbols-outlined text-lg">settings</span>
+                </span>
               </div>
               {Boolean(ws.description) && (
                 <p className="text-xs line-clamp-2 mb-4" style={{ color: 'var(--color-on-surface-variant)' }}>{ws.description as string}</p>

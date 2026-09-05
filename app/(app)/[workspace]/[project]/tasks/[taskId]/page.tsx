@@ -58,23 +58,7 @@ export default function DedicatedTaskPage({
             : undefined,
         })
       } else {
-        // Fallback demo task
-        setTask({
-          id: taskId,
-          projectId,
-          title: 'Task Details',
-          description: 'Loaded via direct link',
-          status: 'in_progress',
-          priority: 'high',
-          assigneeId: null,
-          dueDate: null,
-          startDate: null,
-          estimatePoints: 3,
-          sortOrder: 1,
-          createdBy: null,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        })
+        setTask(null)
       }
       setLoading(false)
     }
@@ -86,6 +70,29 @@ export default function DedicatedTaskPage({
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (!task) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 space-y-4">
+        <div className="w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center text-outline">
+          <span className="material-symbols-outlined text-3xl">search_off</span>
+        </div>
+        <div>
+          <h2 className="text-lg font-bold text-on-surface">Task Not Found</h2>
+          <p className="text-xs text-on-surface-variant max-w-sm mt-1">
+            This task does not exist in Supabase or may have been deleted.
+          </p>
+        </div>
+        <Link
+          href={`/${workspaceSlug}/${projectId}/board`}
+          className="btn-primary text-xs px-4 py-2 rounded-lg flex items-center gap-1.5"
+        >
+          <span className="material-symbols-outlined text-sm">arrow_back</span>
+          <span>Back to Project Board</span>
+        </Link>
       </div>
     )
   }

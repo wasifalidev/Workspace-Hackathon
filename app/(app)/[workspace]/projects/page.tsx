@@ -1,9 +1,12 @@
 'use client'
 
-import React, { use } from 'react'
+import React, { useState, use } from 'react'
 import Link from 'next/link'
 import { useAppSelector } from '@/store'
 import { Button } from '@/components/ui/Button'
+import { EditProjectModal } from '@/components/projects/EditProjectModal'
+import { AppIcon } from '@/components/ui/AppIcon'
+import type { Project } from '@/store/slices/projectSlice'
 
 export default function WorkspaceProjectsPage({
   params,
@@ -15,6 +18,7 @@ export default function WorkspaceProjectsPage({
 
   const currentWorkspace = useAppSelector(s => s.workspace.currentWorkspace)
   const projects = useAppSelector(s => s.project.projects)
+  const [editingProject, setEditingProject] = useState<Project | null>(null)
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 space-y-6">
@@ -40,7 +44,12 @@ export default function WorkspaceProjectsPage({
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="text-2xl">{p.icon || '📁'}</span>
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ background: `${p.color || '#c0c1ff'}20`, color: p.color || '#c0c1ff' }}
+                >
+                  <AppIcon name={p.icon || 'folder'} size={22} color={p.color || '#c0c1ff'} />
+                </div>
                 <div>
                   <h3 className="font-semibold text-on-surface text-sm">{p.name}</h3>
                   <span className="text-[11px] text-outline font-code-metric">
@@ -48,6 +57,14 @@ export default function WorkspaceProjectsPage({
                   </span>
                 </div>
               </div>
+              <button
+                type="button"
+                onClick={() => setEditingProject(p)}
+                className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                title="Edit project settings"
+              >
+                <span className="material-symbols-outlined text-lg">settings</span>
+              </button>
             </div>
 
             <p className="text-xs text-on-surface-variant line-clamp-2">
@@ -57,19 +74,19 @@ export default function WorkspaceProjectsPage({
             <div className="flex items-center gap-2 pt-2 border-t border-outline-variant/40">
               <Link
                 href={`/${workspaceSlug}/${p.id}/board`}
-                className="flex-1 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-center text-xs font-medium text-on-surface transition-colors"
+                className="flex-1 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-center text-xs font-medium text-on-surface transition-colors"
               >
                 Board
               </Link>
               <Link
                 href={`/${workspaceSlug}/${p.id}/list`}
-                className="flex-1 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-center text-xs font-medium text-on-surface transition-colors"
+                className="flex-1 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-center text-xs font-medium text-on-surface transition-colors"
               >
                 List
               </Link>
               <Link
                 href={`/${workspaceSlug}/${p.id}/calendar`}
-                className="flex-1 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-center text-xs font-medium text-on-surface transition-colors"
+                className="flex-1 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-center text-xs font-medium text-on-surface transition-colors"
               >
                 Calendar
               </Link>
@@ -92,6 +109,13 @@ export default function WorkspaceProjectsPage({
           </div>
         )}
       </div>
+
+      <EditProjectModal
+        project={editingProject}
+        isOpen={Boolean(editingProject)}
+        onClose={() => setEditingProject(null)}
+        workspaceSlug={workspaceSlug}
+      />
     </div>
   )
 }

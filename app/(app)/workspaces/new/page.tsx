@@ -6,8 +6,8 @@ import { createClient } from '@/lib/supabase/client'
 import { useAppDispatch } from '@/store'
 import { addWorkspace, setCurrentWorkspace } from '@/store/slices/workspaceSlice'
 import { toast } from 'sonner'
+import { AppIcon, WORKSPACE_SVG_ICONS } from '@/components/ui/AppIcon'
 
-const EMOJI_OPTIONS = ['🏢', '🚀', '⚡', '🎯', '🛡️', '💡', '🔥', '🌊', '🎨', '🔬']
 const COLOR_OPTIONS = ['#6366F1', '#0EA5E9', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#14B8A6']
 
 export default function NewWorkspacePage() {
@@ -16,7 +16,7 @@ export default function NewWorkspacePage() {
   const [name, setName] = useState('')
   const [slug, setSlug] = useState('')
   const [description, setDescription] = useState('')
-  const [icon, setIcon] = useState('🏢')
+  const [icon, setIcon] = useState('domain')
   const [color, setColor] = useState('#6366F1')
   const [loading, setLoading] = useState(false)
 
@@ -59,9 +59,9 @@ export default function NewWorkspacePage() {
       <form onSubmit={handleCreate} className="space-y-6">
         {/* Preview */}
         <div className="flex items-center gap-4 p-4 rounded-xl" style={{ background: 'var(--color-surface-container-low)', border: '1px solid var(--color-outline-variant)' }}>
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 text-white"
             style={{ background: color }}>
-            {icon}
+            <AppIcon name={icon} size={26} color="white" />
           </div>
           <div>
             <div className="font-semibold text-sm" style={{ color: 'var(--color-on-surface)' }}>{name || 'Workspace Name'}</div>
@@ -69,15 +69,20 @@ export default function NewWorkspacePage() {
           </div>
         </div>
 
-        {/* Icon picker */}
+        {/* SVG Icon picker */}
         <div>
-          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-on-surface-variant)' }}>Icon</label>
-          <div className="flex flex-wrap gap-2">
-            {EMOJI_OPTIONS.map(e => (
-              <button key={e} type="button" onClick={() => setIcon(e)}
-                className="w-10 h-10 rounded-xl text-xl transition-all"
-                style={{ background: icon === e ? `color-mix(in srgb, ${color} 25%, var(--color-surface-container-high))` : 'var(--color-surface-container)', border: `1.5px solid ${icon === e ? color : 'var(--color-outline-variant)'}` }}>
-                {e}
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-on-surface-variant)' }}>Workspace Icon (SVG)</label>
+          <div className="grid grid-cols-6 gap-2">
+            {WORKSPACE_SVG_ICONS.map(w => (
+              <button key={w.id} type="button" onClick={() => setIcon(w.id)}
+                title={w.label}
+                className="h-10 rounded-xl flex items-center justify-center transition-all"
+                style={{
+                  background: icon === w.id ? `color-mix(in srgb, ${color} 25%, var(--color-surface-container-high))` : 'var(--color-surface-container)',
+                  border: `1.5px solid ${icon === w.id ? color : 'var(--color-outline-variant)'}`,
+                  color: icon === w.id ? color : 'var(--color-on-surface)',
+                }}>
+                <AppIcon name={w.id} size={20} />
               </button>
             ))}
           </div>
@@ -98,7 +103,7 @@ export default function NewWorkspacePage() {
 
         <div>
           <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-on-surface-variant)' }}>Name *</label>
-          <input type="text" value={name} onChange={e => { setName(e.target.value); setSlug(toSlug(e.target.value)) }} required maxLength={80} placeholder="e.g. Acme Corp" className="input-base w-full" />
+          <input type="text" value={name} onChange={e => { setName(e.target.value); setSlug(toSlug(e.target.value)) }} required maxLength={80} placeholder="e.g. Engineering Team" className="input-base w-full" />
         </div>
 
         <div>
@@ -106,7 +111,7 @@ export default function NewWorkspacePage() {
           <div className="flex items-center">
             <span className="px-3 h-9 flex items-center text-sm rounded-l-lg border border-r-0"
               style={{ background: 'var(--color-surface-container)', color: 'var(--color-outline)', borderColor: 'var(--color-outline-variant)' }}>/</span>
-            <input type="text" value={slug} onChange={e => setSlug(toSlug(e.target.value))} required placeholder="acme-corp"
+            <input type="text" value={slug} onChange={e => setSlug(toSlug(e.target.value))} required placeholder="engineering-team"
               className="flex-1 h-9 px-3 text-sm font-mono rounded-r-lg border"
               style={{ background: 'var(--color-surface-container-lowest)', borderColor: 'var(--color-outline-variant)', color: 'var(--color-on-surface)', outline: 'none' }} />
           </div>

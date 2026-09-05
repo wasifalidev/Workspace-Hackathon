@@ -51,37 +51,20 @@ export default function WorkspaceMembersPage({
 
       if (data && data.length > 0) {
         setMembers(data as any)
-      } else {
-        // Fallback with current user
+      } else if (user) {
         setMembers([
           {
-            id: '1',
-            user_id: user?.id || 'owner',
+            id: 'owner',
+            user_id: user.id,
             role: 'owner',
             profile: {
-              full_name: user?.fullName || 'Current User',
-              avatar_url: user?.avatarUrl || null,
-            },
-          },
-          {
-            id: '2',
-            user_id: 'member-2',
-            role: 'admin',
-            profile: {
-              full_name: 'David Kim',
-              avatar_url: null,
-            },
-          },
-          {
-            id: '3',
-            user_id: 'member-3',
-            role: 'member',
-            profile: {
-              full_name: 'Sarah Lin',
-              avatar_url: null,
+              full_name: user.fullName || user.email || 'Workspace Owner',
+              avatar_url: user.avatarUrl || null,
             },
           },
         ])
+      } else {
+        setMembers([])
       }
     }
 

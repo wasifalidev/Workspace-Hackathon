@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/store'
 import { setCurrentWorkspace, Workspace } from '@/store/slices/workspaceSlice'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { AppIcon } from '@/components/ui/AppIcon'
 
 export interface DashboardTask {
   id: string
@@ -85,13 +86,30 @@ export default function DashboardClient({
         )
       } else {
         if (nextStatus === 'done') {
-          toast.success('Task marked as completed! 🎉')
+          toast.success('Task marked as completed!')
         } else {
           toast.info('Task restored to To-Do')
         }
       }
     } catch {
       toast.error('Network error updating task')
+    }
+  }
+
+  // 1-Click Task Deletion
+  async function handleDeleteTask(taskId: string) {
+    if (!window.confirm('Are you sure you want to delete this task? This action cannot be undone.')) return
+    setTasks(prev => prev.filter(t => t.id !== taskId))
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.from('tasks').delete().eq('id', taskId)
+      if (error) {
+        toast.error('Failed to delete task in Supabase')
+      } else {
+        toast.success('Task permanently deleted')
+      }
+    } catch {
+      toast.error('Network error deleting task')
     }
   }
 
@@ -150,7 +168,7 @@ export default function DashboardClient({
       <div
         className="px-4 sm:px-6 md:px-8 py-5 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b"
         style={{
-          background: 'rgba(24,28,36,0.5)',
+          background: 'var(--color-sub-surface)',
           borderColor: 'var(--color-outline-variant)',
         }}
       >
@@ -279,7 +297,7 @@ export default function DashboardClient({
                   cy="55"
                   r={radius}
                   fill="transparent"
-                  stroke="rgba(255,255,255,0.06)"
+                  stroke="var(--color-outline-variant)"
                   strokeWidth="10"
                 />
                 {totalTasks > 0 ? (
@@ -409,7 +427,7 @@ export default function DashboardClient({
                   <div key={ws.id} className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-1.5 font-medium truncate text-on-surface">
-                        <span className="text-xs">{ws.icon || '🏢'}</span>
+                        <AppIcon name={ws.icon || 'domain'} size={14} color={ws.color || 'var(--color-primary)'} />
                         <span className="truncate">{ws.name}</span>
                         <span className="text-[10px] text-outline font-mono">({wsProjects.length} proj)</span>
                       </div>
@@ -536,7 +554,7 @@ export default function DashboardClient({
                           className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0 font-bold shadow-sm"
                           style={{ background: ws.color || 'var(--color-primary)', color: 'var(--color-on-primary)' }}
                         >
-                          {ws.icon || ws.name[0].toUpperCase()}
+                          <AppIcon name={ws.icon || 'domain'} size={20} color="white" />
                         </div>
                         <div className="min-w-0">
                           <h3 className="font-bold text-base text-on-surface truncate">{ws.name}</h3>
@@ -546,6 +564,13 @@ export default function DashboardClient({
 
                       {/* Action Buttons */}
                       <div className="flex items-center gap-1.5 shrink-0">
+                        <Link
+                          href={`/workspaces/${ws.slug}/settings`}
+                          className="p-1.5 rounded-lg text-xs font-medium bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center"
+                          title="Workspace Settings & Danger Zone (Rename / Delete)"
+                        >
+                          <span className="material-symbols-outlined text-base">settings</span>
+                        </Link>
                         <Link
                           href={`/workspaces/new-project`}
                           className="px-2.5 py-1 rounded-lg text-xs font-medium bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-1"
@@ -611,7 +636,7 @@ export default function DashboardClient({
                               className="flex items-center justify-between p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"
                             >
                               <div className="flex items-center gap-2.5 min-w-0">
-                                <span className="text-base shrink-0">{proj.icon || '📁'}</span>
+                                <AppIcon name={proj.icon || 'folder'} size={18} color={proj.color || 'var(--color-primary)'} className="shrink-0" />
                                 <div className="min-w-0">
                                   <div className="text-xs font-semibold text-on-surface truncate">{proj.name}</div>
                                   <div className="text-[10px] text-outline font-code-metric">
@@ -794,6 +819,15 @@ export default function DashboardClient({
                         >
                           <span className="material-symbols-outlined text-base">open_in_new</span>
                         </Link>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteTask(task.id)}
+                          className="p-1 rounded text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors"
+                          title="Delete Task"
+                        >
+                          <span className="material-symbols-outlined text-base">delete</span>
+                        </button>
                       </div>
                     </div>
                   )

@@ -9,6 +9,7 @@ import { TaskDetailModal } from '@/components/tasks/TaskDetailModal'
 import { NewTaskModal } from '@/components/tasks/NewTaskModal'
 import { Avatar } from '@/components/ui/Avatar'
 import { Badge } from '@/components/ui/Badge'
+import { AppIcon } from '@/components/ui/AppIcon'
 import { toast } from 'sonner'
 
 export default function ProjectListViewPage({
@@ -65,7 +66,7 @@ export default function ProjectListViewPage({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-on-surface flex items-center gap-2 font-headline-lg">
-              <span className="text-tertiary">{projectData?.icon || '⚡'}</span>
+              <AppIcon name={projectData?.icon || 'bolt'} size={24} color={projectData?.color || 'var(--color-tertiary)'} />
               <span>{projectName}</span>
             </h1>
             <p className="text-xs text-on-surface-variant mt-1 font-body-sm">

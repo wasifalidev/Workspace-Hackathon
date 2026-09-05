@@ -9,6 +9,7 @@ import { setCurrentWorkspace } from '@/store/slices/workspaceSlice'
 import { createClient } from '@/lib/supabase/client'
 import { clearAuth } from '@/store/slices/authSlice'
 import { toast } from 'sonner'
+import { AppIcon } from '@/components/ui/AppIcon'
 import type { Project } from '@/store/slices/projectSlice'
 import type { Workspace } from '@/store/slices/workspaceSlice'
 
@@ -88,7 +89,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
       >
         {/* ── Header: Workspace switcher ── */}
         <div className="relative flex items-center justify-between px-3 flex-shrink-0" ref={wsMenuRef}
-          style={{ height: '3.25rem', background: 'rgba(10,14,22,0.5)', borderBottom: '1px solid var(--color-outline-variant)' }}>
+          style={{ height: '3.25rem', background: 'var(--color-sub-surface)', borderBottom: '1px solid var(--color-outline-variant)' }}>
           {/* Close button for mobile drawer */}
           <button
             onClick={() => dispatch(toggleSidebar())}
@@ -107,7 +108,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
           >
             <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 font-bold text-xs"
               style={{ background: currentWorkspace?.color ?? 'var(--color-primary)', color: 'var(--color-on-primary)', opacity: 0.9 }}>
-              {currentWorkspace ? (currentWorkspace.icon || currentWorkspace.name[0].toUpperCase()) : 'W'}
+              {currentWorkspace ? <AppIcon name={currentWorkspace.icon || 'domain'} size={14} color="white" /> : 'W'}
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs font-semibold truncate">{currentWorkspace?.name ?? 'Select Workspace'}</div>
@@ -120,15 +121,13 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
             </span>
           </button>
         ) : (
-          <button
-            onClick={() => setWsMenuOpen(!wsMenuOpen)}
-            type="button"
-            className="w-8 h-8 rounded-lg flex items-center justify-center mx-auto font-bold text-xs cursor-pointer hover:opacity-80 transition-opacity"
-            style={{ background: currentWorkspace?.color ?? 'var(--color-primary)', color: 'var(--color-on-primary)' }}
-            title={currentWorkspace?.name ?? 'Switch Workspace'}
-          >
-            {currentWorkspace ? (currentWorkspace.icon || currentWorkspace.name[0].toUpperCase()) : 'W'}
-          </button>
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center mx-auto font-bold text-xs cursor-pointer hover:opacity-80 transition-opacity"
+              style={{ background: currentWorkspace?.color ?? 'var(--color-primary)', color: 'var(--color-on-primary)' }}
+              title={currentWorkspace?.name ?? 'Switch Workspace'}
+            >
+              {currentWorkspace ? <AppIcon name={currentWorkspace.icon || 'domain'} size={16} color="white" /> : 'W'}
+            </div>
         )}
 
         {/* ── Workspace Dropdown Popover ── */}
@@ -136,7 +135,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
           <div
             className="absolute top-full left-2 right-2 mt-1 z-50 rounded-xl shadow-2xl overflow-hidden py-1 border backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150"
             style={{
-              background: 'rgba(24, 28, 36, 0.98)',
+              background: 'var(--color-popover, var(--color-surface))',
               borderColor: 'var(--color-outline-variant)',
               width: sidebarCollapsed ? '240px' : 'auto',
               minWidth: '220px',
@@ -165,7 +164,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
                         className="w-6 h-6 rounded-md flex items-center justify-center text-xs flex-shrink-0 font-bold"
                         style={{ background: ws.color || 'var(--color-primary)', color: 'var(--color-on-primary)' }}
                       >
-                        {ws.icon || ws.name[0].toUpperCase()}
+                        <AppIcon name={ws.icon || 'domain'} size={13} color="white" />
                       </div>
                       <div className="truncate">
                         <div className="truncate">{ws.name}</div>
@@ -248,7 +247,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
                 <div key={project.id}>
                   <Link href={`/${w}/${project.id}/board`} onClick={handleNavClick}
                     className={`nav-item ${isActive(`/${w}/${project.id}`) ? 'active' : ''}`}>
-                    <span className="text-base flex-shrink-0">{project.icon ?? '📁'}</span>
+                    <AppIcon name={project.icon || 'folder'} size={16} color={project.color || 'var(--color-primary)'} className="flex-shrink-0" />
                     <span className="truncate">{project.name}</span>
                     <span className="material-symbols-outlined text-base ml-auto flex-shrink-0" style={{ color: 'var(--color-outline)' }}>expand_more</span>
                   </Link>
@@ -273,7 +272,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
 
       {/* ── Footer ── */}
       <div className="flex-shrink-0 px-2 py-2 space-y-1"
-        style={{ background: 'rgba(10,14,22,0.5)', borderTop: '1px solid var(--color-outline-variant)' }}>
+        style={{ background: 'var(--color-sub-surface)', borderTop: '1px solid var(--color-outline-variant)' }}>
         {!sidebarCollapsed && (
           <div className="flex items-center justify-between px-2 py-1.5 text-[11px]" style={{ color: 'var(--color-on-surface-variant)' }}>
             <div className="flex items-center gap-1.5">
