@@ -57,20 +57,47 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
     router.push(`/${targetWs.slug}/projects`)
   }
 
+  function handleNavClick() {
+    if (typeof window !== 'undefined' && window.innerWidth < 768 && !sidebarCollapsed) {
+      dispatch(toggleSidebar())
+    }
+  }
+
   const w = currentWorkspace?.slug ?? '_'
 
   return (
-    <aside
-      className="fixed left-0 top-0 h-screen z-40 flex flex-col transition-all duration-300"
-      style={{
-        width: sidebarCollapsed ? '4rem' : '16rem',
-        background: 'var(--color-surface-container-low)',
-        borderRight: '1px solid var(--color-outline-variant)',
-      }}
-    >
-      {/* ── Header: Workspace switcher ── */}
-      <div className="relative flex items-center justify-between px-3 flex-shrink-0" ref={wsMenuRef}
-        style={{ height: '3.25rem', background: 'rgba(10,14,22,0.5)', borderBottom: '1px solid var(--color-outline-variant)' }}>
+    <>
+      {/* ── Mobile Backdrop Overlay ── */}
+      {!sidebarCollapsed && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 md:hidden animate-in fade-in duration-200"
+          onClick={() => dispatch(toggleSidebar())}
+        />
+      )}
+
+      <aside
+        className={`fixed left-0 top-0 h-screen z-40 flex flex-col transition-all duration-300 ${
+          sidebarCollapsed
+            ? '-translate-x-full md:translate-x-0 md:w-16'
+            : 'translate-x-0 w-64 md:w-64 shadow-2xl md:shadow-none'
+        }`}
+        style={{
+          background: 'var(--color-surface-container-low)',
+          borderRight: '1px solid var(--color-outline-variant)',
+        }}
+      >
+        {/* ── Header: Workspace switcher ── */}
+        <div className="relative flex items-center justify-between px-3 flex-shrink-0" ref={wsMenuRef}
+          style={{ height: '3.25rem', background: 'rgba(10,14,22,0.5)', borderBottom: '1px solid var(--color-outline-variant)' }}>
+          {/* Close button for mobile drawer */}
+          <button
+            onClick={() => dispatch(toggleSidebar())}
+            className="md:hidden p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface mr-1"
+            type="button"
+            title="Close menu"
+          >
+            <span className="material-symbols-outlined text-lg">close</span>
+          </button>
         {!sidebarCollapsed ? (
           <button
             onClick={() => setWsMenuOpen(!wsMenuOpen)}
@@ -199,7 +226,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
             { href: '/my-tasks', icon: 'check_circle', label: 'My Tasks' },
             { href: '/notifications', icon: 'notifications', label: 'Notifications' },
           ].map(({ href, icon, label }) => (
-            <Link key={href} href={href}
+            <Link key={href} href={href} onClick={handleNavClick}
               className={`nav-item ${isActive(href) ? 'active' : ''}`}>
               <span className="material-symbols-outlined text-lg flex-shrink-0">{icon}</span>
               {!sidebarCollapsed && <span className="truncate">{label}</span>}
@@ -212,14 +239,14 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
           <div>
             <div className="flex items-center justify-between px-2 py-1.5" style={{ color: 'var(--color-on-surface-variant)' }}>
               <span className="text-[10px] font-semibold uppercase tracking-widest">Projects</span>
-              <Link href="/workspaces/new-project">
+              <Link href="/workspaces/new-project" onClick={handleNavClick}>
                 <span className="material-symbols-outlined text-base hover:text-white transition-colors">add</span>
               </Link>
             </div>
             <div className="space-y-0.5">
               {projects.slice(0, 8).map(project => (
                 <div key={project.id}>
-                  <Link href={`/${w}/${project.id}/board`}
+                  <Link href={`/${w}/${project.id}/board`} onClick={handleNavClick}
                     className={`nav-item ${isActive(`/${w}/${project.id}`) ? 'active' : ''}`}>
                     <span className="text-base flex-shrink-0">{project.icon ?? '📁'}</span>
                     <span className="truncate">{project.name}</span>
@@ -228,7 +255,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
                   {isActive(`/${w}/${project.id}`) && (
                     <div className="pl-7 space-y-0.5">
                       {[['view_kanban', 'Board', 'board'], ['format_list_bulleted', 'List', 'list'], ['calendar_today', 'Calendar', 'calendar']].map(([icon, label, view]) => (
-                        <Link key={view} href={`/${w}/${project.id}/${view}`}
+                        <Link key={view} href={`/${w}/${project.id}/${view}`} onClick={handleNavClick}
                           className={`flex items-center gap-2 px-2 py-1 rounded-lg text-xs transition-colors ${isActive(`/${w}/${project.id}/${view}`) ? 'active' : ''}`}
                           style={{ color: isActive(`/${w}/${project.id}/${view}`) ? 'var(--color-on-surface)' : 'var(--color-on-surface-variant)' }}>
                           <span className="material-symbols-outlined text-sm">{icon}</span>
@@ -267,5 +294,6 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
         </div>
       </div>
     </aside>
+  </>
   )
 }

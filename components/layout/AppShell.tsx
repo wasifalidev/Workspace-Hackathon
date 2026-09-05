@@ -49,12 +49,13 @@ export default function AppShell({
         projects={projects.length > 0 ? projects : initialProjects}
       />
       <div
-        className="flex flex-col flex-1 min-w-0 transition-all duration-300"
-        style={{ paddingLeft: sidebarCollapsed ? '4rem' : '16rem' }}
+        className={`flex flex-col flex-1 min-w-0 transition-all duration-300 pl-0 ${
+          sidebarCollapsed ? 'md:pl-16' : 'md:pl-64'
+        }`}
       >
         <Header />
         <main
-          className="flex-1"
+          className="flex-1 w-full"
           style={{ paddingTop: '3.25rem', background: 'var(--color-surface)', minHeight: '100vh' }}
         >
           {children}

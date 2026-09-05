@@ -49,14 +49,14 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 right-0 z-30 flex items-center justify-between px-5 gap-4"
+      className={`fixed top-0 right-0 z-30 flex items-center justify-between px-3 sm:px-5 gap-3 transition-all duration-300 left-0 ${
+        sidebarCollapsed ? 'md:left-16' : 'md:left-64'
+      }`}
       style={{
-        left: sidebarCollapsed ? '4rem' : '16rem',
         height: '3.25rem',
         background: 'rgba(10,14,22,0.85)',
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid var(--color-outline-variant)',
-        transition: 'left 0.3s ease',
       }}
     >
       {/* Left: toggle + brand + active workspace */}

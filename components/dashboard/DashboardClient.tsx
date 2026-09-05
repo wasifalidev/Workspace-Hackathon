@@ -148,7 +148,7 @@ export default function DashboardClient({
     <div className="flex flex-col w-full pb-16">
       {/* ── Context Top Banner ── */}
       <div
-        className="px-6 sm:px-8 py-6 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b"
+        className="px-4 sm:px-6 md:px-8 py-5 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b"
         style={{
           background: 'rgba(24,28,36,0.5)',
           borderColor: 'var(--color-outline-variant)',
@@ -174,10 +174,10 @@ export default function DashboardClient({
         </div>
 
         {/* Quick Action Buttons */}
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <Link
             href="/workspaces/new"
-            className="h-9 px-3.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all"
+            className="h-8 sm:h-9 px-3 sm:px-3.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all"
             style={{
               background: 'var(--color-surface-container-high)',
               color: 'var(--color-on-surface)',
@@ -189,7 +189,7 @@ export default function DashboardClient({
           </Link>
           <Link
             href="/workspaces/new-project"
-            className="h-9 px-3.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md"
+            className="h-8 sm:h-9 px-3 sm:px-3.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md"
             style={{
               background: 'var(--color-primary)',
               color: 'var(--color-on-primary)',
@@ -200,7 +200,7 @@ export default function DashboardClient({
           </Link>
           <Link
             href="/dashboard/tasks/new"
-            className="h-9 px-3.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all"
+            className="h-8 sm:h-9 px-3 sm:px-3.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all"
             style={{
               background: 'var(--color-secondary)',
               color: 'var(--color-on-secondary)',
@@ -212,9 +212,9 @@ export default function DashboardClient({
         </div>
       </div>
 
-      <div className="px-6 sm:px-8 py-6 space-y-8 max-w-7xl mx-auto w-full">
+      <div className="px-3.5 sm:px-6 md:px-8 py-5 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full">
         {/* ── KPI Summary Cards Strip ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <div className="p-4 rounded-xl border space-y-2 bg-surface-container-low" style={{ borderColor: 'var(--color-outline-variant)' }}>
             <div className="flex items-center justify-between text-xs font-medium text-on-surface-variant">
               <span>Workspaces</span>

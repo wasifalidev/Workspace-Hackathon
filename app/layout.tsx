@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { Toaster } from "sonner";
+import NavigationProgress from "@/components/providers/NavigationProgress";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
+        <NavigationProgress />
         <StoreProvider>
           {children}
           <Toaster

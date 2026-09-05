@@ -380,15 +380,15 @@ export default function KanbanBoardPage({
       </div>
 
       {/* ── Kanban Board Lanes ── */}
-      <div className="flex-1 overflow-x-auto p-6 sm:p-8 bg-surface">
-        <div className="inline-flex items-start gap-4 min-w-full pb-12">
+      <div className="flex-1 overflow-x-auto p-3 sm:p-6 md:p-8 bg-surface">
+        <div className="inline-flex items-start gap-3 sm:gap-4 min-w-full pb-12">
           {COLUMNS.map(col => {
             const colTasks = filteredTasks.filter(t => t.status === col.id)
 
             return (
               <div
                 key={col.id}
-                className="w-80 shrink-0 flex flex-col rounded-xl bg-surface-container-low p-3 shadow-sm border border-outline-variant/40"
+                className="w-[285px] sm:w-80 shrink-0 flex flex-col rounded-xl bg-surface-container-low p-3 shadow-sm border border-outline-variant/40"
               >
                 {/* Column header */}
                 <div className="flex items-center justify-between px-1 py-1 mb-2">
