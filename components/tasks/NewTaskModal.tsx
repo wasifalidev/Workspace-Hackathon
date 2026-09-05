@@ -123,7 +123,7 @@ export function NewTaskModal({
             >
               {projects.map(p => (
                 <option key={p.id} value={p.id}>
-                  {p.icon || '📁'} {p.name}
+                  {p.name}
                 </option>
               ))}
             </select>
@@ -179,11 +179,11 @@ export function NewTaskModal({
               onChange={e => setPriority(e.target.value as TaskPriority)}
               className="w-full text-xs rounded-lg p-2 bg-surface-container border border-outline-variant text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
             >
-              <option value="urgent">🔴 Urgent</option>
-              <option value="high">🟠 High</option>
-              <option value="medium">🟡 Medium</option>
-              <option value="low">🟢 Low</option>
-              <option value="no_priority">⚪ No Priority</option>
+              <option value="urgent">Urgent (P1)</option>
+              <option value="high">High (P2)</option>
+              <option value="medium">Medium (P3)</option>
+              <option value="low">Low (P4)</option>
+              <option value="no_priority">None</option>
             </select>
           </div>
         </div>

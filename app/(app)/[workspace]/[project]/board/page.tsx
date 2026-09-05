@@ -12,6 +12,7 @@ import { TaskDetailModal } from '@/components/tasks/TaskDetailModal'
 import { NewTaskModal } from '@/components/tasks/NewTaskModal'
 import { EditProjectModal } from '@/components/projects/EditProjectModal'
 import { Avatar } from '@/components/ui/Avatar'
+import { AppIcon } from '@/components/ui/AppIcon'
 import { toast } from 'sonner'
 
 const COLUMNS: { id: TaskStatus; label: string; color: string }[] = [
@@ -171,7 +172,7 @@ export default function KanbanBoardPage({
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-3 flex-wrap">
               <h1 className="text-xl sm:text-2xl font-bold text-on-surface flex items-center gap-2 font-headline-lg tracking-tight">
-                <span className="text-tertiary">{projectData?.icon || '⚡'}</span>
+                <AppIcon name={projectData?.icon || 'bolt'} size={24} color={projectData?.color || 'var(--color-tertiary)'} />
                 <span>{projectName}</span>
               </h1>
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-xs font-label-sm font-semibold">
@@ -300,10 +301,10 @@ export default function KanbanBoardPage({
             className="h-7 px-2.5 rounded-lg bg-surface text-on-surface-variant hover:text-on-surface text-xs font-label-sm border border-outline-variant/40 focus:outline-none cursor-pointer"
           >
             <option value="all">Priority: All</option>
-            <option value="urgent">🔴 Urgent</option>
-            <option value="high">🟠 High</option>
-            <option value="medium">🟡 Medium</option>
-            <option value="low">🟢 Low</option>
+            <option value="urgent">Urgent (P1)</option>
+            <option value="high">High (P2)</option>
+            <option value="medium">Medium (P3)</option>
+            <option value="low">Low (P4)</option>
           </select>
 
           {(searchQuery || priorityFilter !== 'all') && (

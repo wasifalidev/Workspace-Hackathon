@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/store'
 import { setCurrentWorkspace, Workspace } from '@/store/slices/workspaceSlice'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { AppIcon } from '@/components/ui/AppIcon'
 
 export interface DashboardTask {
   id: string
@@ -85,7 +86,7 @@ export default function DashboardClient({
         )
       } else {
         if (nextStatus === 'done') {
-          toast.success('Task marked as completed! 🎉')
+          toast.success('Task marked as completed!')
         } else {
           toast.info('Task restored to To-Do')
         }
@@ -426,7 +427,7 @@ export default function DashboardClient({
                   <div key={ws.id} className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-1.5 font-medium truncate text-on-surface">
-                        <span className="text-xs">{ws.icon || '🏢'}</span>
+                        <AppIcon name={ws.icon || 'domain'} size={14} color={ws.color || 'var(--color-primary)'} />
                         <span className="truncate">{ws.name}</span>
                         <span className="text-[10px] text-outline font-mono">({wsProjects.length} proj)</span>
                       </div>
@@ -553,7 +554,7 @@ export default function DashboardClient({
                           className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0 font-bold shadow-sm"
                           style={{ background: ws.color || 'var(--color-primary)', color: 'var(--color-on-primary)' }}
                         >
-                          {ws.icon || ws.name[0].toUpperCase()}
+                          <AppIcon name={ws.icon || 'domain'} size={20} color="white" />
                         </div>
                         <div className="min-w-0">
                           <h3 className="font-bold text-base text-on-surface truncate">{ws.name}</h3>
@@ -635,7 +636,7 @@ export default function DashboardClient({
                               className="flex items-center justify-between p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"
                             >
                               <div className="flex items-center gap-2.5 min-w-0">
-                                <span className="text-base shrink-0">{proj.icon || '📁'}</span>
+                                <AppIcon name={proj.icon || 'folder'} size={18} color={proj.color || 'var(--color-primary)'} className="shrink-0" />
                                 <div className="min-w-0">
                                   <div className="text-xs font-semibold text-on-surface truncate">{proj.name}</div>
                                   <div className="text-[10px] text-outline font-code-metric">

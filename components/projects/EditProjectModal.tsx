@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { AppIcon, PROJECT_SVG_ICONS } from '@/components/ui/AppIcon'
 
 interface EditProjectModalProps {
   project: Project | null
@@ -17,7 +18,6 @@ interface EditProjectModalProps {
   onDeleted?: () => void
 }
 
-const EMOJI_OPTIONS = ['📁', '⚡', '🚀', '🎯', '🛡️', '💡', '🔥', '🌊', '🎨', '🔬', '📱', '🌐']
 const COLOR_OPTIONS = ['#c0c1ff', '#4edea3', '#ffb95f', '#6366F1', '#0EA5E9', '#EC4899', '#14B8A6', '#F59E0B']
 
 export function EditProjectModal({
@@ -31,7 +31,7 @@ export function EditProjectModal({
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [icon, setIcon] = useState('📁')
+  const [icon, setIcon] = useState('folder')
   const [color, setColor] = useState('#c0c1ff')
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -40,7 +40,7 @@ export function EditProjectModal({
     if (project) {
       setName(project.name || '')
       setDescription(project.description || '')
-      setIcon(project.icon || '📁')
+      setIcon(project.icon || 'folder')
       setColor(project.color || '#c0c1ff')
     }
   }, [project])
@@ -125,7 +125,7 @@ export function EditProjectModal({
             className="w-10 h-10 rounded-lg flex items-center justify-center text-xl shrink-0"
             style={{ background: `${color}20`, color }}
           >
-            {icon}
+            <AppIcon name={icon} size={22} color={color} />
           </div>
           <div className="min-w-0 flex-1">
             <h4 className="font-semibold text-sm text-on-surface truncate">{name || 'Project Name'}</h4>
@@ -156,22 +156,23 @@ export function EditProjectModal({
           />
         </div>
 
-        {/* Icon picker */}
+        {/* SVG Icon picker */}
         <div className="space-y-2">
-          <label className="block text-xs font-medium text-on-surface-variant">Icon</label>
-          <div className="flex flex-wrap gap-2">
-            {EMOJI_OPTIONS.map(em => (
+          <label className="block text-xs font-medium text-on-surface-variant">Project Icon (SVG)</label>
+          <div className="grid grid-cols-6 gap-2">
+            {PROJECT_SVG_ICONS.map(item => (
               <button
-                key={em}
+                key={item.id}
                 type="button"
-                onClick={() => setIcon(em)}
-                className={`w-9 h-9 rounded-lg text-lg flex items-center justify-center transition-all ${
-                  icon === em
-                    ? 'bg-primary/25 border-2 border-primary scale-105'
-                    : 'bg-surface-container border border-outline-variant hover:bg-surface-container-high'
+                onClick={() => setIcon(item.id)}
+                title={item.label}
+                className={`h-10 rounded-lg flex items-center justify-center transition-all ${
+                  icon === item.id
+                    ? 'bg-primary/25 border-2 border-primary scale-105 text-primary'
+                    : 'bg-surface-container border border-outline-variant hover:bg-surface-container-high text-on-surface-variant'
                 }`}
               >
-                {em}
+                <AppIcon name={item.id} size={20} />
               </button>
             ))}
           </div>

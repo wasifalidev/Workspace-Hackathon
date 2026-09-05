@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useAppSelector } from '@/store'
 import { Button } from '@/components/ui/Button'
 import { EditProjectModal } from '@/components/projects/EditProjectModal'
+import { AppIcon } from '@/components/ui/AppIcon'
 import type { Project } from '@/store/slices/projectSlice'
 
 export default function WorkspaceProjectsPage({
@@ -43,7 +44,12 @@ export default function WorkspaceProjectsPage({
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="text-2xl">{p.icon || '📁'}</span>
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ background: `${p.color || '#c0c1ff'}20`, color: p.color || '#c0c1ff' }}
+                >
+                  <AppIcon name={p.icon || 'folder'} size={22} color={p.color || '#c0c1ff'} />
+                </div>
                 <div>
                   <h3 className="font-semibold text-on-surface text-sm">{p.name}</h3>
                   <span className="text-[11px] text-outline font-code-metric">

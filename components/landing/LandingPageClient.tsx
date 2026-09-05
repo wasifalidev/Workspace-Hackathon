@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/ui/Logo'
+import { AppIcon } from '@/components/ui/AppIcon'
 
 export default function LandingPageClient() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -239,7 +240,10 @@ export default function LandingPageClient() {
                     </div>
                     <p className="text-xs font-medium text-on-surface">Universal Supabase permissions deployment</p>
                     <div className="flex items-center justify-between pt-1 text-[11px] text-outline">
-                      <span>⚡ Platform Core</span>
+                      <span className="flex items-center gap-1.5">
+                        <AppIcon name="bolt" size={13} color="var(--color-primary)" />
+                        Platform Core
+                      </span>
                       <span className="text-secondary font-mono">100% Live</span>
                     </div>
                   </div>
@@ -252,7 +256,10 @@ export default function LandingPageClient() {
                     </div>
                     <p className="text-xs font-medium text-on-surface">Kinetic vector glassmorphic dashboard</p>
                     <div className="flex items-center justify-between pt-1 text-[11px] text-outline">
-                      <span>🎨 UI System</span>
+                      <span className="flex items-center gap-1.5">
+                        <AppIcon name="palette" size={13} color="var(--color-tertiary)" />
+                        UI System
+                      </span>
                       <span className="text-secondary font-mono">Real-time</span>
                     </div>
                   </div>
@@ -274,7 +281,10 @@ export default function LandingPageClient() {
                     </div>
                     <p className="text-xs font-medium text-on-surface">Audit & remove all hardcoded mock arrays</p>
                     <div className="flex items-center justify-between pt-1 text-[11px] text-outline">
-                      <span>🛡️ Security</span>
+                      <span className="flex items-center gap-1.5">
+                        <AppIcon name="shield" size={13} color="var(--color-secondary)" />
+                        Security
+                      </span>
                       <span className="text-secondary">Clean</span>
                     </div>
                   </div>
@@ -295,7 +305,10 @@ export default function LandingPageClient() {
                       <span className="material-symbols-outlined text-xs text-secondary">check_circle</span>
                     </div>
                     <p className="text-xs font-medium line-through text-outline">Multi-workspace interactive switcher</p>
-                    <div className="text-[10px] text-secondary font-mono">✓ Deployed to Vercel</div>
+                    <div className="text-[10px] text-secondary font-mono flex items-center gap-1">
+                      <span className="material-symbols-outlined text-xs">done_all</span>
+                      <span>Deployed to Vercel</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -346,8 +359,8 @@ export default function LandingPageClient() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 animate-in fade-in duration-300">
                 <div className="p-4 rounded-xl bg-surface-container border border-primary/40 space-y-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center text-xl">
-                      🏢
+                    <div className="w-10 h-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
+                      <AppIcon name="domain" size={22} color="var(--color-primary)" />
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-on-surface">Engineering Core</h4>
@@ -359,8 +372,8 @@ export default function LandingPageClient() {
 
                 <div className="p-4 rounded-xl bg-surface-container border border-white/10 space-y-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-secondary/20 text-secondary flex items-center justify-center text-xl">
-                      🚀
+                    <div className="w-10 h-10 rounded-lg bg-secondary/20 text-secondary flex items-center justify-center">
+                      <AppIcon name="rocket" size={22} color="var(--color-secondary)" />
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-on-surface">Product & Growth</h4>
@@ -372,8 +385,8 @@ export default function LandingPageClient() {
 
                 <div className="p-4 rounded-xl bg-surface-container border border-white/10 space-y-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-tertiary/20 text-tertiary flex items-center justify-center text-xl">
-                      🎨
+                    <div className="w-10 h-10 rounded-lg bg-tertiary/20 text-tertiary flex items-center justify-center">
+                      <AppIcon name="palette" size={22} color="var(--color-tertiary)" />
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-on-surface">Design Studio</h4>

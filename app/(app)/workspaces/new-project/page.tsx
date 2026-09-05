@@ -9,8 +9,7 @@ import { addProject } from '@/store/slices/projectSlice'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-
-const ICONS = ['📁', '⚡', '🚀', '🎨', '🛡️', '📊', '💻', '🔥', '🌐', '📱', '⚙️', '✨']
+import { AppIcon, PROJECT_SVG_ICONS } from '@/components/ui/AppIcon'
 const COLORS = [
   '#c0c1ff', // indigo
   '#4edea3', // emerald
@@ -32,7 +31,7 @@ export default function NewProjectPage() {
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(currentWorkspace?.id || workspaces[0]?.id || '')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [icon, setIcon] = useState('⚡')
+  const [icon, setIcon] = useState('bolt')
   const [color, setColor] = useState('#c0c1ff')
   const [loading, setLoading] = useState(false)
 
@@ -100,10 +99,10 @@ export default function NewProjectPage() {
       <div className="bg-surface-container-low border border-outline-variant rounded-xl p-6 sm:p-8 shadow-xl">
         <div className="flex items-center gap-3 mb-6 pb-6 border-b border-outline-variant">
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-inner"
-            style={{ background: `${color}20`, border: `1px solid ${color}40` }}
+            className="w-12 h-12 rounded-xl flex items-center justify-center shadow-inner"
+            style={{ background: `${color}20`, border: `1px solid ${color}40`, color }}
           >
-            {icon}
+            <AppIcon name={icon} size={26} color={color} />
           </div>
           <div>
             <h1 className="text-xl font-bold text-on-surface font-headline-md">Create New Project</h1>
@@ -127,7 +126,7 @@ export default function NewProjectPage() {
               >
                 {workspaces.map(w => (
                   <option key={w.id} value={w.id}>
-                    {w.icon || '🏢'} {w.name} (/{w.slug})
+                    {w.name} (/{w.slug})
                   </option>
                 ))}
               </select>
@@ -156,24 +155,25 @@ export default function NewProjectPage() {
             />
           </div>
 
-          {/* Icon Selector */}
+          {/* SVG Icon Selector */}
           <div className="space-y-2">
             <label className="block text-xs font-medium text-on-surface-variant">
-              Project Icon
+              Project Icon (SVG)
             </label>
-            <div className="flex flex-wrap gap-2">
-              {ICONS.map(i => (
+            <div className="grid grid-cols-6 gap-2">
+              {PROJECT_SVG_ICONS.map(item => (
                 <button
-                  key={i}
+                  key={item.id}
                   type="button"
-                  onClick={() => setIcon(i)}
-                  className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg transition-all ${
-                    icon === i
-                      ? 'bg-surface-container-highest ring-2 ring-primary scale-105'
-                      : 'bg-surface-container hover:bg-surface-container-high'
+                  onClick={() => setIcon(item.id)}
+                  title={item.label}
+                  className={`h-10 rounded-lg flex items-center justify-center transition-all ${
+                    icon === item.id
+                      ? 'bg-surface-container-highest ring-2 ring-primary scale-105 text-primary'
+                      : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'
                   }`}
                 >
-                  {i}
+                  <AppIcon name={item.id} size={20} />
                 </button>
               ))}
             </div>

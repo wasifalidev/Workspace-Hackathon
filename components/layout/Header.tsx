@@ -8,6 +8,7 @@ import { toggleSidebar, openCommandPalette } from '@/store/slices/uiSlice'
 import { createClient } from '@/lib/supabase/client'
 
 import Logo from '@/components/ui/Logo'
+import { AppIcon } from '@/components/ui/AppIcon'
 
 export default function Header() {
   const dispatch = useAppDispatch()
@@ -79,7 +80,7 @@ export default function Header() {
             }}
             title={`Active Workspace: ${currentWorkspace.name}`}
           >
-            <span>{currentWorkspace.icon || '🏢'}</span>
+            <AppIcon name={currentWorkspace.icon || 'domain'} size={15} color="var(--color-primary)" />
             <span className="truncate max-w-[130px] font-semibold">{currentWorkspace.name}</span>
           </Link>
         )}
