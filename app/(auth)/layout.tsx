@@ -24,8 +24,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div
           className="hidden lg:flex flex-col justify-between w-[480px] flex-shrink-0 p-12 relative overflow-hidden backdrop-blur-xl"
           style={{
-            background: "rgba(16, 20, 28, 0.75)",
-            borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+            background: "var(--color-header-bg)",
+            borderRight: "1px solid var(--color-outline-variant)",
           }}
         >
           {/* Subtle top ambient highlight */}

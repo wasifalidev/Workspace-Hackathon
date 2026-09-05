@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import { AppIcon } from "@/components/ui/AppIcon";
+import { useTheme } from "@/components/providers/ThemeProvider";
 
 // Reusable ScrollGlobe component following shadcn/ui patterns
 export interface ScrollGlobeProps {
@@ -42,6 +43,7 @@ const defaultGlobeConfig = {
 const parsePercent = (str: string): number => parseFloat(str.replace('%', ''));
 
 export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, className }: ScrollGlobeProps) {
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const [activeSection, setActiveSection] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [globeTransform, setGlobeTransform] = useState("");
@@ -137,6 +139,19 @@ export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, classN
         <Logo size="sm" href="/" />
 
         <div className="flex items-center gap-3">
+          {/* Quick Theme Toggle */}
+          <button
+            type="button"
+            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+            className="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer flex items-center justify-center"
+            title={`Current: ${theme}. Switch to ${resolvedTheme === 'dark' ? 'Light' : 'Dark'} mode`}
+            aria-label="Toggle light/dark mode"
+          >
+            <span className="material-symbols-outlined text-lg">
+              {resolvedTheme === 'dark' ? 'light_mode' : 'dark_mode'}
+            </span>
+          </button>
+
           <Link
             href="/login"
             className="text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-lg text-on-surface hover:text-primary transition-colors"

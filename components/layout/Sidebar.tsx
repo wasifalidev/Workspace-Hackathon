@@ -89,7 +89,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
       >
         {/* ── Header: Workspace switcher ── */}
         <div className="relative flex items-center justify-between px-3 flex-shrink-0" ref={wsMenuRef}
-          style={{ height: '3.25rem', background: 'rgba(10,14,22,0.5)', borderBottom: '1px solid var(--color-outline-variant)' }}>
+          style={{ height: '3.25rem', background: 'var(--color-sub-surface)', borderBottom: '1px solid var(--color-outline-variant)' }}>
           {/* Close button for mobile drawer */}
           <button
             onClick={() => dispatch(toggleSidebar())}
@@ -272,7 +272,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
 
       {/* ── Footer ── */}
       <div className="flex-shrink-0 px-2 py-2 space-y-1"
-        style={{ background: 'rgba(10,14,22,0.5)', borderTop: '1px solid var(--color-outline-variant)' }}>
+        style={{ background: 'var(--color-sub-surface)', borderTop: '1px solid var(--color-outline-variant)' }}>
         {!sidebarCollapsed && (
           <div className="flex items-center justify-between px-2 py-1.5 text-[11px]" style={{ color: 'var(--color-on-surface-variant)' }}>
             <div className="flex items-center gap-1.5">

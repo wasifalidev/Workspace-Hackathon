@@ -4,6 +4,7 @@ import "./globals.css";
 import { StoreProvider } from "@/components/providers/StoreProvider";
 import { Toaster } from "sonner";
 import NavigationProgress from "@/components/providers/NavigationProgress";
+import { ThemeProvider, themeInitScript } from "@/components/providers/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,30 +52,33 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} dark`}
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <NavigationProgress />
-        <StoreProvider>
-          {children}
-          <Toaster
-            theme="dark"
-            position="bottom-right"
-            toastOptions={{
-              style: {
-                background: "var(--color-surface-container-high)",
-                border: "1px solid var(--color-outline-variant)",
-                color: "var(--color-on-surface)",
-              },
-            }}
-          />
-        </StoreProvider>
+        <ThemeProvider>
+          <NavigationProgress />
+          <StoreProvider>
+            {children}
+            <Toaster
+              position="bottom-right"
+              toastOptions={{
+                style: {
+                  background: "var(--color-surface-container-high)",
+                  border: "1px solid var(--color-outline-variant)",
+                  color: "var(--color-on-surface)",
+                },
+              }}
+            />
+          </StoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

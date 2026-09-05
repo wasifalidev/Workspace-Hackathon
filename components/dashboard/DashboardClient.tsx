@@ -297,7 +297,7 @@ export default function DashboardClient({
                   cy="55"
                   r={radius}
                   fill="transparent"
-                  stroke="rgba(255,255,255,0.06)"
+                  stroke="var(--color-outline-variant)"
                   strokeWidth="10"
                 />
                 {totalTasks > 0 ? (
