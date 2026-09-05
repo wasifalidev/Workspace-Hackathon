@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import LandingPageClient from '@/components/landing/LandingPageClient'
+import GlobeScrollLanding from '@/components/ui/landing-page'
 
 export const metadata = {
   title: "Wasif's Workspace — Next-Gen Multi-Workspace SaaS Platform",
@@ -15,5 +15,5 @@ export default async function Home() {
     redirect('/dashboard')
   }
 
-  return <LandingPageClient />
+  return <GlobeScrollLanding />
 }
