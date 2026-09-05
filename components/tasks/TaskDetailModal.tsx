@@ -202,7 +202,7 @@ export function TaskDetailModal({
   const completedSubtasksCount = subtasks.filter(s => s.is_completed).length
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-surface-container-lowest/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="modal-backdrop flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
       {/* Container matching Stitch modal (max-w-6xl, h-[92vh]) */}
       <div className="relative flex flex-col w-full max-w-6xl h-[92vh] max-h-[920px] bg-surface-container-low rounded-xl border border-outline-variant shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
         

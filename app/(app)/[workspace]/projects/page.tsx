@@ -74,19 +74,19 @@ export default function WorkspaceProjectsPage({
             <div className="flex items-center gap-2 pt-2 border-t border-outline-variant/40">
               <Link
                 href={`/${workspaceSlug}/${p.id}/board`}
-                className="flex-1 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-center text-xs font-medium text-on-surface transition-colors"
+                className="flex-1 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-center text-xs font-medium text-on-surface transition-colors"
               >
                 Board
               </Link>
               <Link
                 href={`/${workspaceSlug}/${p.id}/list`}
-                className="flex-1 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-center text-xs font-medium text-on-surface transition-colors"
+                className="flex-1 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-center text-xs font-medium text-on-surface transition-colors"
               >
                 List
               </Link>
               <Link
                 href={`/${workspaceSlug}/${p.id}/calendar`}
-                className="flex-1 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-center text-xs font-medium text-on-surface transition-colors"
+                className="flex-1 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-center text-xs font-medium text-on-surface transition-colors"
               >
                 Calendar
               </Link>

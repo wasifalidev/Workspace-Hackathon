@@ -135,7 +135,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
           <div
             className="absolute top-full left-2 right-2 mt-1 z-50 rounded-xl shadow-2xl overflow-hidden py-1 border backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150"
             style={{
-              background: 'rgba(24, 28, 36, 0.98)',
+              background: 'var(--color-popover, var(--color-surface))',
               borderColor: 'var(--color-outline-variant)',
               width: sidebarCollapsed ? '240px' : 'auto',
               minWidth: '220px',

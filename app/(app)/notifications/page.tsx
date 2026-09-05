@@ -62,7 +62,7 @@ export default async function NotificationsPage() {
             const actor = notif.actor as Record<string, string> | null
             return (
               <div key={notif.id as string}
-                className={`flex items-start gap-4 px-5 py-4 transition-colors ${!notif.is_read ? 'bg-primary/[0.04]' : ''} hover:bg-white/[0.02] ${i > 0 ? 'border-t' : ''}`}
+                className={`flex items-start gap-4 px-5 py-4 transition-colors ${!notif.is_read ? 'bg-primary/[0.04]' : ''} hover:bg-surface-container ${i > 0 ? 'border-t' : ''}`}
                 style={{ borderColor: 'var(--color-outline-variant)' }}>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{ background: `color-mix(in srgb, ${color} 15%, transparent)` }}>

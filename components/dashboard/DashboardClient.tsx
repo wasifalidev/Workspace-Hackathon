@@ -168,7 +168,7 @@ export default function DashboardClient({
       <div
         className="px-4 sm:px-6 md:px-8 py-5 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b"
         style={{
-          background: 'rgba(24,28,36,0.5)',
+          background: 'var(--color-sub-surface)',
           borderColor: 'var(--color-outline-variant)',
         }}
       >

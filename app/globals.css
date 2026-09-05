@@ -73,8 +73,9 @@
   --color-outline: #908fa0;
   --color-outline-variant: #464554;
 
-  /* Surface tint */
+  /* Surface tint & overlays */
   --color-surface-tint: #c0c1ff;
+  --color-modal-backdrop: rgba(3, 7, 18, 0.7);
 
   /* ─── Shadcn Semantic Tokens ─── */
   --color-foreground: #dfe2ee;
@@ -163,12 +164,13 @@ html.light,
   --color-surface-container-lowest: #ffffff;
   --color-surface-container-low: #f8fafc;
   --color-surface-container: #f1f5f9;
-  --color-surface-container-high: #e2e8f0;
-  --color-surface-container-highest: #cbd5e1;
+  --color-surface-container-high: #edf2f7;
+  --color-surface-container-highest: #e2e8f0;
   --color-surface-variant: #e2e8f0;
   --color-background: #f8fafc;
   --color-header-bg: rgba(255, 255, 255, 0.88);
   --color-sub-surface: rgba(241, 245, 249, 0.85);
+  --color-modal-backdrop: rgba(15, 23, 42, 0.35);
 
   /* On-surface (text) */
   --color-on-surface: #0f172a;
@@ -256,6 +258,28 @@ html.light .bg-grid-pattern {
 
 html.light .kanban-card:hover {
   background: #f1f5f9;
+}
+
+html.light .elevation-1 {
+  background: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline-variant);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+html.light .elevation-2 {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+html.light .elevation-3 {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+html.light .modal-backdrop {
+  background: rgba(15, 23, 42, 0.35);
 }
 
 body {
@@ -465,7 +489,7 @@ button:active:not(:disabled),
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(3,7,18,0.7);
+  background: var(--color-modal-backdrop, rgba(3,7,18,0.7));
   backdrop-filter: blur(8px);
   z-index: 50;
 }

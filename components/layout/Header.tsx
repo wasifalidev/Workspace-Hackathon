@@ -147,7 +147,7 @@ export default function Header() {
             <div
               className="absolute right-0 top-full mt-2 w-52 rounded-xl overflow-hidden animate-scale-in z-50 p-1.5 shadow-xl"
               style={{
-                background: 'var(--color-surface-container-highest)',
+                background: 'var(--color-popover, var(--color-surface))',
                 border: '1px solid var(--color-outline-variant)',
               }}
             >
@@ -247,8 +247,8 @@ export default function Header() {
             <span className="material-symbols-outlined text-lg hidden sm:block">expand_more</span>
           </button>
           {userMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 w-56 rounded-xl overflow-hidden animate-scale-in z-50"
-              style={{ background: 'var(--color-surface-container-highest)', border: '1px solid var(--color-outline-variant)', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+            <div className="absolute right-0 top-full mt-2 w-56 rounded-xl overflow-hidden animate-scale-in z-50 shadow-xl"
+              style={{ background: 'var(--color-popover, var(--color-surface))', border: '1px solid var(--color-outline-variant)' }}>
               <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--color-outline-variant)' }}>
                 <div className="text-sm font-semibold truncate" style={{ color: 'var(--color-on-surface)' }}>
                   {user?.fullName ?? 'User'}
