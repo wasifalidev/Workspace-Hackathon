@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { updateWorkspace } from '@/store/slices/workspaceSlice'
+import { updateWorkspace, removeWorkspace } from '@/store/slices/workspaceSlice'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { toast } from 'sonner'
@@ -25,6 +25,7 @@ export default function WorkspaceSettingsPage({
   const [color, setColor] = useState(currentWorkspace?.color || '#c0c1ff')
   const [description, setDescription] = useState(currentWorkspace?.description || '')
   const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     if (currentWorkspace) {
@@ -65,6 +66,30 @@ export default function WorkspaceSettingsPage({
       toast.error(err.message || 'Failed to update workspace')
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleDeleteWorkspace() {
+    if (!currentWorkspace) return
+    const confirmed = prompt(`Type "${currentWorkspace.slug}" to permanently delete this workspace:`)
+    if (confirmed !== currentWorkspace.slug) {
+      if (confirmed !== null) toast.error('Workspace slug did not match. Deletion cancelled.')
+      return
+    }
+
+    setDeleting(true)
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.from('workspaces').delete().eq('id', currentWorkspace.id)
+      if (error) throw error
+
+      dispatch(removeWorkspace(currentWorkspace.id))
+      toast.success('Workspace deleted successfully')
+      router.push('/dashboard')
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to delete workspace')
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -122,6 +147,28 @@ export default function WorkspaceSettingsPage({
           </Button>
         </div>
       </form>
+
+      {/* Danger Zone */}
+      <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-6 shadow-sm space-y-4">
+        <div className="flex items-center gap-2 text-error">
+          <span className="material-symbols-outlined text-xl">warning</span>
+          <h2 className="text-base font-bold">Danger Zone</h2>
+        </div>
+        <p className="text-xs text-on-surface-variant leading-relaxed">
+          Deleting a workspace is permanent. It will permanently remove all associated projects, tasks, comments, and member allocations.
+        </p>
+        <div className="flex justify-end pt-2">
+          <button
+            type="button"
+            disabled={deleting}
+            onClick={handleDeleteWorkspace}
+            className="px-4 py-2 rounded-lg bg-error text-surface-container-lowest font-semibold text-xs hover:opacity-90 transition-opacity flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-sm">delete_forever</span>
+            <span>{deleting ? 'Deleting...' : 'Delete Workspace'}</span>
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

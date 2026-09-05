@@ -95,6 +95,23 @@ export default function DashboardClient({
     }
   }
 
+  // 1-Click Task Deletion
+  async function handleDeleteTask(taskId: string) {
+    if (!window.confirm('Are you sure you want to delete this task? This action cannot be undone.')) return
+    setTasks(prev => prev.filter(t => t.id !== taskId))
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.from('tasks').delete().eq('id', taskId)
+      if (error) {
+        toast.error('Failed to delete task in Supabase')
+      } else {
+        toast.success('Task permanently deleted')
+      }
+    } catch {
+      toast.error('Network error deleting task')
+    }
+  }
+
   // Quick switch workspace
   function handleSelectWorkspace(ws: Workspace) {
     dispatch(setCurrentWorkspace(ws))
@@ -547,6 +564,13 @@ export default function DashboardClient({
                       {/* Action Buttons */}
                       <div className="flex items-center gap-1.5 shrink-0">
                         <Link
+                          href={`/workspaces/${ws.slug}/settings`}
+                          className="p-1.5 rounded-lg text-xs font-medium bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center"
+                          title="Workspace Settings & Danger Zone (Rename / Delete)"
+                        >
+                          <span className="material-symbols-outlined text-base">settings</span>
+                        </Link>
+                        <Link
                           href={`/workspaces/new-project`}
                           className="px-2.5 py-1 rounded-lg text-xs font-medium bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-1"
                           title="Create Project in this Workspace"
@@ -794,6 +818,15 @@ export default function DashboardClient({
                         >
                           <span className="material-symbols-outlined text-base">open_in_new</span>
                         </Link>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteTask(task.id)}
+                          className="p-1 rounded text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors"
+                          title="Delete Task"
+                        >
+                          <span className="material-symbols-outlined text-base">delete</span>
+                        </button>
                       </div>
                     </div>
                   )

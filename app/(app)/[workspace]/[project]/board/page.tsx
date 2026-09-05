@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect, use } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { setTasks, moveTask, Task, TaskStatus } from '@/store/slices/taskSlice'
+import { setTasks, moveTask, removeTask, Task, TaskStatus } from '@/store/slices/taskSlice'
 import { setCurrentProject } from '@/store/slices/projectSlice'
 import { TaskCard } from '@/components/tasks/TaskCard'
 import { TaskDetailModal } from '@/components/tasks/TaskDetailModal'
 import { NewTaskModal } from '@/components/tasks/NewTaskModal'
+import { EditProjectModal } from '@/components/projects/EditProjectModal'
 import { Avatar } from '@/components/ui/Avatar'
 import { toast } from 'sonner'
 
@@ -27,6 +29,7 @@ export default function KanbanBoardPage({
 }) {
   const resolvedParams = use(params)
   const { workspace: workspaceSlug, project: projectId } = resolvedParams
+  const router = useRouter()
 
   const dispatch = useAppDispatch()
   const tasks = useAppSelector(s => s.task.tasks)
@@ -36,6 +39,7 @@ export default function KanbanBoardPage({
   const [priorityFilter, setPriorityFilter] = useState<string>('all')
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [isNewTaskOpen, setIsNewTaskOpen] = useState(false)
+  const [isEditProjectOpen, setIsEditProjectOpen] = useState(false)
   const [targetColumnStatus, setTargetColumnStatus] = useState<TaskStatus>('todo')
   const [projectData, setProjectData] = useState<any>(null)
   const [teamMembers, setTeamMembers] = useState<{ id: string; full_name: string | null; avatar_url: string | null }[]>([])
@@ -137,6 +141,18 @@ export default function KanbanBoardPage({
     toast.success(`Task moved to ${newStatus.replace('_', ' ')}`)
   }
 
+  // Quick task delete handler
+  async function handleDeleteTask(taskId: string) {
+    dispatch(removeTask(taskId))
+    const supabase = createClient()
+    const { error } = await supabase.from('tasks').delete().eq('id', taskId)
+    if (error) {
+      toast.error(error.message || 'Failed to delete task')
+    } else {
+      toast.success('Task deleted')
+    }
+  }
+
   // Filter tasks
   const filteredTasks = tasks.filter(t => {
     if (t.projectId && t.projectId !== projectId) return false
@@ -187,6 +203,16 @@ export default function KanbanBoardPage({
                 </div>
               )}
             </div>
+
+            <button
+              onClick={() => setIsEditProjectOpen(true)}
+              type="button"
+              className="h-8 px-3 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-bright transition-colors text-xs font-medium flex items-center gap-1.5"
+              title="Edit or delete project"
+            >
+              <span className="material-symbols-outlined text-[16px]">settings</span>
+              <span className="hidden sm:inline">Settings</span>
+            </button>
 
             <button
               onClick={() => {
@@ -349,6 +375,7 @@ export default function KanbanBoardPage({
                         task={task}
                         onClick={() => setSelectedTask(task)}
                         onStatusChange={newStatus => handleMoveToColumn(task.id, newStatus)}
+                        onDelete={() => handleDeleteTask(task.id)}
                       />
 
                       {/* Move to next/prev column buttons on hover */}
@@ -423,6 +450,15 @@ export default function KanbanBoardPage({
         onClose={() => setIsNewTaskOpen(false)}
         defaultStatus={targetColumnStatus}
         projectId={projectId}
+      />
+
+      {/* Edit Project Modal */}
+      <EditProjectModal
+        project={projectData}
+        isOpen={isEditProjectOpen}
+        onClose={() => setIsEditProjectOpen(false)}
+        workspaceSlug={workspaceSlug}
+        onDeleted={() => router.push(`/${workspaceSlug}/projects`)}
       />
     </div>
   )

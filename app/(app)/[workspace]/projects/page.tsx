@@ -1,9 +1,11 @@
 'use client'
 
-import React, { use } from 'react'
+import React, { useState, use } from 'react'
 import Link from 'next/link'
 import { useAppSelector } from '@/store'
 import { Button } from '@/components/ui/Button'
+import { EditProjectModal } from '@/components/projects/EditProjectModal'
+import type { Project } from '@/store/slices/projectSlice'
 
 export default function WorkspaceProjectsPage({
   params,
@@ -15,6 +17,7 @@ export default function WorkspaceProjectsPage({
 
   const currentWorkspace = useAppSelector(s => s.workspace.currentWorkspace)
   const projects = useAppSelector(s => s.project.projects)
+  const [editingProject, setEditingProject] = useState<Project | null>(null)
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 space-y-6">
@@ -48,6 +51,14 @@ export default function WorkspaceProjectsPage({
                   </span>
                 </div>
               </div>
+              <button
+                type="button"
+                onClick={() => setEditingProject(p)}
+                className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                title="Edit project settings"
+              >
+                <span className="material-symbols-outlined text-lg">settings</span>
+              </button>
             </div>
 
             <p className="text-xs text-on-surface-variant line-clamp-2">
@@ -92,6 +103,13 @@ export default function WorkspaceProjectsPage({
           </div>
         )}
       </div>
+
+      <EditProjectModal
+        project={editingProject}
+        isOpen={Boolean(editingProject)}
+        onClose={() => setEditingProject(null)}
+        workspaceSlug={workspaceSlug}
+      />
     </div>
   )
 }

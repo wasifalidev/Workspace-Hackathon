@@ -8,9 +8,10 @@ interface TaskCardProps {
   task: Task
   onClick?: () => void
   onStatusChange?: (newStatus: Task['status']) => void
+  onDelete?: () => void
 }
 
-export function TaskCard({ task, onClick, onStatusChange }: TaskCardProps) {
+export function TaskCard({ task, onClick, onStatusChange, onDelete }: TaskCardProps) {
   // Priority icon and color
   const priorityConfig: Record<TaskPriority, { icon: string; color: string; label: string }> = {
     urgent: { icon: 'emergency', color: 'text-error', label: 'Urgent' },
@@ -41,7 +42,7 @@ export function TaskCard({ task, onClick, onStatusChange }: TaskCardProps) {
           : 'border-outline-variant/30 hover:border-outline-variant'
       }`}
     >
-      {/* Top line: ID, completion toggle, and drag indicator */}
+      {/* Top line: ID, completion toggle, and actions */}
       <div className="flex items-center justify-between text-on-surface-variant mb-2">
         <div className="flex items-center gap-2">
           <button
@@ -61,6 +62,21 @@ export function TaskCard({ task, onClick, onStatusChange }: TaskCardProps) {
           </span>
         </div>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          {onDelete && (
+            <button
+              type="button"
+              onClick={e => {
+                e.stopPropagation()
+                if (confirm(`Delete task "${task.title}"?`)) {
+                  onDelete()
+                }
+              }}
+              title="Delete task"
+              className="p-0.5 rounded hover:bg-red-500/20 text-outline hover:text-error transition-colors"
+            >
+              <span className="material-symbols-outlined text-[15px]">delete</span>
+            </button>
+          )}
           <span className="material-symbols-outlined text-outline text-[14px]">
             drag_indicator
           </span>
