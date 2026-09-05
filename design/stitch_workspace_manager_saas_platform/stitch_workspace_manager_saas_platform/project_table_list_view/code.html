@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Workspace Manager</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed-dim":"#c0c1ff","background":"#0f131c","on-secondary-fixed-variant":"#005236","on-tertiary-container":"#3e2400","on-primary-container":"#0d0096","surface-container-high":"#262a33","on-secondary-container":"#00311f","surface-container-highest":"#31353e","on-error":"#690005","outline":"#908fa0","secondary-container":"#00a572","on-tertiary":"#472a00","on-surface":"#dfe2ee","on-secondary-fixed":"#002113","secondary-fixed-dim":"#4edea3","on-primary":"#1000a9","secondary-fixed":"#6ffbbe","surface-container":"#1c2028","primary-fixed":"#e1e0ff","surface-tint":"#c0c1ff","inverse-surface":"#dfe2ee","error":"#ffb4ab","secondary":"#4edea3","tertiary-fixed":"#ffddb8","surface-dim":"#0f131c","tertiary-fixed-dim":"#ffb95f","error-container":"#93000a","surface-container-low":"#181c24","tertiary":"#ffb95f","on-tertiary-fixed-variant":"#653e00","on-primary-fixed":"#07006c","outline-variant":"#464554","primary-container":"#8083ff","on-background":"#dfe2ee","on-surface-variant":"#c7c4d7","on-secondary":"#003824","surface":"#0f131c","surface-container-lowest":"#0a0e16","on-tertiary-fixed":"#2a1700","on-primary-fixed-variant":"#2f2ebe","on-error-container":"#ffdad6","tertiary-container":"#ca8100","inverse-primary":"#494bd6","surface-bright":"#353942","primary":"#c0c1ff","surface-variant":"#31353e","inverse-on-surface":"#2c3039"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-2xs":"0.125rem","space-xl":"1.5rem","space-xs":"0.25rem","space-2xl":"2rem","layout-header-height":"3.25rem","gutter-compact":"0.75rem","layout-sidebar-expanded":"16rem","space-base":"1rem","space-md":"0.75rem","space-3xl":"3rem","gutter-default":"1rem","space-sm":"0.5rem","space-lg":"1.25rem","layout-sidebar-collapsed":"4rem"},"fontFamily":{"body-md":["Inter"],"body-lg":["Inter"],"label-md":["Inter"],"body-sm":["Inter"],"headline-xl-mobile":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"headline-xl":["Inter"],"code-metric":["JetBrains Mono"],"headline-sm":["Inter"],"label-sm":["Inter"]},"fontSize":{"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["15px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-xl-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.025em","fontWeight":"700"}],"code-metric":["12px",{"lineHeight":"16px","letterSpacing":"-0.01em","fontWeight":"500"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}]}}}}</script></head><body class="bg-background text-on-surface font-body-md text-body-md antialiased"><aside class="fixed left-0 top-0 h-screen w-layout-sidebar-expanded bg-surface-container-low flex flex-col z-40 overflow-hidden"><div class="h-layout-header-height px-space-md flex items-center justify-between bg-surface-container-lowest/50"><button class="flex items-center gap-space-sm min-w-0 text-left hover:bg-surface-container-high/60 p-space-xs rounded-lg transition-colors" type="button"><div class="w-6 h-6 rounded-lg bg-primary/20 flex items-center justify-center shrink-0 text-primary font-headline-sm text-label-sm font-bold">A</div><div class="min-w-0 flex-1"><div class="font-label-sm text-label-sm truncate text-on-surface font-semibold">Acme Corp</div><div class="font-label-sm text-label-sm text-on-surface-variant truncate text-[10px]">Core Platform</div></div><span class="material-symbols-outlined text-on-surface-variant text-[18px]">unfold_more</span></button><button class="p-space-2xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" title="Create Workspace" type="button"><span class="material-symbols-outlined text-[18px]">add</span></button></div><div class="p-space-md"><button class="w-full flex items-center justify-between px-space-md py-space-sm bg-primary text-on-primary font-headline-sm text-body-sm font-medium rounded-lg hover:bg-primary-fixed-dim transition-all" type="button"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">add</span><span>New Task</span></div><kbd class="font-code-metric text-code-metric bg-on-primary/20 text-on-primary px-space-xs py-space-2xs rounded text-[10px]">C</kbd></button></div><nav class="flex-1 overflow-y-auto px-space-sm space-y-space-md" data-active-classes="bg-surface-container-high text-on-surface font-medium"><div class="space-y-space-2xs"><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="dashboard-overview" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-sm text-body-sm">Dashboard</span></div></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="my-tasks" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">check_circle</span><span class="font-body-sm text-body-sm">My Tasks</span></div><span class="font-label-sm text-label-sm px-space-xs py-space-2xs rounded-full bg-surface-container-highest text-on-surface-variant">12</span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="notifications" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">notifications</span><span class="font-body-sm text-body-sm">Notifications</span></div><span class="w-2 h-2 rounded-full bg-primary"></span></a><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="inbox" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">inbox</span><span class="font-body-sm text-body-sm">Inbox</span></div></a></div><div><div class="flex items-center justify-between px-space-sm py-space-xs text-on-surface-variant"><span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-[10px]">Favorites</span><span class="material-symbols-outlined text-[14px]">star</span></div><div class="mt-space-2xs space-y-space-2xs"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="mobile-app-board" href="#"><span class="material-symbols-outlined text-primary text-[16px]">bolt</span><span class="font-body-sm text-body-sm truncate">Mobile App Redesign</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="sprint-24-backlog" href="#"><span class="material-symbols-outlined text-tertiary text-[16px]">local_fire_department</span><span class="font-body-sm text-body-sm truncate">Sprint 24 Backlog</span></a></div></div><div><div class="flex items-center justify-between px-space-sm py-space-xs text-on-surface-variant"><span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-[10px]">Projects</span><button class="hover:text-on-surface hover:bg-surface-container rounded p-space-2xs" type="button"><span class="material-symbols-outlined text-[16px]">add</span></button></div><div class="mt-space-2xs space-y-space-xs"><div class="space-y-space-2xs"><a class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="mobile-app-redesign" href="#"><div class="flex items-center gap-space-sm min-w-0"><span class="material-symbols-outlined text-primary text-[16px]">bolt</span><span class="font-body-sm text-body-sm truncate">Mobile App Redesign</span></div><span class="material-symbols-outlined text-[16px]">expand_more</span></a><div class="pl-space-xl pr-space-xs space-y-space-2xs"><a class="flex items-center gap-space-sm px-space-xs py-space-2xs rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container text-body-sm font-body-sm" data-path="mobile-app-board" href="#"><span class="material-symbols-outlined text-[14px]">view_kanban</span><span>Board</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-xs py-space-2xs rounded bg-surface-container-high text-on-surface font-medium" data-path="mobile-app-list" href="#"><span class="material-symbols-outlined text-[14px]">format_list_bulleted</span><span>List</span></a><a class="flex items-center gap-space-sm px-space-xs py-space-2xs rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container text-body-sm font-body-sm" data-path="mobile-app-calendar" href="#"><span class="material-symbols-outlined text-[14px]">calendar_today</span><span>Calendar</span></a></div></div><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="core-api-supabase" href="#"><span class="material-symbols-outlined text-secondary text-[16px]">shield</span><span class="font-body-sm text-body-sm truncate">Core API &amp; Supabase</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="growth-marketing" href="#"><span class="material-symbols-outlined text-tertiary text-[16px]">rocket_launch</span><span class="font-body-sm text-body-sm truncate">Growth &amp; Marketing</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" data-path="design-system-v2" href="#"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">palette</span><span class="font-body-sm text-body-sm truncate">Design System v2</span></a></div></div></nav><div class="p-space-sm bg-surface-container-lowest/60 space-y-space-xs"><div class="flex items-center justify-between px-space-xs py-space-2xs text-[11px] font-label-sm text-on-surface-variant"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-secondary"></span><span>Synced to Supabase</span></div><span class="material-symbols-outlined text-[14px]">cloud_done</span></div><div class="flex items-center justify-between pt-space-xs"><a class="flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm px-space-xs py-space-2xs rounded" data-path="help-docs" href="#"><span class="material-symbols-outlined text-[16px]">help</span><span>Docs</span></a><a class="flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm px-space-xs py-space-2xs rounded" data-path="settings-workspace" href="#"><span class="material-symbols-outlined text-[16px]">settings</span><span>Settings</span></a></div></div></aside><div class="pl-layout-sidebar-expanded"><header class="fixed top-0 left-layout-sidebar-expanded right-0 h-layout-header-height bg-surface-container-lowest/80 backdrop-blur-xl z-30 flex items-center justify-between px-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-md min-w-0"><button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded hover:bg-surface-container-high transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">menu_open</span></button><div class="flex items-center gap-space-2xs font-body-sm text-body-sm min-w-0"><img alt="Workspace Manager Logo" class="h-8 w-auto object-contain mr-space-xs" src="https://lh3.googleusercontent.com/aida/AEtjO1URfYQThDlN0Kwpo_OdYgVAvNSb7PI_g4fZa_JM2vIuz0l7crxviMlk-v0a9apFlE9BXKtk4NiPXwUQOKlG9fVf_7bDh-_oo78XpKkJDl1VzZRsuwnzXUtDW1_dAEfvg9QhFnaOIhZx620U0xW4010uNjZRa1yai42Bcbs1dJNafW6m0Z9Z80rLIp09QPM7WkeTbn1AizYKN06dXVgroON-3C72lkQtWBhe1fafVrTRBnzVK0kWfmczdwp4"/><span class="text-on-surface-variant truncate font-label-md text-label-md">Acme Corp</span><span class="material-symbols-outlined text-outline text-[14px]">chevron_right</span><span class="text-on-surface-variant truncate font-label-md text-label-md">Mobile App Redesign</span><span class="material-symbols-outlined text-outline text-[14px]">chevron_right</span><span class="text-on-surface font-headline-sm text-label-md font-semibold truncate">Active Sprint</span></div><div class="hidden xl:flex items-center bg-surface-container-high p-space-2xs rounded-lg text-body-sm font-body-sm"><button class="px-space-sm py-space-2xs rounded bg-surface-container text-on-surface font-medium text-label-sm font-label-sm" type="button">Board</button><button class="px-space-sm py-space-2xs rounded text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm" type="button">List</button><button class="px-space-sm py-space-2xs rounded text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm" type="button">Timeline</button></div></div><div class="flex-1 max-w-md mx-space-lg hidden md:block"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-on-surface-variant text-[18px]">search</span><input class="w-full h-8 pl-9 pr-14 bg-surface-container-low text-on-surface placeholder:text-outline text-body-sm font-body-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search tasks, projects, docs..." type="text"/><kbd class="absolute right-space-sm font-code-metric text-code-metric bg-surface-container-highest text-on-surface-variant px-space-xs py-space-2xs rounded text-[10px]">⌘K</kbd></div></div><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-xs font-label-sm text-label-sm text-secondary bg-surface-container px-space-sm py-space-2xs rounded-full"><span class="w-2 h-2 rounded-full bg-secondary"></span><span>Online</span></div><button class="relative p-space-2xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 w-4 h-4 bg-primary text-on-primary font-label-sm text-[10px] font-bold rounded-full flex items-center justify-center">4</span></button><button class="p-space-2xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors hidden sm:block" type="button"><span class="material-symbols-outlined text-[20px]">filter_list</span></button><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJlZ2TrZYu5U269YV3c0Sx7jJkHnLCd6fVSVWlRl9u_jZdhIz7rwQP9pha3vFTelnjNrcnKchkaiGYnm9pQaquN7u3M_odQz8ShqP9K7hs5VL9Oh9dPPYFiwnaYFrzY-5W9td4OV7npWnmfYN_88uDQw49ms4rVzPAo1VAlJatugEK8aC5cEEtF20_9hNehUSZuyAdp50NArYixHwk3-W54YcXw9aoSvyOJvAPkMX5-KR8bQ016EIi-w"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-secondary rounded-full ring-2 ring-background"></span></div><span class="material-symbols-outlined text-on-surface-variant text-[18px]">expand_more</span></div></div></header><main class="w-full pt-layout-header-height bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 left-1/3 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-1/2 right-12 w-80 h-80 bg-secondary/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Workspace Project Banner / Sub-Header -->
+<div class="px-space-xl pt-space-lg pb-space-sm bg-surface-container-low flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<!-- Title & Badges -->
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0 text-primary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">bolt</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Sprint 24 · Q4 Release</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-code-metric text-code-metric text-secondary flex items-center gap-space-2xs">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span> Production DB
+              </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface truncate font-semibold tracking-tight">Mobile App Redesign</h1>
+</div>
+</div>
+<!-- Metric Sparkline & Progress Counter -->
+<div class="flex items-center gap-space-lg shrink-0">
+<div class="hidden sm:flex items-center gap-space-md bg-surface-container px-space-md py-space-xs rounded-xl shadow-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Velocity</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold font-code-metric">84.2%</span>
+</div>
+<!-- Lightweight Mini Sparkline SVG -->
+<svg class="w-20 h-7 text-secondary" fill="none" viewbox="0 0 100 32">
+<path d="M0 26 L16 22 L32 25 L48 14 L64 18 L80 6 L100 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M0 26 L16 22 L32 25 L48 14 L64 18 L80 6 L100 4 V 32 H 0 Z" fill="currentColor" fill-opacity="0.08"></path>
+</svg>
+</div>
+<!-- Secondary Quick Actions -->
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-bright font-label-md text-label-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">share</span>
+<span class="hidden md:inline">Share</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-primary text-on-primary hover:bg-primary-fixed-dim font-label-md text-label-md font-medium transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Add Task</span>
+</button>
+</div>
+</div>
+</div>
+<!-- View Switcher Tabs -->
+<div class="flex items-center justify-between overflow-x-auto pt-space-xs scrollbar-none">
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-space-xs px-space-md py-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">view_kanban</span>
+<span>Board</span>
+<span class="font-code-metric text-code-metric bg-surface-container-highest text-on-surface-variant px-space-2xs rounded text-[10px]">18</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-highest text-primary font-medium rounded-lg font-label-md text-label-md shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">table_chart</span>
+<span>Table</span>
+<span class="font-code-metric text-code-metric bg-primary/20 text-primary px-space-2xs rounded text-[10px]">Active</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+<span>Calendar</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">timeline</span>
+<span>Activity</span>
+</button>
+</div>
+<div class="hidden lg:flex items-center gap-space-md text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center -space-x-1.5 overflow-hidden">
+<img alt="Sarah Miller" class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-container-low object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJlZ2TrZYu5U269YV3c0Sx7jJkHnLCd6fVSVWlRl9u_jZdhIz7rwQP9pha3vFTelnjNrcnKchkaiGYnm9pQaquN7u3M_odQz8ShqP9K7hs5VL9Oh9dPPYFiwnaYFrzY-5W9td4OV7npWnmfYN_88uDQw49ms4rVzPAo1VAlJatugEK8aC5cEEtF20_9hNehUSZuyAdp50NArYixHwk3-W54YcXw9aoSvyOJvAPkMX5-KR8bQ016EIi-w"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-container-low object-cover" data-alt="Close up profile photo of a male backend cloud engineer with glasses and headphones, modern studio, dark cool lighting tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXUlFjo0dpX870b1CKazd86GE5cojzSo7VD9UG2UKhSVY3Qvo7a_fCwmmwoLjJ0G8Avxu_KWsmoLehktKu1QupqoOfrLH_7KGQ0e7de9s_MvtWVjeJsM7gyiBMfAR4Xtq53DZBVgYUM6qT1tE5GS8sRRVZest540ii-XgriYI29CcQ-RisHaN9Bg9FwczOFRHHnSVQ8qLnDVgZ0puDCF0edvEtLRu7LCHO_SlHLJKcqOKtIzuLYAuimg"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-container-low object-cover" data-alt="Creative female visual designer smiling, bright natural rim lighting against dark slate studio setting, modern tech product avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyT-L07NuNsOsJWEnZ6NYDEvrM6eWkfTTwQuEeGiIj5mNtjNZXl1Sw-HDRgOi7-V9xHLVszgIslNTckbfAdg6GcWs8kCYvxaf1No7zrb9tt_vxZNRSRod_Jg1OVMAW1M12StkL4i6vYlC-cLSR46olY9jDz59c53lWdZ5Igo01pBxvswFHb52v0RplG1dIIOhE1DokY6v1mEbfLMNGGAG6HmMU45B0YLjtq14uxfAV5TnjQd7aEHdMFQ"/>
+<span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-surface-container-highest text-[10px] font-medium text-on-surface ring-2 ring-surface-container-low font-code-metric">+4</span>
+</div>
+<span class="text-outline">7 Assignees</span>
+</div>
+</div>
+</div>
+<!-- Table Controls Toolbar -->
+<div class="px-space-xl py-space-sm bg-surface-container flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex flex-wrap items-center gap-space-xs">
+<!-- Search Input -->
+<div class="relative flex items-center min-w-[200px] max-w-xs">
+<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[16px]">filter_alt</span>
+<input class="w-full h-8 pl-8 pr-3 bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm rounded-lg focus:outline-none focus:bg-surface-container-high transition-all" placeholder="Filter table rows..." type="text"/>
+</div>
+<!-- Group by Dropdown Button -->
+<div class="relative group">
+<button class="flex items-center gap-space-xs h-8 px-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">splitscreen</span>
+<span>Group: <strong class="text-primary font-medium">Status</strong></span>
+<span class="material-symbols-outlined text-[16px] text-outline">expand_more</span>
+</button>
+</div>
+<!-- Filter Dropdown Trigger -->
+<button class="flex items-center gap-space-xs h-8 px-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Filter</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</button>
+<!-- Sort Trigger -->
+<button class="flex items-center gap-space-xs h-8 px-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">swap_vert</span>
+<span>Sort: Due Date (Asc)</span>
+</button>
+<!-- Columns Toggle -->
+<button class="flex items-center gap-space-xs h-8 px-space-sm rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">view_column</span>
+<span class="hidden sm:inline">Columns</span>
+</button>
+</div>
+<!-- Quick Right Metric & Refresh -->
+<div class="flex items-center gap-space-sm shrink-0">
+<div class="hidden xl:flex items-center gap-space-xs font-code-metric text-code-metric text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-secondary">sync</span>
+<span>Auto-sync enabled</span>
+</div>
+<button class="h-8 px-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Export CSV" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="h-8 px-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" title="View Options" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Bulk Action Sticky Bar (Visible state when selected) -->
+<div class="px-space-xl py-space-xs bg-primary/10 backdrop-blur-md flex items-center justify-between transition-all" id="bulk-bar">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs font-label-md text-label-md text-primary font-semibold">
+<span class="material-symbols-outlined text-[18px]">check_box</span>
+<span>2 tasks selected</span>
+</div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<button class="flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">sync_alt</span>
+<span>Change Status</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">person_add</span>
+<span>Assign to...</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">event</span>
+<span>Set Due Date</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-space-2xs rounded bg-error-container/30 hover:bg-error-container/60 text-error font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">delete</span>
+<span>Delete</span>
+</button>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm underline flex items-center gap-space-2xs" type="button">
+<span>Deselect all</span>
+<kbd class="font-code-metric text-[9px] bg-surface-container px-space-2xs py-0.5 rounded">Esc</kbd>
+</button>
+</div>
+<!-- Main Data Table Container -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[1100px]">
+<!-- Table Column Headers -->
+<thead>
+<tr class="bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider select-none">
+<th class="w-10 px-space-md py-space-sm font-semibold">
+<input checked="" class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</th>
+<th class="w-28 px-space-sm py-space-sm font-semibold">ID &amp; Key</th>
+<th class="min-w-[280px] px-space-sm py-space-sm font-semibold">Task Title</th>
+<th class="w-36 px-space-sm py-space-sm font-semibold">Status</th>
+<th class="w-32 px-space-sm py-space-sm font-semibold">Priority</th>
+<th class="w-44 px-space-sm py-space-sm font-semibold">Assignee</th>
+<th class="w-44 px-space-sm py-space-sm font-semibold">Labels</th>
+<th class="w-36 px-space-sm py-space-sm font-semibold">Due Date</th>
+<th class="w-28 px-space-sm py-space-sm font-semibold">Created</th>
+<th class="w-12 px-space-sm py-space-sm text-right font-semibold"></th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm divide-y-0">
+<!-- ================= GROUP 1: IN PROGRESS (3) ================= -->
+<tr class="bg-surface-container-low/60 hover:bg-surface-container-low transition-colors">
+<td class="px-space-md py-space-xs" colspan="10">
+<div class="flex items-center gap-space-sm">
+<button class="text-on-surface-variant hover:text-on-surface transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">In Progress</span>
+<span class="font-code-metric text-code-metric text-on-surface-variant bg-surface-container px-space-xs py-0.5 rounded text-[11px]">3</span>
+</div>
+<div class="flex-1 h-px bg-surface-container-high ml-space-sm"></div>
+<button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded hover:bg-surface-container text-[12px] flex items-center gap-space-2xs font-label-sm" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+<span>Add inside</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 1: Selected, Parent Task -->
+<tr class="bg-surface-container/80 hover:bg-surface-container-high transition-colors group">
+<td class="px-space-md py-space-sm">
+<input checked="" class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-code-metric">
+<div class="flex items-center gap-space-2xs text-primary group-hover:text-primary-fixed-dim">
+<span>WM-142</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-on-surface" title="Copy Key" type="button">
+<span class="material-symbols-outlined text-[13px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<button class="text-on-surface-variant hover:text-on-surface shrink-0" title="Toggle Subtasks" type="button">
+<span class="material-symbols-outlined text-[16px] text-outline">expand_more</span>
+</button>
+<span class="font-body-md text-body-md text-on-surface font-medium truncate">Architect Supabase Row Level Security policies</span>
+<div class="flex items-center gap-space-2xs shrink-0">
+<span class="font-code-metric text-[11px] px-space-xs py-0.5 rounded-full bg-surface-container-highest text-tertiary flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[12px]">checklist</span> 4/6
+                  </span>
+<span class="material-symbols-outlined text-[14px] text-outline" title="2 Attachments">attachment</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-tertiary/15 text-tertiary font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+<span>In Progress</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-error font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span>Urgent</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs">
+<img alt="Sarah Miller" class="w-6 h-6 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJlZ2TrZYu5U269YV3c0Sx7jJkHnLCd6fVSVWlRl9u_jZdhIz7rwQP9pha3vFTelnjNrcnKchkaiGYnm9pQaquN7u3M_odQz8ShqP9K7hs5VL9Oh9dPPYFiwnaYFrzY-5W9td4OV7npWnmfYN_88uDQw49ms4rVzPAo1VAlJatugEK8aC5cEEtF20_9hNehUSZuyAdp50NArYixHwk3-W54YcXw9aoSvyOJvAPkMX5-KR8bQ016EIi-w"/>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Sarah Miller</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-2xs flex-wrap">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px]">Supabase</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[10px]">Security</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-0.5 rounded bg-error-container/40 text-error font-code-metric text-[11px] font-medium">
+<span class="material-symbols-outlined text-[13px]">warning</span> Today
+              </span>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-[12px] text-on-surface-variant">Oct 18, 2024</td>
+<td class="px-space-sm py-space-sm text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Subtask Indented nested row -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container transition-colors group">
+<td class="px-space-md py-space-2xs">
+<input class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-2xs font-code-metric text-code-metric pl-space-md">
+<span class="text-on-surface-variant">WM-142-A</span>
+</td>
+<td class="px-space-sm py-space-2xs">
+<div class="flex items-center gap-space-xs pl-space-lg">
+<span class="material-symbols-outlined text-[14px] text-outline">subdirectory_arrow_right</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Configure JWT verification hooks in Edge Functions</span>
+</div>
+</td>
+<td class="px-space-sm py-space-2xs">
+<div class="inline-flex items-center gap-space-xs px-space-xs py-0.5 rounded bg-secondary-container/20 text-secondary-fixed-dim font-label-sm text-[10px]">
+<span>Done</span>
+</div>
+</td>
+<td class="px-space-sm py-space-2xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-[11px]">
+<span class="material-symbols-outlined text-[14px]">keyboard_double_arrow_up</span>
+<span>High</span>
+</div>
+</td>
+<td class="px-space-sm py-space-2xs">
+<div class="flex items-center gap-space-xs">
+<div class="w-5 h-5 rounded-full bg-secondary-container/30 flex items-center justify-center text-[10px] font-bold text-secondary">AM</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant truncate">Alex Mercer</span>
+</div>
+</td>
+<td class="px-space-sm py-space-2xs">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-[10px]">Supabase</span>
+</td>
+<td class="px-space-sm py-space-2xs">
+<span class="font-code-metric text-[11px] text-on-surface-variant">Oct 20, 2024</span>
+</td>
+<td class="px-space-sm py-space-2xs font-code-metric text-[11px] text-outline">Oct 19, 2024</td>
+<td class="px-space-sm py-space-2xs text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface rounded" type="button">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Selected, Main Task -->
+<tr class="bg-surface-container/80 hover:bg-surface-container-high transition-colors group">
+<td class="px-space-md py-space-sm">
+<input checked="" class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-code-metric">
+<div class="flex items-center gap-space-2xs text-primary group-hover:text-primary-fixed-dim">
+<span>WM-143</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-on-surface" title="Copy Key" type="button">
+<span class="material-symbols-outlined text-[13px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<button class="text-outline shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+<span class="font-body-md text-body-md text-on-surface font-medium truncate">Redesign Bottom Navigation Bar with Spring Micro-interactions</span>
+<span class="material-symbols-outlined text-[14px] text-outline shrink-0" title="1 Attachment">attachment</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-tertiary/15 text-tertiary font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>In Progress</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-tertiary-fixed-dim font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[16px]">keyboard_double_arrow_up</span>
+<span>High</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs">
+<img class="w-6 h-6 rounded-full object-cover shrink-0" data-alt="Headshot of a creative UI designer with artistic styling in a modern tech studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL9H-B5aogts33eu0tTFN8Jcb4SpJ79IJrv0VpSgRZzjZzNW6UPiNmQ6g1ueYez21W3tPyWYZzA_E3_q_s-7aWAQKqPYeUlRuQj102i5WhcxdCRIuYYIUj0fvWxmm9jbGa_6SJToSg6XgYkRNssSTs-z7FvaCHw8GodrCMDhWRdpDnx6K5A0Dnh4lTaXSQlLwLCZ_omvsDAA9wrl6lSczAf3XJ-Bpf1xBlsx0zm6OoSZP0slopTLQa2A"/>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Lena Chen</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-2xs flex-wrap">
+<span class="px-space-xs py-0.5 rounded bg-primary-container/20 text-primary-fixed-dim font-label-sm text-[10px]">UI/UX</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px]">Mobile</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface font-code-metric text-[11px]">
+<span class="material-symbols-outlined text-[13px]">calendar_today</span> Oct 25, 2024
+              </span>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-[12px] text-on-surface-variant">Oct 17, 2024</td>
+<td class="px-space-sm py-space-sm text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- ================= GROUP 2: REVIEW (2) ================= -->
+<tr class="bg-surface-container-low/60 hover:bg-surface-container-low transition-colors">
+<td class="px-space-md py-space-xs" colspan="10">
+<div class="flex items-center gap-space-sm">
+<button class="text-on-surface-variant hover:text-on-surface transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Review</span>
+<span class="font-code-metric text-code-metric text-on-surface-variant bg-surface-container px-space-xs py-0.5 rounded text-[11px]">2</span>
+</div>
+<div class="flex-1 h-px bg-surface-container-high ml-space-sm"></div>
+<button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded hover:bg-surface-container text-[12px] flex items-center gap-space-2xs font-label-sm" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+<span>Add inside</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface hover:bg-surface-container transition-colors group">
+<td class="px-space-md py-space-sm">
+<input class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-code-metric">
+<div class="flex items-center gap-space-2xs text-on-surface group-hover:text-primary transition-colors">
+<span>WM-138</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-on-surface" title="Copy Key" type="button">
+<span class="material-symbols-outlined text-[13px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<button class="text-outline shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+<span class="font-body-md text-body-md text-on-surface truncate">Dark Mode Elevation token audit &amp; contrast parity checks</span>
+<span class="material-symbols-outlined text-[14px] text-outline shrink-0" title="4 Attachments">attachment</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-primary/15 text-primary-fixed-dim font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>In Review</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_handle</span>
+<span>Medium</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs">
+<img alt="Sarah Miller" class="w-6 h-6 rounded-full object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJlZ2TrZYu5U269YV3c0Sx7jJkHnLCd6fVSVWlRl9u_jZdhIz7rwQP9pha3vFTelnjNrcnKchkaiGYnm9pQaquN7u3M_odQz8ShqP9K7hs5VL9Oh9dPPYFiwnaYFrzY-5W9td4OV7npWnmfYN_88uDQw49ms4rVzPAo1VAlJatugEK8aC5cEEtF20_9hNehUSZuyAdp50NArYixHwk3-W54YcXw9aoSvyOJvAPkMX5-KR8bQ016EIi-w"/>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Sarah Miller</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-2xs flex-wrap">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-primary-fixed-dim font-label-sm text-[10px]">UI/UX</span>
+<span class="px-space-xs py-0.5 rounded bg-error/15 text-error font-label-sm text-[10px]">Bug</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface font-code-metric text-[11px]">
+<span class="material-symbols-outlined text-[13px]">calendar_today</span> Oct 23, 2024
+              </span>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-[12px] text-on-surface-variant">Oct 15, 2024</td>
+<td class="px-space-sm py-space-sm text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="bg-surface hover:bg-surface-container transition-colors group">
+<td class="px-space-md py-space-sm">
+<input class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-code-metric">
+<div class="flex items-center gap-space-2xs text-on-surface group-hover:text-primary transition-colors">
+<span>WM-139</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-on-surface" title="Copy Key" type="button">
+<span class="material-symbols-outlined text-[13px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<button class="text-outline shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+<span class="font-body-md text-body-md text-on-surface truncate">PR #204: Biometric Authentication flow (FaceID/Fingerprint)</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-primary/15 text-primary-fixed-dim font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>In Review</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-error font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span>Urgent</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs">
+<img class="w-6 h-6 rounded-full object-cover shrink-0" data-alt="Close up profile photo of a male backend cloud engineer with glasses and headphones, modern studio, dark cool lighting tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjxlJSwAk0a-I_mBXxpolXz55xf_ch5oO1VDYiIkXKjk_sq0fmkc_WYKaSSBQ7dfcstAa8DyuiUux_5qMDZmn29cpnme6ZSqwC-C4DwguYVHrflmOf3AJh7UEMJQfEaENKEfaX3qlnmijCBtRz_VtzdgPZA7ZvYflnhOAlxqEh7-Y0-NFlxCu_3ljOoFvL5-AD0HQbuYdMgGEfpUNiMj7MeJ71KiQyKdgRd4aPhBads53Kwomb1UdXdw"/>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Marcus Bell</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-2xs flex-wrap">
+<span class="px-space-xs py-0.5 rounded bg-secondary-container/20 text-secondary-fixed-dim font-label-sm text-[10px]">Feature</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px]">Mobile</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-0.5 rounded bg-error-container/40 text-error font-code-metric text-[11px] font-medium">
+<span class="material-symbols-outlined text-[13px]">alarm</span> Overdue (1d)
+              </span>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-[12px] text-on-surface-variant">Oct 16, 2024</td>
+<td class="px-space-sm py-space-sm text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- ================= GROUP 3: TO DO (3) ================= -->
+<tr class="bg-surface-container-low/60 hover:bg-surface-container-low transition-colors">
+<td class="px-space-md py-space-xs" colspan="10">
+<div class="flex items-center gap-space-sm">
+<button class="text-on-surface-variant hover:text-on-surface transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">To Do</span>
+<span class="font-code-metric text-code-metric text-on-surface-variant bg-surface-container px-space-xs py-0.5 rounded text-[11px]">3</span>
+</div>
+<div class="flex-1 h-px bg-surface-container-high ml-space-sm"></div>
+<button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded hover:bg-surface-container text-[12px] flex items-center gap-space-2xs font-label-sm" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+<span>Add inside</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="bg-surface hover:bg-surface-container transition-colors group">
+<td class="px-space-md py-space-sm">
+<input class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-code-metric">
+<div class="flex items-center gap-space-2xs text-on-surface group-hover:text-primary transition-colors">
+<span>WM-145</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-on-surface" title="Copy Key" type="button">
+<span class="material-symbols-outlined text-[13px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<button class="text-outline shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+<span class="font-body-md text-body-md text-on-surface truncate">Implement haptic feedback on pull-to-refresh swipe</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>To Do</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">keyboard_arrow_down</span>
+<span>Low</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-outline font-body-sm text-[12px] italic">
+<span class="w-6 h-6 rounded-full border border-dashed border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">person</span>
+</span>
+<span>Unassigned</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px]">Feature</span>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-code-metric text-[11px]">
+<span class="material-symbols-outlined text-[13px]">calendar_today</span> Oct 29, 2024
+              </span>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-[12px] text-on-surface-variant">Oct 19, 2024</td>
+<td class="px-space-sm py-space-sm text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="bg-surface hover:bg-surface-container transition-colors group">
+<td class="px-space-md py-space-sm">
+<input class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-code-metric">
+<div class="flex items-center gap-space-2xs text-on-surface group-hover:text-primary transition-colors">
+<span>WM-148</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-on-surface" title="Copy Key" type="button">
+<span class="material-symbols-outlined text-[13px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<button class="text-outline shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+<span class="font-body-md text-body-md text-on-surface truncate">Setup offline sync store with SQLite fallback</span>
+<span class="font-code-metric text-[11px] px-space-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant shrink-0">0/3</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>To Do</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-tertiary font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[16px]">keyboard_double_arrow_up</span>
+<span>High</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs">
+<img class="w-6 h-6 rounded-full object-cover shrink-0" data-alt="Close up profile photo of a male backend cloud engineer with glasses and headphones, modern studio, dark cool lighting tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-6J-OFbGVZsuO5P7axrIXFiuWMrkoEih0mVqcF-DC8Sbk0J11-Ry9HAF7A53fkXZg_KUMyx8oOXGbTBDXzheMiQN7pxxnnz-ISIramkN1dpmEw_eLwpDHE_Gu2rGxTzWnIdu60DUGVCgrrC27aOYrTs1KO2OReScyTzgHdCkCB6HwsNmjx4nmCNeuAIUNav7jtW1oKTcqAibJL_Ygb1f3Zdn5DpTCNsLoFjRrNZ7xSnrLIrH9TLgrug"/>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Marcus Bell</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-2xs flex-wrap">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px]">Supabase</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-container/20 text-secondary-fixed-dim font-label-sm text-[10px]">Feature</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-code-metric text-[11px]">
+<span class="material-symbols-outlined text-[13px]">calendar_today</span> Nov 02, 2024
+              </span>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-[12px] text-on-surface-variant">Oct 19, 2024</td>
+<td class="px-space-sm py-space-sm text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- ================= GROUP 4: DONE (6) ================= -->
+<tr class="bg-surface-container-low/60 hover:bg-surface-container-low transition-colors">
+<td class="px-space-md py-space-xs" colspan="10">
+<div class="flex items-center gap-space-sm">
+<button class="text-on-surface-variant hover:text-on-surface transition-transform" type="button">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Done</span>
+<span class="font-code-metric text-code-metric text-on-surface-variant bg-surface-container px-space-xs py-0.5 rounded text-[11px]">6</span>
+</div>
+<div class="flex-1 h-px bg-surface-container-high ml-space-sm"></div>
+<button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded hover:bg-surface-container text-[12px] flex items-center gap-space-2xs font-label-sm" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+<span>Add inside</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8 -->
+<tr class="bg-surface hover:bg-surface-container transition-colors group opacity-75 hover:opacity-100">
+<td class="px-space-md py-space-sm">
+<input class="w-3.5 h-3.5 rounded bg-surface-container text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-code-metric">
+<div class="flex items-center gap-space-2xs text-outline group-hover:text-primary transition-colors">
+<span class="line-through">WM-132</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface-variant line-through truncate">Initial wireframing &amp; Figma interactive prototype handoff</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-secondary-container/20 text-secondary-fixed-dim font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Done</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_handle</span>
+<span>Medium</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<div class="flex items-center gap-space-xs">
+<img alt="Sarah Miller" class="w-6 h-6 rounded-full object-cover shrink-0 grayscale opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJlZ2TrZYu5U269YV3c0Sx7jJkHnLCd6fVSVWlRl9u_jZdhIz7rwQP9pha3vFTelnjNrcnKchkaiGYnm9pQaquN7u3M_odQz8ShqP9K7hs5VL9Oh9dPPYFiwnaYFrzY-5W9td4OV7npWnmfYN_88uDQw49ms4rVzPAo1VAlJatugEK8aC5cEEtF20_9hNehUSZuyAdp50NArYixHwk3-W54YcXw9aoSvyOJvAPkMX5-KR8bQ016EIi-w"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Sarah Miller</span>
+</div>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-outline font-label-sm text-[10px]">UI/UX</span>
+</td>
+<td class="px-space-sm py-space-sm">
+<span class="font-code-metric text-[11px] text-outline">Oct 14, 2024</span>
+</td>
+<td class="px-space-sm py-space-sm font-code-metric text-[12px] text-outline">Oct 02, 2024</td>
+<td class="px-space-sm py-space-sm text-right">
+<button class="p-space-2xs text-outline hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Interactive Linear-Style Table Footer -->
+<div class="px-space-xl py-space-sm bg-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-space-sm select-none">
+<!-- Left Metadata & Sync Indicator -->
+<div class="flex flex-wrap items-center gap-space-lg text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline">layers</span>
+<span>Showing <strong class="text-on-surface font-semibold">18 tasks</strong> across <strong class="text-on-surface font-semibold">5 groups</strong></span>
+</div>
+<div class="h-3.5 w-px bg-surface-container-highest hidden sm:block"></div>
+<div class="flex items-center gap-space-xs text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-code-metric text-code-metric">Connected: Supabase PostgreSQL (ap-southeast-1)</span>
+</div>
+</div>
+<!-- Right Pagination Controls -->
+<div class="flex items-center gap-space-md shrink-0">
+<span class="font-code-metric text-code-metric text-outline">1–18 of 18</span>
+<div class="flex items-center gap-space-2xs bg-surface-container-lowest p-space-2xs rounded-lg">
+<button class="p-space-2xs text-outline/40 cursor-not-allowed rounded" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="px-space-xs py-space-2xs text-primary font-code-metric text-label-sm font-semibold rounded bg-surface-container-high" type="button">1</button>
+<button class="p-space-2xs text-outline/40 cursor-not-allowed rounded" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
