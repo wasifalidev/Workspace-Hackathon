@@ -135,7 +135,7 @@ export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, classN
       )}
     >
       {/* Top Floating Glass Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/10 bg-surface-container-lowest/80 backdrop-blur-xl px-4 sm:px-8 flex items-center justify-between">
+      <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-xl px-4 sm:px-8 flex items-center justify-between">
         <Logo size="sm" href="/" />
 
         <div className="flex items-center gap-3">
@@ -191,7 +191,7 @@ export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, classN
                 className={cn(
                   "nav-label absolute right-6 sm:right-8 lg:right-10 top-1/2 -translate-y-1/2 pointer-events-none",
                   "px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap",
-                  "bg-surface-container-high/95 backdrop-blur-md border border-white/10 shadow-2xl z-50 text-on-surface",
+                  "bg-surface-container-high/95 backdrop-blur-md border border-outline-variant shadow-2xl z-50 text-on-surface",
                   activeSection === index ? "opacity-100 scale-100 transition-all duration-300" : "opacity-0 scale-95 transition-all duration-300"
                 )}
               >
@@ -313,7 +313,7 @@ export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, classN
                     key={feature.title}
                     className={cn(
                       "group p-4 sm:p-5 rounded-xl border bg-surface-container-low/70 backdrop-blur-md hover:bg-surface-container transition-all duration-300 hover:shadow-xl hover:shadow-primary/5",
-                      "border-white/10 hover:border-primary/40 hover:-translate-y-1"
+                      "border-outline-variant hover:border-primary/40 hover:-translate-y-1"
                     )}
                     style={{ animationDelay: `${featureIndex * 0.1}s` }}
                   >
@@ -358,7 +358,7 @@ export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, classN
                           "group relative px-6 sm:px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] text-sm sm:text-base text-center cursor-pointer",
                           action.variant === 'primary' 
                             ? "bg-primary text-on-primary hover:bg-primary-fixed-dim shadow-xl shadow-primary/25 hover:shadow-primary/40" 
-                            : "border border-white/15 bg-surface-container/60 backdrop-blur-md hover:bg-surface-container-high text-on-surface hover:border-primary/40"
+                            : "border border-outline-variant bg-surface-container/60 backdrop-blur-md hover:bg-surface-container-high text-on-surface hover:border-primary/40"
                         )}
                         style={{ animationDelay: `${actionIndex * 0.1 + 0.2}s` }}
                       >
@@ -375,7 +375,7 @@ export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, classN
                         "group relative px-6 sm:px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] text-sm sm:text-base cursor-pointer",
                         action.variant === 'primary' 
                           ? "bg-primary text-on-primary hover:bg-primary-fixed-dim shadow-xl shadow-primary/25 hover:shadow-primary/40" 
-                          : "border border-white/15 bg-surface-container/60 backdrop-blur-md hover:bg-surface-container-high text-on-surface hover:border-primary/40"
+                          : "border border-outline-variant bg-surface-container/60 backdrop-blur-md hover:bg-surface-container-high text-on-surface hover:border-primary/40"
                       )}
                       style={{ animationDelay: `${actionIndex * 0.1 + 0.2}s` }}
                     >
@@ -390,7 +390,7 @@ export function ScrollGlobe({ sections, globeConfig = defaultGlobeConfig, classN
       ))}
 
       {/* Footer */}
-      <footer className="relative z-20 border-t border-white/10 bg-surface-container-lowest/90 backdrop-blur-xl py-10 px-6 text-center text-xs text-outline space-y-2">
+      <footer className="relative z-20 border-t border-outline-variant bg-surface-container-lowest backdrop-blur-xl py-10 px-6 text-center text-xs text-outline space-y-2">
         <div className="flex items-center justify-center gap-2 text-on-surface font-semibold text-sm">
           <span>Wasif&apos;s Workspace</span>
           <span>&bull;</span>

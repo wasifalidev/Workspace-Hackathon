@@ -36,7 +36,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full glass-panel p-8 sm:p-10 rounded-2xl border border-white/10 shadow-2xl relative">
+    <div className="w-full glass-panel p-8 sm:p-10 rounded-2xl border border-outline-variant shadow-2xl relative">
       {/* Top subtle highlight */}
       <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-40 h-20 bg-primary/20 blur-xl pointer-events-none rounded-full" />
 
@@ -121,7 +121,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      <div className="mt-8 pt-6 border-t border-white/5 text-center">
+      <div className="mt-8 pt-6 border-t border-outline-variant text-center">
         <p className="text-xs sm:text-sm text-on-surface-variant">
           Don&apos;t have an account?{' '}
           <Link href="/register" className="font-semibold text-primary hover:underline ml-1">

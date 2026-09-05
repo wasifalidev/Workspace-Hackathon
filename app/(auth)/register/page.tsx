@@ -52,7 +52,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="w-full glass-panel p-8 sm:p-10 rounded-2xl border border-white/10 shadow-2xl relative">
+    <div className="w-full glass-panel p-8 sm:p-10 rounded-2xl border border-outline-variant shadow-2xl relative">
       {/* Top subtle highlight */}
       <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-40 h-20 bg-secondary/20 blur-xl pointer-events-none rounded-full" />
 
@@ -170,7 +170,7 @@ export default function RegisterPage() {
         </button>
       </form>
 
-      <div className="mt-6 pt-5 border-t border-white/5 text-center">
+      <div className="mt-6 pt-5 border-t border-outline-variant text-center">
         <p className="text-xs sm:text-sm text-on-surface-variant">
           Already have an account?{' '}
           <Link href="/login" className="font-semibold text-primary hover:underline ml-1">

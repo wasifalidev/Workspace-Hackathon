@@ -55,7 +55,7 @@ export default async function WorkspacesPage() {
                   {ws.icon ? String(ws.icon) : (ws.name as string)[0].toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-sm mb-0.5 truncate group-hover:text-white transition-colors"
+                  <h3 className="font-semibold text-sm mb-0.5 truncate group-hover:text-primary transition-colors"
                     style={{ color: 'var(--color-on-surface)' }}>{ws.name as string}</h3>
                   <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full"
                     style={{ background: 'rgba(78,222,163,0.12)', color: 'var(--color-secondary)' }}>

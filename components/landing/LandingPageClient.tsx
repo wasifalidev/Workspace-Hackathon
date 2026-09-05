@@ -10,7 +10,7 @@ export default function LandingPageClient() {
   const [activePreviewTab, setActivePreviewTab] = useState<'kanban' | 'analytics' | 'workspaces'>('kanban')
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-on-surface overflow-x-hidden relative selection:bg-primary/30 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-background text-on-surface overflow-x-hidden relative selection:bg-primary/30 selection:text-on-surface">
       {/* ── Ambient Background Glow Effects ── */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[55vw] h-[55vw] rounded-full bg-primary/10 blur-[120px] animate-pulse-glow" />
@@ -20,7 +20,7 @@ export default function LandingPageClient() {
       </div>
 
       {/* ── Fixed Glassmorphic Navigation Bar ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 sm:px-8 lg:px-12 h-16 glass-panel border-b border-white/10 backdrop-blur-xl">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 sm:px-8 lg:px-12 h-16 glass-panel border-b border-outline-variant backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <Logo size="sm" href="/" />
         </div>
@@ -37,7 +37,7 @@ export default function LandingPageClient() {
         <div className="hidden sm:flex items-center gap-3">
           <Link
             href="/login"
-            className="px-4 py-2 text-xs font-semibold text-on-surface hover:text-white transition-colors"
+            className="px-4 py-2 text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-colors"
           >
             Sign In
           </Link>
@@ -53,7 +53,7 @@ export default function LandingPageClient() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="sm:hidden p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors"
+          className="sm:hidden p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
           aria-label="Toggle menu"
         >
           <span className="material-symbols-outlined text-2xl">
@@ -63,25 +63,25 @@ export default function LandingPageClient() {
 
         {/* Mobile Slide-down Menu */}
         {mobileMenuOpen && (
-          <div className="absolute top-16 left-0 right-0 glass-panel border-b border-white/10 p-5 flex flex-col gap-4 sm:hidden animate-in slide-in-from-top duration-200 shadow-2xl">
+          <div className="absolute top-16 left-0 right-0 glass-panel border-b border-outline-variant p-5 flex flex-col gap-4 sm:hidden animate-in slide-in-from-top duration-200 shadow-2xl">
             <a
               href="#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-on-surface py-2 border-b border-white/5"
+              className="text-sm font-medium text-on-surface py-2 border-b border-outline-variant"
             >
               Features
             </a>
             <a
               href="#preview"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-on-surface py-2 border-b border-white/5"
+              className="text-sm font-medium text-on-surface py-2 border-b border-outline-variant"
             >
               Live Preview
             </a>
             <a
               href="#workflow"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-on-surface py-2 border-b border-white/5"
+              className="text-sm font-medium text-on-surface py-2 border-b border-outline-variant"
             >
               Workflow
             </a>
@@ -139,7 +139,7 @@ export default function LandingPageClient() {
           </Link>
           <Link
             href="/login"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl glass-panel border border-white/10 text-on-surface hover:text-white font-medium text-sm flex items-center justify-center gap-2 transition-all hover:bg-white/10"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl glass-panel border border-outline-variant text-on-surface hover:text-on-surface font-medium text-sm flex items-center justify-center gap-2 transition-all hover:bg-surface-container-high"
           >
             <span className="material-symbols-outlined text-lg text-secondary">play_circle</span>
             <span>Sign In to Account</span>
@@ -165,9 +165,9 @@ export default function LandingPageClient() {
 
       {/* ── Interactive Live Software Preview Section ── */}
       <section id="preview" className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full mb-28">
-        <div className="glass-panel rounded-2xl border border-white/15 overflow-hidden shadow-[0_25px_80px_-15px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+        <div className="glass-panel rounded-2xl border border-outline-variant overflow-hidden shadow-2xl backdrop-blur-2xl">
           {/* Top Browser Chrome Bar */}
-          <div className="flex items-center justify-between px-4 py-3 bg-surface-container-lowest/80 border-b border-white/10">
+          <div className="flex items-center justify-between px-4 py-3 bg-surface-container-lowest border-b border-outline-variant">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[#EF4444]/90" />
               <div className="w-3 h-3 rounded-full bg-[#F59E0B]/90" />
@@ -175,13 +175,13 @@ export default function LandingPageClient() {
             </div>
 
             {/* Simulated URL bar */}
-            <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-surface-container-low/70 border border-white/5 text-[11px] font-mono text-outline w-72 sm:w-96 justify-center truncate">
+            <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-surface-container-low border border-outline-variant text-[11px] font-mono text-outline w-72 sm:w-96 justify-center truncate">
               <span className="material-symbols-outlined text-xs text-secondary">lock</span>
               <span>https://wasifworkspace.vercel.app/dashboard</span>
             </div>
 
             {/* Interactive Tab Switcher */}
-            <div className="flex items-center gap-1 bg-surface-container p-1 rounded-lg border border-white/5 text-xs">
+            <div className="flex items-center gap-1 bg-surface-container p-1 rounded-lg border border-outline-variant text-xs">
               <button
                 type="button"
                 onClick={() => setActivePreviewTab('kanban')}
@@ -223,7 +223,7 @@ export default function LandingPageClient() {
             {activePreviewTab === 'kanban' && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-in fade-in duration-300">
                 {/* Column 1: In Progress */}
-                <div className="p-3.5 rounded-xl bg-surface-container-low border border-white/10 space-y-3">
+                <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-tertiary" />
@@ -231,7 +231,7 @@ export default function LandingPageClient() {
                       <span className="text-[10px] px-1.5 rounded bg-surface-container-high text-outline">3</span>
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-surface-container border border-white/5 space-y-2 hover:border-primary/40 transition-colors">
+                  <div className="p-3 rounded-lg bg-surface-container border border-outline-variant space-y-2 hover:border-primary/40 transition-colors">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-primary font-mono font-bold">WM-9021</span>
                       <span className="text-error font-medium flex items-center gap-0.5 text-[10px]">
@@ -247,7 +247,7 @@ export default function LandingPageClient() {
                       <span className="text-secondary font-mono">100% Live</span>
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-surface-container border border-white/5 space-y-2 hover:border-primary/40 transition-colors">
+                  <div className="p-3 rounded-lg bg-surface-container border border-outline-variant space-y-2 hover:border-primary/40 transition-colors">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-primary font-mono font-bold">WM-8412</span>
                       <span className="text-tertiary font-medium flex items-center gap-0.5 text-[10px]">
@@ -266,7 +266,7 @@ export default function LandingPageClient() {
                 </div>
 
                 {/* Column 2: In Review */}
-                <div className="p-3.5 rounded-xl bg-surface-container-low border border-white/10 space-y-3">
+                <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-secondary" />
@@ -274,7 +274,7 @@ export default function LandingPageClient() {
                       <span className="text-[10px] px-1.5 rounded bg-surface-container-high text-outline">2</span>
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-surface-container border border-white/5 space-y-2">
+                  <div className="p-3 rounded-lg bg-surface-container border border-outline-variant space-y-2">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-primary font-mono font-bold">WM-7182</span>
                       <span className="text-secondary font-medium text-[10px]">Verified</span>
@@ -291,7 +291,7 @@ export default function LandingPageClient() {
                 </div>
 
                 {/* Column 3: Done */}
-                <div className="p-3.5 rounded-xl bg-surface-container-low border border-white/10 space-y-3">
+                <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-emerald-400" />
@@ -339,12 +339,12 @@ export default function LandingPageClient() {
 
                 {/* Metric Summary */}
                 <div className="space-y-4 max-w-sm w-full">
-                  <div className="p-4 rounded-xl bg-surface-container-low border border-white/10 space-y-1">
+                  <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-1">
                     <span className="text-xs text-outline">Total Task Velocity</span>
                     <div className="text-2xl font-bold text-secondary font-headline-lg">48 Tasks / Week</div>
                     <p className="text-[11px] text-outline">Realtime calculation across all user workspaces</p>
                   </div>
-                  <div className="p-4 rounded-xl bg-surface-container-low border border-white/10 space-y-1">
+                  <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-1">
                     <span className="text-xs text-outline">Sync Status</span>
                     <div className="text-sm font-semibold text-primary flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-secondary animate-ping" />
@@ -370,7 +370,7 @@ export default function LandingPageClient() {
                   <div className="text-xs text-on-surface-variant pt-2">8 Projects · 42 Active Tasks</div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-surface-container border border-white/10 space-y-2">
+                <div className="p-4 rounded-xl bg-surface-container border border-outline-variant space-y-2">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-secondary/20 text-secondary flex items-center justify-center">
                       <AppIcon name="rocket" size={22} color="var(--color-secondary)" />
@@ -383,7 +383,7 @@ export default function LandingPageClient() {
                   <div className="text-xs text-on-surface-variant pt-2">4 Projects · 19 Active Tasks</div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-surface-container border border-white/10 space-y-2">
+                <div className="p-4 rounded-xl bg-surface-container border border-outline-variant space-y-2">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-tertiary/20 text-tertiary flex items-center justify-center">
                       <AppIcon name="palette" size={22} color="var(--color-tertiary)" />
@@ -521,7 +521,7 @@ export default function LandingPageClient() {
 
       {/* ── Performance & Telemetry Metric Bar ── */}
       <section id="metrics" className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full mb-28">
-        <div className="glass-panel p-8 rounded-2xl border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="glass-panel p-8 rounded-2xl border border-outline-variant grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div className="space-y-1">
             <div className="text-3xl sm:text-4xl font-extrabold text-primary font-headline-xl">99.99%</div>
             <div className="text-xs text-on-surface-variant font-medium">Realtime Sync Uptime</div>
@@ -567,7 +567,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="relative z-10 border-t border-white/10 py-10 px-6 sm:px-12 bg-surface-container-lowest/80 backdrop-blur-md text-xs text-outline">
+      <footer className="relative z-10 border-t border-outline-variant py-10 px-6 sm:px-12 bg-surface-container-lowest backdrop-blur-md text-xs text-outline">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <Logo size="xs" href="/" />
           <p className="text-center sm:text-right">

@@ -211,7 +211,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
               <span className="material-symbols-outlined text-lg">add</span>
               <span>New Task</span>
             </div>
-            <kbd className="text-[10px] px-1.5 py-0.5 rounded font-mono" style={{ background: 'rgba(0,0,0,0.2)' }}>C</kbd>
+            <kbd className="text-[10px] px-1.5 py-0.5 rounded font-mono" style={{ background: 'var(--color-on-primary)', color: 'var(--color-primary)', opacity: 0.25 }}>C</kbd>
           </Link>
         </div>
       )}
@@ -239,7 +239,7 @@ export default function Sidebar({ workspaces, currentWorkspace, projects }: Side
             <div className="flex items-center justify-between px-2 py-1.5" style={{ color: 'var(--color-on-surface-variant)' }}>
               <span className="text-[10px] font-semibold uppercase tracking-widest">Projects</span>
               <Link href="/workspaces/new-project" onClick={handleNavClick}>
-                <span className="material-symbols-outlined text-base hover:text-white transition-colors">add</span>
+                <span className="material-symbols-outlined text-base hover:text-on-surface transition-colors">add</span>
               </Link>
             </div>
             <div className="space-y-0.5">

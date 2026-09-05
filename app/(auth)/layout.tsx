@@ -60,7 +60,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               ].map(({ icon, text, color }, idx) => (
                 <div
                   key={text}
-                  className="flex items-center gap-3 p-2.5 rounded-xl transition-all duration-300 hover:bg-white/[0.04] border border-transparent hover:border-white/5"
+                  className="flex items-center gap-3 p-2.5 rounded-xl transition-all duration-300 hover:bg-surface-container-high border border-transparent hover:border-outline-variant"
                   style={{ animationDelay: `${idx * 150}ms` }}
                 >
                   <div
@@ -78,7 +78,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between text-xs text-outline pt-6 border-t border-white/5">
+          <div className="relative z-10 flex items-center justify-between text-xs text-outline pt-6 border-t border-outline-variant">
             <span>© 2026 Wasif&apos;s Workspace</span>
             <div className="flex items-center gap-1.5 text-secondary">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
