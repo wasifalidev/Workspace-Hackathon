@@ -17,18 +17,32 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://wasifworkspace.vercel.app'),
   title: {
-    default: "Workspace Manager — One Workspace. Every Project. Complete Control.",
-    template: "%s | Workspace Manager",
+    default: "Wasif's Workspace — One Workspace. Every Project. Complete Control.",
+    template: "%s | Wasif's Workspace",
   },
   description:
-    "A professional collaborative project-management SaaS. Manage workspaces, projects, tasks, and your team with powerful Kanban, List, and Calendar views.",
-  keywords: ["project management", "kanban", "team collaboration", "workspace", "tasks"],
-  authors: [{ name: "Workspace Manager" }],
+    "Wasif's Workspace: The professional collaborative project-management SaaS. Manage workspaces, projects, tasks, and teams with powerful Kanban, List, and Calendar views.",
+  keywords: ["project management", "kanban", "team collaboration", "workspace", "tasks", "Wasif's Workspace"],
+  authors: [{ name: "Wasif's Workspace" }],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/logo.png",
+  },
   openGraph: {
-    title: "Workspace Manager",
+    title: "Wasif's Workspace",
     description: "One Workspace. Every Project. Complete Control.",
     type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 800,
+        alt: "Wasif's Workspace Logo",
+      },
+    ],
   },
 };
 

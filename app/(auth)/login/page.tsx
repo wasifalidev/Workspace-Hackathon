@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
+import Logo from '@/components/ui/Logo'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -37,10 +38,8 @@ export default function LoginPage() {
   return (
     <div className="w-full max-w-sm">
       {/* Logo mobile */}
-      <div className="lg:hidden flex items-center gap-2 mb-8">
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm"
-          style={{ background: "var(--color-primary)", color: "var(--color-on-primary)" }}>W</div>
-        <span className="font-semibold" style={{ color: "var(--color-on-surface)" }}>Workspace Manager</span>
+      <div className="lg:hidden mb-8">
+        <Logo size="sm" href="/" />
       </div>
 
       <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--color-on-surface)", letterSpacing: "-0.02em" }}>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/ui/Logo";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -6,15 +7,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* Left panel — branding */}
       <div className="hidden lg:flex flex-col justify-between w-[480px] flex-shrink-0 p-10"
         style={{ background: "var(--color-surface-container-lowest)", borderRight: "1px solid var(--color-outline-variant)" }}>
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-base"
-            style={{ background: "var(--color-primary)", color: "var(--color-on-primary)" }}>W</div>
-          <span className="font-semibold text-base" style={{ color: "var(--color-on-surface)" }}>Workspace Manager</span>
-        </Link>
+        <Logo size="md" href="/" />
 
         <div>
           <blockquote className="text-xl font-semibold leading-relaxed mb-6" style={{ color: "var(--color-on-surface)", letterSpacing: "-0.015em" }}>
-            "One Workspace. Every Project.<br />Complete Control."
+            &ldquo;One Workspace. Every Project.<br />Complete Control.&rdquo;
           </blockquote>
           {/* Feature highlights */}
           <div className="space-y-4">
@@ -35,7 +32,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
 
-        <p className="text-xs" style={{ color: "var(--color-outline)" }}>© 2026 Workspace Manager</p>
+        <p className="text-xs" style={{ color: "var(--color-outline)" }}>© 2026 Wasif&apos;s Workspace</p>
       </div>
 
       {/* Right panel — form */}

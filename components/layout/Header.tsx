@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from '@/store'
 import { toggleSidebar, openCommandPalette } from '@/store/slices/uiSlice'
 import { createClient } from '@/lib/supabase/client'
 
+import Logo from '@/components/ui/Logo'
+
 export default function Header() {
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -63,10 +65,7 @@ export default function Header() {
           style={{ color: 'var(--color-on-surface-variant)' }}>
           <span className="material-symbols-outlined text-xl">menu_open</span>
         </button>
-        <Link href="/" className="flex-shrink-0">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs"
-            style={{ background: 'var(--color-primary)', color: 'var(--color-on-primary)' }}>W</div>
-        </Link>
+        <Logo size="xs" href="/dashboard" textClassName="hidden sm:inline" />
       </div>
 
       {/* Center: Search bar */}

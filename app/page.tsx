@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import Logo from "@/components/ui/Logo";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -15,11 +16,7 @@ export default async function Home() {
       {/* ── Navigation ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
         style={{ background: "rgba(10,14,22,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--color-outline-variant)" }}>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm"
-            style={{ background: "var(--color-primary)", color: "var(--color-on-primary)" }}>W</div>
-          <span className="font-semibold text-base tracking-tight" style={{ color: "var(--color-on-surface)" }}>Workspace Manager</span>
-        </div>
+        <Logo size="sm" />
         <div className="hidden md:flex items-center gap-8 text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#workflow" className="hover:text-white transition-colors">Workflow</a>
@@ -271,18 +268,14 @@ create policy "workspace_access"
       {/* ── Footer ── */}
       <footer className="px-6 md:px-12 py-10" style={{ background: "var(--color-surface-container-lowest)", borderTop: "1px solid var(--color-outline-variant)" }}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded flex items-center justify-center text-xs font-bold"
-              style={{ background: "var(--color-primary)", color: "var(--color-on-primary)" }}>W</div>
-            <span className="font-semibold text-sm" style={{ color: "var(--color-on-surface)" }}>Workspace Manager</span>
-          </div>
+          <Logo size="xs" />
           <div className="flex items-center gap-6 text-sm" style={{ color: "var(--color-on-surface-variant)" }}>
             <Link href="/login" className="hover:text-white transition-colors">Sign In</Link>
             <Link href="/register" className="hover:text-white transition-colors">Get Started</Link>
             <a href="https://github.com/wasifalidev/Workspace-Hackathon" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
           </div>
           <p className="text-xs" style={{ color: "var(--color-outline)" }}>
-            © 2026 Workspace Manager. Built with Next.js & Supabase.
+            © 2026 Wasif&apos;s Workspace. Built with Next.js &amp; Supabase.
           </p>
         </div>
       </footer>
