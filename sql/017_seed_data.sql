@@ -1,0 +1,75 @@
+-- ============================================================
+-- 017_seed_data.sql
+-- Optional development seed data
+-- Run ONLY in development environments — NOT in production
+-- ============================================================
+
+-- NOTE: Replace 'YOUR_USER_ID_HERE' with your actual Supabase Auth user UUID
+-- You can find it in Supabase Dashboard > Authentication > Users
+
+-- ----------------------------------------------------------------
+-- Create a sample workspace (replace owner_id with your user ID)
+-- ----------------------------------------------------------------
+-- insert into public.workspaces (id, name, slug, icon, color, owner_id)
+-- values (
+--   'a0000000-0000-0000-0000-000000000001',
+--   'Acme Corp',
+--   'acme-corp',
+--   '🏢',
+--   '#6366F1',
+--   'YOUR_USER_ID_HERE'
+-- );
+
+-- ----------------------------------------------------------------
+-- Create sample projects
+-- ----------------------------------------------------------------
+-- insert into public.projects (id, workspace_id, name, description, icon, color, created_by)
+-- values
+--   (
+--     'b0000000-0000-0000-0000-000000000001',
+--     'a0000000-0000-0000-0000-000000000001',
+--     'Mobile App Redesign',
+--     'Cross-platform iOS and Android flutter & React Native overhaul',
+--     '⚡',
+--     '#C0C1FF',
+--     'YOUR_USER_ID_HERE'
+--   ),
+--   (
+--     'b0000000-0000-0000-0000-000000000002',
+--     'a0000000-0000-0000-0000-000000000001',
+--     'Core API & Supabase',
+--     'Backend API infrastructure and Supabase integration',
+--     '🛡️',
+--     '#4EDEA3',
+--     'YOUR_USER_ID_HERE'
+--   );
+
+-- ----------------------------------------------------------------
+-- Create sample labels
+-- ----------------------------------------------------------------
+-- insert into public.labels (workspace_id, name, color, created_by)
+-- values
+--   ('a0000000-0000-0000-0000-000000000001', 'Feature', '#6366F1', 'YOUR_USER_ID_HERE'),
+--   ('a0000000-0000-0000-0000-000000000001', 'Bug', '#EF4444', 'YOUR_USER_ID_HERE'),
+--   ('a0000000-0000-0000-0000-000000000001', 'Enhancement', '#10B981', 'YOUR_USER_ID_HERE'),
+--   ('a0000000-0000-0000-0000-000000000001', 'Supabase', '#3ECF8E', 'YOUR_USER_ID_HERE'),
+--   ('a0000000-0000-0000-0000-000000000001', 'UI/UX', '#F59E0B', 'YOUR_USER_ID_HERE');
+
+-- ----------------------------------------------------------------
+-- IMPORTANT: To make yourself a platform admin, run:
+-- ----------------------------------------------------------------
+-- update public.profiles
+-- set is_platform_admin = true
+-- where id = 'YOUR_USER_ID_HERE';
+
+-- ----------------------------------------------------------------
+-- Storage bucket setup (run manually in Supabase Dashboard
+-- or via this SQL if you have storage admin permissions):
+-- ----------------------------------------------------------------
+-- insert into storage.buckets (id, name, public)
+-- values ('attachments', 'attachments', false)
+-- on conflict (id) do nothing;
+
+-- insert into storage.buckets (id, name, public)
+-- values ('avatars', 'avatars', true)
+-- on conflict (id) do nothing;
