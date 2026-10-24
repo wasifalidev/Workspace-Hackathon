@@ -1,6 +1,6 @@
 <div align="center">
 
-![Header](https://capsule-render.vercel.app/api?type=waving&color=0:00ADB5,100:00D4FF&height=220&section=header&text=Wasif's%20Workspace&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Next-Gen%20Project%20Management%20%26%20Real-Time%20Collaboration%20Platform&descAlignY=55&descSize=16)
+![Header](https://capsule-render.vercel.app/api?type=waving&color=0:00ADB5,100:00D4FF&height=220&section=header&text=Wasif%27s%20Workspace&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Next-Gen%20Project%20Management%20%26%20Real-Time%20Collaboration%20Platform&descAlignY=55&descSize=16)
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&pause=1000&color=00ADB5&center=true&vCenter=true&width=750&lines=Multi-Workspace+Project+Management+%F0%9F%9A%80;Real-Time+Live+Sync+%E2%9A%A1;Kanban+%7C+List+%7C+Calendar+Views+%F0%9F%93%8B;Enterprise+Security+with+Supabase+RLS+%F0%9F%9B%A1%EF%B8%8F;Built+with+Next.js+16+%2B+React+19+%2B+TypeScript" alt="Typing SVG" />
 
